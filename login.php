@@ -22,9 +22,15 @@ if (isset($_POST['username'])){
     $rows = mysqli_num_rows($result);
     if($rows==1){
         $_SESSION['username'] = $username;
-        $_SESSION['Prenom'] = $result->Prenom;
-        $_SESSION['admin'] = $result->admin;
-        header("Location: index.php");
+        $result = mysqli_fetch_object($result);
+        $_SESSION['prenom'] = $result->Prenom;
+        $_SESSION['nom'] = $result->Nom;
+        $_SESSION['administrateur'] = $result->administrateur;
+        if($result->administrateur != 1) {
+            header("Location: index.php");
+        } else {
+            header("Location: admin/index.php");
+        }
     }else{
         $message = "Le nom d'utilisateur ou le mot de passe est incorrect.";
     }
