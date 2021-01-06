@@ -12,38 +12,44 @@
 <?php
 require('config.php');
 session_start();
-if (isset($_POST['username'])){
+if (isset($_POST['username'])) {
     $username = stripslashes($_REQUEST['username']);
-    $username = mysqli_real_escape_string($conn, $username);
+    //$username = mysqli_real_escape_string($bdd, $username);
     $password = stripslashes($_REQUEST['password']);
-    $password = mysqli_real_escape_string($conn, $password);
+    //$password = mysqli_real_escape_string($bdd, $password);
     $query = "SELECT * FROM `users` WHERE username='$username' and password='$password'";
-    $result = mysqli_query($conn,$query) or die(mysqli_error($conn));
+    $result = mysqli_query($bdd, $query) or die(mysqli_error($bdd));
     $rows = mysqli_num_rows($result);
-    if($rows==1){
+    if ($rows == 1) {
         $_SESSION['username'] = $username;
         $result = mysqli_fetch_object($result);
-        $_SESSION['prenom'] = $result->Prenom;
-        $_SESSION['nom'] = $result->Nom;
-        $_SESSION['administrateur'] = $result->administrateur;
-        if($result->administrateur != 1) {
+        $_SESSION['prenom'] = $result->prenom;
+        $_SESSION['nom'] = $result->nom;
+        if ($result->admin != 1) {
             header("Location: index.php");
         } else {
+            $_SESSION['admin'] = $result->admin;
             header("Location: admin/index.php");
         }
-    }else{
+    } else {
         $message = "Le nom d'utilisateur ou le mot de passe est incorrect.";
     }
 }
 ?>
 <form class="box" action="" method="post" name="login">
-    <h1 class="box-title">Connexion</h1>
-    <input type="text" class="box-input" name="username" placeholder="Nom d'utilisateur" required>
-    <input type="password" class="box-input" name="password" placeholder="Mot de passe" required>
-    <input type="submit" value="Connexion " name="submit" class="box-button">
-    <?php if (! empty($message)) { ?>
-        <p class="errorMessage"><?php echo $message; ?></p>
-    <?php } ?>
+    <table class="box">
+        <td>
+            <img class="box-img" src="arep.png" height="230px"></td>
+        <td>
+            <h1 class="box-title">Connexion</h1>
+            <input type="text" class="box-input" name="username" placeholder="Nom d'utilisateur" required>
+            <input type="password" class="box-input" name="password" placeholder="Mot de passe" required>
+            <input type="submit" value="Connexion" name="submit" class="box-button">
+            <?php if (!empty($message)) { ?>
+                <p class="errorMessage"><?php echo $message; ?></p>
+            <?php } ?>
+        </td>
+    </table>
 </form>
 </body>
 </html>
