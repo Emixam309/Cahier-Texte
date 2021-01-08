@@ -2,20 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d02bc6c1-c85d-40f1-a261-9dcf1277f905" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/admin/formateurs.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin/header.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin/modules.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/arep.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/header.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin/affectation.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/formateur.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/export.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/formation.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/formations.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/export.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/export.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/formateurs.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/formateurs.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/formations.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/formations.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/header.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/header.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/module.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/config.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/modules.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/modules.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/header.php" beforeDir="false" afterPath="$PROJECT_DIR$/header.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/login.php" beforeDir="false" afterPath="$PROJECT_DIR$/login.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +21,13 @@
   </component>
   <component name="ComposerSettings">
     <execution />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -38,8 +42,13 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Confirmation" />
+    <property name="settings.editor.selected.configurable" value="discord-application" />
     <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\wamp64\www\Cahier-Texte" />
+    </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -55,6 +64,13 @@
       <workItem from="1609836540873" duration="10233000" />
       <workItem from="1609920942119" duration="6192000" />
       <workItem from="1609937653644" duration="11134000" />
+      <workItem from="1609973140547" duration="80000" />
+      <workItem from="1610003639396" duration="706000" />
+      <workItem from="1610004373110" duration="44000" />
+      <workItem from="1610004430805" duration="17000" />
+      <workItem from="1610004460334" duration="10798000" />
+      <workItem from="1610089974320" duration="9272000" />
+      <workItem from="1610109758868" duration="7849000" />
     </task>
     <task id="LOCAL-00001" summary="04/01/2021">
       <created>1609790062638</created>
@@ -63,7 +79,14 @@
       <option name="project" value="LOCAL" />
       <updated>1609790062638</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="06/01/2021">
+      <created>1609973202396</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1609973202396</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -72,17 +95,26 @@
   <component name="VcsManagerConfiguration">
     <option name="RELOAD_CONTEXT" value="false" />
     <MESSAGE value="04/01/2021" />
-    <option name="LAST_COMMIT_MESSAGE" value="04/01/2021" />
+    <MESSAGE value="06/01/2021" />
+    <option name="LAST_COMMIT_MESSAGE" value="06/01/2021" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="361" y="53" key="#Plugins" timestamp="1609946959838">
+    <state x="361" y="53" key="#Plugins" timestamp="1610004993097">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="53" key="#Plugins/0.0.1536.824@0.0.1536.824" timestamp="1609946959838" />
-    <state x="393" y="0" key="CommitChangelistDialog2" timestamp="1609790060447">
+    <state x="361" y="53" key="#Plugins/0.0.1536.824@0.0.1536.824" timestamp="1610004993097" />
+    <state x="298" y="80" width="940" height="664" key="#com.intellij.featureStatistics.actions.ShowFeatureUsageStatisticsDialog" timestamp="1610004473267">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="393" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1609790060447" />
+    <state x="298" y="80" width="940" height="664" key="#com.intellij.featureStatistics.actions.ShowFeatureUsageStatisticsDialog/0.0.1536.824@0.0.1536.824" timestamp="1610004473267" />
+    <state x="499" y="159" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1610092321779">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="499" y="159" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.824@0.0.1536.824" timestamp="1610092321779" />
+    <state x="393" y="0" key="CommitChangelistDialog2" timestamp="1609973199311">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="393" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1609973199311" />
     <state x="641" y="310" key="Github.ShareDialog" timestamp="1609775675181">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -91,25 +123,33 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="564" y="117" key="Github.UntrackedFilesDialog/0.0.1536.824@0.0.1536.824" timestamp="1609775689907" />
-    <state x="604" y="336" key="NewPhpFileDialog" timestamp="1609950977396">
+    <state x="604" y="336" key="NewPhpFileDialog" timestamp="1610012777649">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="604" y="336" key="NewPhpFileDialog/0.0.1536.824@0.0.1536.824" timestamp="1609950977396" />
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1609790064994">
+    <state x="604" y="336" key="NewPhpFileDialog/0.0.1536.824@0.0.1536.824" timestamp="1610012777649" />
+    <state x="277" y="57" key="SettingsEditor" timestamp="1610096046435">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1609790064994" />
+    <state x="277" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1610096046435" />
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1609973206069">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1609973206069" />
     <state x="0" y="0" width="1134" height="810" key="dock-window-1" timestamp="1609766005093">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="0" y="0" width="1134" height="810" key="dock-window-1/0.0.1536.824@0.0.1536.824" timestamp="1609766005093" />
-    <state x="798" y="190" key="run.anything.popup" timestamp="1609943170497">
+    <state x="478" y="11" width="579" height="801" key="find.popup" timestamp="1610099357835">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="798" y="190" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1609943170497" />
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1609946925817">
+    <state x="478" y="11" width="579" height="801" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1610099357835" />
+    <state x="798" y="190" key="run.anything.popup" timestamp="1610098094994">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1609946925817" />
+    <state x="798" y="190" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1610098094994" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1610096018640">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1610096018640" />
   </component>
 </project>

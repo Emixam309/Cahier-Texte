@@ -4,17 +4,13 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="formateurs.php">Formateurs</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="formations.php">Formations</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="modules.php">Modules</a>
+                    <a class="nav-link" href="">test</a>
                 </li>
             </ul>
             <span class="navbar-text">Bonjour, <?php echo $_SESSION['prenom'] . " " . $_SESSION['nom']; ?></span>
-            <a class="nav-link" href="logout.php">Déconnexion</a>
+            <div class="navbar-nav">
+                <a class="nav-link active" href="logout.php">Déconnexion</a>
+            </div>
         </div>
     </div>
     </div>

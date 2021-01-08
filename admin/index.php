@@ -14,8 +14,7 @@ if (!isset($_SESSION["username"]) or !isset($_SESSION['admin'])) {
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link href="../css/bootstrap.css" rel="stylesheet">
     <title>Administration</title>
 </head>
 <body>
@@ -23,6 +22,9 @@ if (!isset($_SESSION["username"]) or !isset($_SESSION['admin'])) {
 <div class="container">
     <h1>Bienvenue <?php echo $_SESSION['prenom']; ?> !</h1>
     <p>C'est votre tableau d'administration.</p>
+    <p>Vous pouvez acceder a differente pages.</p>
+    <p><a class="btn btn-primary" href="formateurs.php">Formateurs</a> permet d'afficher la liste des formateurs et d'en ajouter de nouveau.</p>
+    <p><a>Formations</a> affiche la liste des formations et d'en ajouter de nouvelle.</p>
 </div>
 </body>
 </html>
