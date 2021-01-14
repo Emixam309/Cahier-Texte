@@ -1,17 +1,8 @@
-<?php
-// Initialiser la session
-session_start();
-// Vérifiez si l'utilisateur est connecté et administrateur, sinon redirigez-le vers la page de connexion
-if (!isset($_SESSION["username"]) or !isset($_SESSION['admin'])) {
-    header("Location: ../index.php");
-    exit();
-}
-
-require('../config.php');
+<?php include("session.php");
 if (isset($_POST['module'])) {
-    $query = 'INSERT INTO formations (libelle,nbHeures,idFormation) VALUES (?, ?, ?)';
+    $query = 'INSERT INTO modules (libelle, reference, nbHeures, commentaire, idFormation) VALUES (?, ?, ?, ?, ?)';
     $stmt = $bdd->prepare($query);
-    $stmt->bind_param("sss", $_POST['libelle'], $_POST['nbHeures'], $_POST['formation']);
+    $stmt->bind_param("ssisi", $_POST['libelle'], $_POST['reference'], $_POST['nbHeures'], $_POST['commentaire'], $_GET['formation']);
     if (!$stmt->execute()) {
         printf("Erreur : %s\n", $stmt->error);
         $message = "Le formateur n'a pas pu être créé.";
@@ -31,33 +22,90 @@ if (isset($_POST['module'])) {
 <body>
 <?php include("header.php"); ?>
 <div class="container text-center">
-    <h1>Création et affectation de module</h1>
-    <form class="container mx-auto" style="width: 50%" action="" method="post" name="module">
-        <div class="mb-3">
-            <label class="form-label" for="libelle">Nom</label>
-            <input class="form-control" name="libelle" type="text" placeholder="Nom du module">
+    <div class="row"> <!--Tableau de la liste des Formateurs-->
+        <div class="col-md-auto mx-auto text-center"> <!--Formulaire de création d'un formateur-->
+            <h1>Création de module</h1>
+                <form action="" method="get" name="formation">
+                    <div class="mb-3">
+                        <div class="form-floating">
+                            <select class="form-select" name="formation" onchange="this.form.submit()">
+                                <option hidden selected>Sélectionner une formation</option>
+                                <?php //Requete + verification formation sélectionnée
+                                $query = $bdd->query('SELECT idFormation, libelle, reference FROM formations');
+                                while ($resultat = $query->fetch_object()) {
+                                    ;
+                                    echo '<option value="' . $resultat->idFormation . '"';
+                                    if (isset($_GET['formation'])) {
+                                        if ($_GET['formation'] == $resultat->idFormation) {
+                                            echo 'selected';
+                                            $reference = $resultat->reference;
+                                        }
+                                    }
+                                    echo '>' . $resultat->libelle . '</option>';
+                                }
+                                $query->close();
+
+                                ?>
+                            </select>
+                            <label for="formation">Formation du module</label>
+                        </div>
+                    </div>
+                </form>
+                <form action="" method="post" name="module">
+                    <?php if (isset($_GET['formation'])) { ?>
+                    <div class="row mb-3">
+                        <div class="col-md-5">
+                            <div class="form-floating">
+                                <input class="form-control" name="reference" type="text" placeholder="Reference" required>
+                                <label for="reference">Reference</label>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="form-floating">
+                                <input class="form-control" name="libelle" type="text" placeholder="Nom du module" required>
+                                <label for="libelle">Nom du module</label>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="mb-3 input-group">
+                            <input class="form-control" name="nbHeures" type="number" placeholder="Nombre d'heures">
+                            <span class="input-group-text">heures</span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <textarea class="form-control" placeholder="Laisser un commentaire" name="commentaire"
+                                  style="height: 100px"></textarea>
+                        <label for="commentaire">Commentaire</label>
+                    </div>
+                    <input class="btn btn-primary" type="submit" value="Créer" name="module">
+                </form>
         </div>
-        <div class="mb-3">
-            <label class="form-label" for="nbHeures">Nombre d'heures</label>
-            <div class="mb-3 input-group">
-                <input class="form-control" name="nbHeures" type="number" placeholder="Nombre d'heures">
-                <span class="input-group-text" id="basic-addon2">heures</span>
-            </div>
-        </div>
-        <div class="mb-3">
-            <label class="form-label" for="formations">Formation</label>
-            <select class="form-select" name="formation">
-                <option selected hidden>Affecter à une formation</option>
+        <div class="col-md-auto mx-auto">
+            <h1 class="text-center mb-4">Liste des modules de <?php echo $reference ?></h1>
+            <table class="table table-striped border border-3">
+                <thead>
+                <tr>
+                    <th scope="col">Reference</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Nombre d'heures</th>
+                    <th scope="col">Commentaire</th>
+                </tr>
+                </thead>
+                <tbody>
                 <?php
-                $query = $bdd->query('SELECT idFormation, libelle FROM formations');
+                $query = $bdd->query('SELECT * FROM modules WHERE idFormation = ' . $_GET['formation']);
                 while ($resultat = $query->fetch_object()) {
-                    echo '<option value="' . $resultat->idFormation . '">' . $resultat->libelle . '</option>';
-                }
-                $query->close();
-                ?>
-            </select>
+                    echo "<tr>";
+                    echo "<td>" . $resultat->reference . "</td>";
+                    echo "<td>" . $resultat->libelle . "</td>";
+                    echo "<td>" . $resultat->nbHeures . "</td>";
+                    echo "<td>" . $resultat->commentaire . "</td>";
+                    echo "</tr>";
+                } ?>
+
+                </tbody>
+            </table>
         </div>
-        <input class="btn btn-primary" type="submit" value="Créer" name="module">
-</div>
+        <?php } ?>
+    </div>
 </body>
 </html>

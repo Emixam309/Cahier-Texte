@@ -1,11 +1,4 @@
-<?php
-// Initialiser la session
-session_start();
-// Vérifiez si l'utilisateur est connecté et administrateur, sinon redirigez-le vers la page de connexion
-if (!isset($_SESSION["username"]) or !isset($_SESSION['admin'])) {
-    header("Location: ../index.php");
-    exit();
-}
+<?php include("session.php");
 ?>
 <!doctype html>
 <html lang="fr">
@@ -24,7 +17,7 @@ if (!isset($_SESSION["username"]) or !isset($_SESSION['admin'])) {
     <p>C'est votre tableau d'administration.</p>
     <p>Vous pouvez acceder a differente pages.</p>
     <p><a class="btn btn-primary" href="formateurs.php">Formateurs</a> permet d'afficher la liste des formateurs et d'en ajouter de nouveau.</p>
-    <p><a>Formations</a> affiche la liste des formations et d'en ajouter de nouvelle.</p>
+    <p><a class="btn btn-primary">Formations</a> affiche la liste des formations et d'en ajouter de nouvelle.</p>
 </div>
 </body>
 </html>
