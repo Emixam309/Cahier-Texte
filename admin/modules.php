@@ -23,7 +23,7 @@ if (isset($_POST['module'])) {
 <?php include("header.php"); ?>
 <div class="container text-center">
     <div class="row"> <!--Tableau de la liste des Formateurs-->
-        <div class="col-md-auto mx-auto text-center"> <!--Formulaire de création d'un formateur-->
+        <div class="col-md-auto mx-auto text-center mb-4"> <!--Formulaire de création d'un formateur-->
             <h1>Création de module</h1>
                 <form action="" method="get" name="formation">
                     <div class="mb-3">

@@ -23,6 +23,7 @@ if (isset($_POST['username'])) {
     if ($rows == 1) {
         $_SESSION['username'] = $username;
         $result = mysqli_fetch_object($result);
+        $_SESSION['idUser'] = $result->idUser;
         $_SESSION['prenom'] = $result->prenom;
         $_SESSION['nom'] = $result->nom;
         if ($result->admin != 1) {
