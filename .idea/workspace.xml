@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d02bc6c1-c85d-40f1-a261-9dcf1277f905" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/afficher.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/calendrier.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/modules.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/modules.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compte-rendu.php" beforeDir="false" afterPath="$PROJECT_DIR$/compte-rendu.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/login.php" beforeDir="false" afterPath="$PROJECT_DIR$/login.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/affectation.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/affectation.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,6 +19,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JavaScript File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -41,9 +42,12 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="settings.editor.selected.configurable" value="discord-application" />
+    <property name="settings.editor.splitter.proportion" value="0.29469547" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -86,6 +90,8 @@
       <workItem from="1610531292307" duration="3735000" />
       <workItem from="1610542506305" duration="9923000" />
       <workItem from="1610607771329" duration="12779000" />
+      <workItem from="1610717040691" duration="6575000" />
+      <workItem from="1610724769079" duration="7719000" />
     </task>
     <task id="LOCAL-00001" summary="04/01/2021">
       <created>1609790062638</created>
@@ -128,5 +134,9 @@
     <MESSAGE value="08/01/2021" />
     <MESSAGE value="14/01/2021" />
     <option name="LAST_COMMIT_MESSAGE" value="14/01/2021" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

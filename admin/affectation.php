@@ -26,7 +26,7 @@ if (isset($_POST['affecter'])) {
 <?php include("header.php"); ?>
 <div class="container">
     <div class="row">
-        <div class="col-md-auto mx-auto text-center">
+        <div class="col-md-auto mx-auto text-center mb-4">
             <h1 class="mb-4">Affectation</h1>
             <form class="mb-3" action="" method="get" name="formations">
                 <div class="form-floating mb-3">
