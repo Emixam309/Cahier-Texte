@@ -13,4 +13,5 @@ if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 
     header("Location: ../login.php?timeout=1");
 }
 $_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
+$button = "Ajouter";
 require('../config.php');

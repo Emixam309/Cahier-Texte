@@ -1,42 +1,40 @@
-<?php $pageName = basename($_SERVER['PHP_SELF']); ?>
+<?php $pageName = basename($_SERVER['PHP_SELF']);
+?>
 <script type="text/javascript" src="../js/bootstrap.js"></script>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 shadow">
-    <div class="container">
+    <div class="container-xl">
         <a class="navbar-brand" href="index.php">Cahier de texte - Administration</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link <?php
-                    if ($pageName == 'formateurs.php') echo "active"; ?>" href="formateurs.php">Formateurs</a>
-                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle <?php
-                    if ($pageName == 'formations.php' OR $pageName == 'promotions.php') echo "active"; ?>" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    if ($pageName == 'formations.php' OR $pageName == 'promotions.php' OR $pageName == 'stagiaires.php') echo "active"; ?>" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Formations
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="formations.php">Créations</a></li>
-                        <li><a class="dropdown-item" href="promotions.php">Promotions</a></li>
+                        <li><a class="dropdown-item" href="modules.php">Modules</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item disabled" href="#">Stagiaires</a></li>
+                        <li><a class="dropdown-item" href="promotions.php">Promotions</a></li>
+                        <li><a class="dropdown-item" href="stagiaires.php">Stagiaires</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle <?php
                     if ($pageName == 'modules.php' OR $pageName == 'affectation.php') echo "active"; ?>" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Modules
+                        Formateurs
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="modules.php">Créations</a></li>
+                        <li><a class="dropdown-item" href="formateurs.php">Créations</a></li>
                         <li><a class="dropdown-item" href="affectation.php">Affectation</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled <?php
-                    if ($pageName == 'export.php') echo "active"; ?>" href="export.php">Export</a>
+                    <a class="nav-link <?php
+                    if ($pageName == 'compte-rendu.php') echo "active"; ?>" href="compte-rendu.php">Compte Rendu</a>
                 </li>
             </ul>
             <span class="navbar-text">Bonjour, <?php echo $_SESSION['prenom'] . " " . $_SESSION['nom']; ?></span>

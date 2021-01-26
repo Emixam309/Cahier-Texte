@@ -1,12 +1,4 @@
-<?php
-// Initialiser la session
-session_start();
-// Vérifiez si l'utilisateur est connecté, sinon redirigez-le vers la page de connexion
-if (!isset($_SESSION["username"])) {
-    header("Location: login.php");
-    exit();
-}
-?>
+<?php include("session.php") ?>
 <!doctype html>
 <html lang="fr">
 <head>
@@ -18,7 +10,7 @@ if (!isset($_SESSION["username"])) {
     <title>Accueil</title>
 </head>
 <body>
-<?php include("header.php"); ?>
+<?php include("navbar.php"); ?>
 <div class="container">
     <h1>Bienvenue <?php echo $_SESSION['prenom']; ?> !</h1>
     <p>C'est votre tableau de bord.</p>

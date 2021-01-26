@@ -2,10 +2,30 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d02bc6c1-c85d-40f1-a261-9dcf1277f905" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/afficher.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/calendrier.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin/compte-rendu.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin/stagiaires.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cr-date.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cr-formation.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/iso-9001-ukas.original.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/date-picker.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/navbar.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/qualiopi.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/affectation.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/affectation.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/export.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/formateurs.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/formateurs.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/formations.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/formations.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/header.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/navbar.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/modules.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/modules.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/promotions.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/promotions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/session.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/session.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/afficher.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/compte-rendu.php" beforeDir="false" afterPath="$PROJECT_DIR$/compte-rendu.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/header.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/login.php" beforeDir="false" afterPath="$PROJECT_DIR$/login.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/session.php" beforeDir="false" afterPath="$PROJECT_DIR$/session.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,7 +39,6 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JavaScript File" />
-        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -42,12 +61,9 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="settings.editor.selected.configurable" value="discord-application" />
-    <property name="settings.editor.splitter.proportion" value="0.29469547" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -55,6 +71,8 @@
       <recent name="C:\Program Files (x86)\UwAmp\www\Cahier-Texte\" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Program Files (x86)\UwAmp\www\Cahier-Texte" />
+      <recent name="C:\Program Files (x86)\UwAmp\www\Cahier-Texte\js" />
       <recent name="C:\Program Files (x86)\UwAmp\www\Cahier-Texte\admin" />
       <recent name="C:\Program Files (x86)\UwAmp\www\Cahier-Texte\admin\formations" />
       <recent name="D:\wamp64\www\Cahier-Texte" />
@@ -90,8 +108,18 @@
       <workItem from="1610531292307" duration="3735000" />
       <workItem from="1610542506305" duration="9923000" />
       <workItem from="1610607771329" duration="12779000" />
-      <workItem from="1610717040691" duration="6575000" />
-      <workItem from="1610724769079" duration="7719000" />
+      <workItem from="1610974242988" duration="7702000" />
+      <workItem from="1611040817574" duration="2793000" />
+      <workItem from="1611045719401" duration="1568000" />
+      <workItem from="1611060364785" duration="7982000" />
+      <workItem from="1611126339728" duration="12436000" />
+      <workItem from="1611146612440" duration="4464000" />
+      <workItem from="1611212694179" duration="6525000" />
+      <workItem from="1611299726765" duration="5400000" />
+      <workItem from="1611319511140" duration="4918000" />
+      <workItem from="1611559028857" duration="12284000" />
+      <workItem from="1611578514587" duration="8207000" />
+      <workItem from="1611645035689" duration="4498000" />
     </task>
     <task id="LOCAL-00001" summary="04/01/2021">
       <created>1609790062638</created>

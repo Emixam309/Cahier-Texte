@@ -1,13 +1,29 @@
 <?php include("session.php");
 if (isset($_POST['affecter'])) {
-    $query = 'INSERT INTO formateuraffecte (idModule, idUser, heuresPrevues) VALUES (?, ?, ?)';
+    $query = 'INSERT INTO formateuraffecte (idModule, idUser, heuresPrevues) VALUES (?, ?, ?)
+    ON DUPLICATE KEY UPDATE heuresPrevues=?';
     $stmt = $bdd->prepare($query);
-    $stmt->bind_param("iii", $_GET['module'], $_POST['formateur'], $_POST['nbHeures']);
-    if ($stmt->execute()) {
-        $message = "Le formateur à été correctement affecté.";
-    } else {
+    $stmt->bind_param("iiii", $_GET['module'], $_POST['formateur'], $_POST['nbHeures'], $_POST['nbHeures']);
+    if (!$stmt->execute()) {
         printf("Erreur : %s\n", $stmt->error);
-        $erreur = "Le formateur n'a pas pu être affecté.";
+        $alertFail = "L'affectation n'a pas pu être créée ou modifiée.";
+    } else {
+        $alertSuccess = "L'affectation a bien été créée ou modifiée.";
+    }
+}
+$title = "Ajout d'un formateur";
+if (isset($_POST['edit-user'])) {
+    $query = $bdd->query('SELECT idUser, heuresPrevues FROM formateuraffecte WHERE idUser = ' . $_POST['edit-user'] . ' AND idModule = ' . $_GET['module']);
+    $resultEdit = $query->fetch_object();
+    $query->close();
+    $title = "Modifier : ";
+    $button = "Modifier";
+}
+if (isset($_POST['del-user'])) {
+    if (!$bdd->query('DELETE FROM formateuraffecte WHERE IdUser = "' . $_POST['del-user'] . '"')) {
+        $alertDelFail = "L'affectation n'a pas pu être supprimée.";
+    } else {
+        $alertDelSuccess = "L'affectation a bien été supprimée.";
     }
 }
 ?>
@@ -23,11 +39,11 @@ if (isset($_POST['affecter'])) {
 </head>
 <body>
 
-<?php include("header.php"); ?>
+<?php include("navbar.php"); ?>
 <div class="container">
     <div class="row">
         <div class="col-md-auto mx-auto text-center mb-4">
-            <h1 class="mb-4">Affectation</h1>
+            <h1 class="mb-4"><?php echo $title ?></h1>
             <form class="mb-3" action="" method="get" name="formations">
                 <div class="form-floating mb-3">
                     <select class="form-select" name="formation" onchange="this.form.submit()">
@@ -85,30 +101,41 @@ if (isset($_POST['affecter'])) {
                     <select class="form-select" name="formateur">
                         <option selected hidden>Affecter un formateur</option>
                         <?php
-                        $query = $bdd->query('SELECT idUser, nom, prenom FROM users
-                        WHERE admin !=1 AND idUser NOT IN (SELECT idUser FROM formateuraffecte WHERE idModule = ' . $_GET['module'] . ') GROUP BY nom, prenom');
+                        if (!isset($_POST['edit-user'])) {
+                            $sql = 'SELECT idUser, nom, prenom FROM users
+                        WHERE admin !=1 AND idUser NOT IN (SELECT idUser FROM formateuraffecte WHERE idModule = ' . $_GET['module'] . ')
+                        GROUP BY nom, prenom';
+                        } else {
+                            $sql = 'SELECT idUser, nom, prenom FROM users
+                        WHERE admin !=1 AND idUser NOT IN (SELECT idUser FROM formateuraffecte WHERE idModule = ' . $_GET['module'] . ')
+                        OR idUser = ' . $resultEdit->idUser . ' GROUP BY nom, prenom';
+                        }
+                        $query = $bdd->query($sql);
                         while ($resultat = $query->fetch_object()) {
-                            echo '<option value="' . $resultat->idUser . '">' . $resultat->nom . ' ' . $resultat->prenom . '</option>';
+                            echo '<option value="' . $resultat->idUser . '"';
+                            if(isset($_POST['edit-user'])) if ($_POST['edit-user'] == $resultat->idUser) echo 'selected';
+                            echo '>'.$resultat->nom . ' ' . $resultat->prenom . '</option>';
                         }
                         $query->close();
                         ?>
                     </select>
-                    <label class="form-label" for="formateur">Formateur</label>
+                    <label class="form-label" for="formateur">Formateur *</label>
                 </div>
                 <div class="mb-3">
                     <div class="mb-3 input-group">
-                        <input class="form-control" name="nbHeures" type="number" placeholder="Nombre d'heures">
+                        <input class="form-control" name="nbHeures" type="number"
+                               placeholder="Nombre d'heures" required <?php if (isset($_POST['edit-user'])) echo 'value="' . $resultEdit->heuresPrevues . '"' ?>>
                         <span class="input-group-text">heures</span>
                     </div>
                 </div>
-                <input class="btn btn-primary" type="submit" value="Affecter" name="affecter">
-                <?php if (!empty($message)) {
+                <input class="btn btn-primary" type="submit" value="<?php echo $button ?>" name="affecter">
+                <?php if (!empty($alertSuccess)) {
                     echo '<div class="mt-3 alert alert-success text-center">'
-                        . $message .
+                        . $alertSuccess .
                         '</div>';
-                } elseif (!empty($erreur)) {
+                } elseif (!empty($alertFail)) {
                     echo '<div class="mt-3 alert alert-danger text-center">'
-                        . $erreur .
+                        . $alertFail .
                         '</div>';
                 }
                 ?>
@@ -116,12 +143,22 @@ if (isset($_POST['affecter'])) {
         </div>
         <div class="col-md-auto mx-auto">
             <h1 class="text-center mb-4">Liste des formateurs du module <?php echo $reference ?></h1>
-            <table class="table table-striped border border-3">
+            <?php if (!empty($alertDelFail)) {
+                echo '<div class="mt-3 alert alert-danger text-center">'
+                    . $alertDelFail .
+                    '</div>';
+            } elseif (!empty($alertDelSuccess)) {
+                echo '<div class="mt-3 alert alert-success text-center">'
+                    . $alertDelSuccess .
+                    '</div>';
+            } ?>
+            <table class="table table-striped border border-3 text-center">
                 <thead>
                 <tr>
                     <th scope="col">Nom</th>
                     <th scope="col">Prenom</th>
                     <th scope="col">Nombre d'heures</th>
+                    <th scope="col">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -133,27 +170,45 @@ INNER JOIN users ON users.idUser = formateuraffecte.idUser WHERE idModule = ' . 
                     echo "<tr>";
                     echo "<td>" . $resultat->nom . "</td>";
                     echo "<td>" . $resultat->prenom . "</td>";
-                    echo "<td>" . $resultat->heuresPrevues . "</td>";
-                    echo "</tr>";
+                    echo "<td>" . $resultat->heuresPrevues . "</td>"; ?>
+                    <td>
+                        <a href="#"
+                           onclick="document.getElementById('edit-user-<?php echo $resultat->idUser; ?>').submit()">Modifier</a>
+                        <a href="#"
+                           onclick="document.getElementById('del-user-<?php echo $resultat->idUser; ?>').submit()">Supprimer</a>
+                    </td> <?php
+                    echo '<form action="" method="post" id="edit-user-' . $resultat->idUser . '">';
+                    echo '<input hidden value="' . $resultat->idUser . '" name="edit-user">';
+                    echo '</form>';
+                    echo '<form action="" method="post" id="del-user-' . $resultat->idUser . '">';
+                    echo '<input hidden value="' . $resultat->idUser . '" name="del-user">';
+                    echo '</form>';
                     $calculHeure = $calculHeure + $resultat->heuresPrevues;
                 }
                 ?>
                 </tbody>
                 <tfoot>
                 <?php if ($calculHeure < $heuresTotal) { ?>
-                 <tr>
-                    <th colspan="2">Nombre d'heures total restantes a affecter</th>
-                    <td><?php echo $heuresTotal - $calculHeure ?></td>
-                </tr>
+                    <tr>
+                        <th colspan="2">Nombre d'heures total restantes a affecter</th>
+                        <td><?php echo $heuresTotal - $calculHeure ?></td>
+                        <td></td>
+                    </tr>
                 <?php } elseif ($calculHeure > $heuresTotal) { ?>
-                <tr>
-                    <th colspan="2">Nombre d'heures total affecté</th>
-                    <td><?php echo $calculHeure ?></td>
-                </tr>
+                    <tr>
+                        <th colspan="2">Nombre d'heures total affecté</th>
+                        <td><?php echo $calculHeure ?></td>
+                        <td></td>
+                    </tr>
                 <?php } ?>
                 <tr>
-                <th colspan="2">Nombre d'heures total du module</th>
-                <td><?php echo $heuresTotal ?></td>
+                    <th colspan="2">Nombre d'heures total du module</th>
+                    <td><?php echo $heuresTotal ?></td>
+                    <td><?php if ($calculHeure == $heuresTotal) {
+                        echo "✔" ;
+                        if (isset($_POST['affecter']))
+                        $bdd->query('UPDATE modules SET nbHeureBon = 1 WHERE idModule =  ' . $_GET['module']);
+                    } else?></td>
                 </tr>
                 </tfoot>
             </table>
@@ -166,5 +221,6 @@ INNER JOIN users ON users.idUser = formateuraffecte.idUser WHERE idModule = ' . 
     </div>
     <?php } ?>
 </div>
+
 </body>
 </html>

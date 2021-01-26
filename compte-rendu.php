@@ -1,10 +1,10 @@
 <?php include("session.php");
 
 if (isset($_POST['compte-rendu'])) {
-    $query = 'INSERT INTO compterendu (idModule, idUser, date, duree, distanciel, contenu, moyen, evaluation)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+    $query = 'INSERT INTO compterendu (idModule, idPromo, idUser, date, duree, distanciel, contenu, moyen, evaluation)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
     $stmt = $bdd->prepare($query);
-    $stmt->bind_param("iisiisss", $_GET['module'], $_SESSION['idUser'], $_POST['date'], $_POST['duree'],
+    $stmt->bind_param("iiisiisss", $_GET['module'], $_GET['promotion'], $_SESSION['idUser'], $_POST['date'], $_POST['duree'],
         $_POST['distanciel'], $_POST['contenu'], $_POST['moyen'], $_POST['evaluation']);
     if (!$stmt->execute()) {
         printf("Erreur : %s\n", $stmt->error);
@@ -23,7 +23,7 @@ if (isset($_POST['compte-rendu'])) {
     <title>Compte rendu</title>
 </head>
 <body>
-<?php include("header.php") ?>
+<?php include("navbar.php") ?>
 <div class="container">
     <h1 class="text-center mb-3">Compte Rendu de la séance</h1>
     <div class="row">
@@ -52,9 +52,36 @@ if (isset($_POST['compte-rendu'])) {
                     <label for="formation">Formation</label>
                 </div>
             </form>
-            <form class="mb-3" action="" method="get" name="modules">
+            <form class="mb-3" action="" method="get" name="promotions">
                 <?php if (isset($_GET['formation'])) {
+                echo '<input type="hidden" name="formation" value="' . $_GET['formation'] . '">'; ?>
+                <div class="form-floating mb-3">
+                    <select class="form-select" name="promotion" onchange="this.form.submit()">
+                        <option hidden selected>Sélectionner une promotion</option>
+                        <?php //Requete + verification formation sélectionnée
+                        $query = $bdd->query('SELECT idPromo, libelle FROM promo WHERE idFormation = ' . $_GET['formation'] .' AND verrouillage != 1');
+                        while ($resultat = $query->fetch_object()) {
+                            ;
+                            echo '<option value="' . $resultat->idPromo . '"';
+                            if (isset($_GET['promotion'])) {
+                                if ($_GET['promotion'] == $resultat->idPromo) {
+                                    echo 'selected';
+                                    $idPromo = $resultat->idPromo;
+                                }
+                            }
+                            echo '>' . $resultat->libelle . '</option>';
+                        }
+                        $query->close();
+                        ?>
+                    </select>
+                    <label for="formation">Promotion</label>
+                </div>
+            </form>
+
+            <form class="mb-3" action="" method="get" name="modules">
+                <?php } if (isset($_GET['promotion'])) {
                     echo '<input type="hidden" name="formation" value="' . $_GET['formation'] . '">';
+                    echo '<input type="hidden" name="promotion" value="' . $_GET['promotion'] . '">';
                     /* utilisé pour affecter la valeur de formation avec le nouveau form, et pouvoir reset la valeur de module
                     au changement de formation */ ?>
                     <div class="form-floating">
@@ -84,7 +111,7 @@ if (isset($_POST['compte-rendu'])) {
             <form class="" action="" method="post" name="compte-rendu">
                 <?php if (isset($_GET['module'])) { ?>
                 <div class="form-floating mb-3">
-                    <input class="form-control" name="date" type="date">
+                    <input class="form-control" name="date" type="date" required>
                     <label for="date">Date</label>
                 </div>
                 <div class="form-floating mb-3">
@@ -106,6 +133,10 @@ if (isset($_POST['compte-rendu'])) {
                         <textarea class="form-control" placeholder="Moyen" name="moyen"
                                   style="height: 100px"></textarea>
                 <label for="moyen">Moyen</label>
+            </div>
+            <div class="form-floating mb-3">
+                <textarea class="form-control" placeholder="Objectif Ciblé" name="objectif"></textarea>
+                <label for="objectif">Objectif ciblé (referenciel)</label>
             </div>
             <div class="form-floating mb-3">
                 <textarea class="form-control" placeholder="Evaluation" name="evaluation"></textarea>

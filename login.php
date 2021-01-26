@@ -8,7 +8,7 @@
     <title>Connexion</title>
     <link rel="stylesheet" href="css/bootstrap.css">
 </head>
-<body class="container" style="background: #d9d9d9">
+<body style="background: #f5f5f5">
 <?php
 require('config.php');
 session_start();
@@ -41,7 +41,16 @@ if (isset($_POST['username'])) {
       action="login.php" method="post" name="login">
     <div class="row">
         <div class="col-md-auto mx-auto">
-            <img class="position-relative top-50 start-50 translate-middle rounded" src="arep.png"></div>
+            <img class="rounded" src="arep.png" width="200">
+            <div class="row g-0">
+                <div class="col-md-auto">
+                    <img src="iso-9001-ukas.original.png" width="100px">
+                </div>
+                <div class="col-md-auto">
+                    <img class="position-relative top-50 translate-middle-y" src="qualiopi.png" width="100px">
+                </div>
+                            </div>
+        </div>
         <div class="col-md-auto mx-auto">
             <h1 class="mb-3 text-center">Connexion</h1>
             <div class="mb-3">
