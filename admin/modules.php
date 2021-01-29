@@ -13,7 +13,7 @@ if (isset($_POST['module'])) {
 }
 $title = "Ajout de Modules";
 if (isset($_POST['edit-reference'])) {
-    $query = $bdd->query('SELECT * FROM modules WHERE reference = "' . $_POST['edit-reference'] . '"');
+    $query = $bdd->query('SELECT reference, libelle, nbHeures, commentaire FROM modules WHERE reference = "' . $_POST['edit-reference'] . '"');
     $resultEdit = $query->fetch_object();
     $query->close();
     $title = "Modifier : " . $resultEdit->libelle;
@@ -75,14 +75,16 @@ if (isset($_POST['del-reference'])) {
                     <div class="col-md-5">
                         <div class="form-floating">
                             <input class="form-control" name="reference" type="text" placeholder="Reference"
-                                   required<?php if (isset($_POST['edit-reference'])) echo 'readonly value="' . $resultEdit->reference . '"' ?>>
+                                   required
+                                   maxlength="20" <?php if (isset($_POST['edit-reference'])) echo 'readonly value="' . $resultEdit->reference . '"' ?>>
                             <label for="reference">Reference *</label>
                         </div>
                     </div>
                     <div class="col-md-7">
                         <div class="form-floating">
                             <input class="form-control" name="libelle" type="text" placeholder="Nom du module"
-                                   required <?php if (isset($_POST['edit-reference'])) echo 'value="' . $resultEdit->libelle . '"' ?>>
+                                   required
+                                   maxlength="100" <?php if (isset($_POST['edit-reference'])) echo 'value="' . $resultEdit->libelle . '"' ?>>
                             <label for="libelle">Nom du module *</label>
                         </div>
                     </div>
@@ -130,6 +132,7 @@ if (isset($_POST['del-reference'])) {
                     <th scope="col">Nom</th>
                     <th scope="col">Nombre d'heures</th>
                     <th scope="col">Commentaire</th>
+                    <th scope="col">Affectations</th>
                     <th scope="col">Action</th>
                 </tr>
                 </thead>
@@ -139,9 +142,17 @@ if (isset($_POST['del-reference'])) {
                 while ($resultat = $query->fetch_object()) {
                     echo "<tr>";
                     echo "<td>" . $resultat->reference . "</td>";
-                    echo "<td>" . $resultat->libelle . "</td>";
+                    echo '<td><a class="link-dark" title="Accéder à l\'affectation de ce module"
+                    href="affectation.php?formation=' . $_GET['formation'] . '&module=' . $resultat->idModule . '">' . $resultat->libelle . '</td>';
                     echo "<td>" . $resultat->nbHeures . "</td>";
-                    echo "<td>" . $resultat->commentaire . "</td>"; ?>
+                    echo "<td>" . $resultat->commentaire . "</td>";
+                    echo '<td>';
+                    if ($resultat->nbHeureBon == 1) {
+                        echo '✔';
+                    } else {
+                        echo '<a style="text-decoration: none;" title="Accéder à l\'affectation de ce module" href="affectation.php?formation=' . $_GET['formation'] . '&module=' . $resultat->idModule . '">❌</a>';
+                    }
+                    echo '</td>'; ?>
                     <td>
                         <a href="#"
                            onclick="document.getElementById('edit-mod-<?php echo $resultat->reference; ?>').submit()">Modifier</a>

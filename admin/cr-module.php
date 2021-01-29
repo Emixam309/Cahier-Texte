@@ -1,4 +1,4 @@
-<?php include("../session.php"); ?>
+<?php include("session.php"); ?>
 <!doctype html>
 <html lang="fr">
 <head>
@@ -12,7 +12,7 @@
 <body>
 <?php include("navbar.php") ?>
 <div class="container">
-    <h1 class="text-center mb-4">Compte Rendu par Formations</h1>
+    <h1 class="text-center mb-4">Compte Rendu par Modules</h1>
     <form class="mb-3" action="" method="get" name="formations">
         <div class="row">
             <div class="col-xl-auto mx-auto mb-3">
@@ -43,8 +43,28 @@
         <?php if (isset($_GET['formation'])) {
         echo '<input type="hidden" name="formation" value="' . $_GET['formation'] . '">'; ?>
         <div class="form-floating mb-3">
+            <select class="form-select" name="module" onchange="this.form.submit()">
+                <option hidden selected>Sélectionner un module</option>
+                <?php //Requete + verification module sélectionné
+                $query = $bdd->query('SELECT * FROM modules WHERE idFormation = ' . $_GET['formation']);
+                while ($resultat = $query->fetch_object()) {
+                    ;
+                    echo '<option value="' . $resultat->idModule . '"';
+                    if (isset($_GET['module'])) {
+                        if ($_GET['module'] == $resultat->idModule) {
+                            echo 'selected';
+                        }
+                    }
+                    echo '>'. $resultat->libelle . '</option>';
+                }
+                $query->close();
+                ?>
+            </select>
+            <label for="module">Module</label>
+        </div>
+        <div class="form-floating mb-3">
             <select class="form-select" name="promotion" onchange="this.form.submit()">
-                <option hidden selected>Sélectionner une promotion</option>
+                <option hidden selected value="">Sélectionner une promotion</option>
                 <?php //Requete + verification formation sélectionnée
                 $query = $bdd->query('SELECT idPromo, libelle FROM promo WHERE idFormation = ' . $_GET['formation'] .' GROUP BY verrouillage, dateDebut, dateFin');
                 while ($resultat = $query->fetch_object()) {
@@ -64,40 +84,48 @@
             <label for="formation">Promotion</label>
         </div>
 </div>
-<?php } if (isset($_GET['promotion'])) { ?>
+<?php } if (isset($_GET['module'])) { ?>
 <div class="col-xl-auto mx-auto">
     <div id="imprimer">
         <?php
-        echo '<h2 class="text-center mb-3">Événements de ' . $reference . '</h2>'
+        echo '<h2 class="text-center mb-3">Évènements de ' . $reference . '</h2>'
         ?>
         <table class="table table-striped border border-3 text-center">
             <thead>
             <th scope="col">Num. Sem.</th>
-            <th scope="col">Module</th>
             <th scope="col">Formateur</th>
             <th scope="col">Date</th>
             <th scope="col">Durée</th>
             <th scope="col">Contenu</th>
             <th scope="col">Moyen</th>
+            <th scope="col">Objectif</th>
             <th scope="col">Evaluation</th>
             <th scope="col">Distanciel</th>
             </thead>
             <tbody>
             <?php
-            $query = $bdd->query('SELECT modules.libelle as mLibelle, compterendu.duree, nom, prenom, date, contenu, moyen, evaluation, distanciel FROM (compterendu
+            if (!$_GET['promotion'] ) {
+                $sql = 'SELECT modules.libelle AS mLibelle, compterendu.duree, nom, prenom, date, contenu, moyen, objectif, evaluation, distanciel FROM (compterendu
                         INNER JOIN modules ON modules.idModule = compterendu.idModule)
-                        INNER JOIN users on users.idUser = compterendu.idUser
-                        WHERE idPromo = "' . $_GET['promotion'] . '" GROUP BY date');
+                        INNER JOIN users ON users.idUser = compterendu.idUser
+                        WHERE modules.idModule = ' . $_GET['module'] . ' ORDER BY date';
+            } else {
+                $sql = 'SELECT modules.libelle AS mLibelle, compterendu.duree, nom, prenom, date, contenu, moyen, objectif, evaluation, distanciel FROM (compterendu
+                        INNER JOIN modules ON modules.idModule = compterendu.idModule)
+                        INNER JOIN users ON users.idUser = compterendu.idUser
+                        WHERE modules.idModule = ' . $_GET['module'] . ' AND idPromo = ' . $_GET['promotion'] . ' ORDER BY date';
+            }
+            $query = $bdd->query($sql);
             while ($resultat = $query->fetch_object()) {
                 echo '<tr>';
                 $date = strtotime($resultat->date);
                 echo '<th scope="row">' . date('W', $date) . '</th>';
-                echo '<td>' . $resultat->mLibelle . '</td>';
                 echo '<td>' . $resultat->nom . ' ' . $resultat->prenom . '</td>';
                 echo '<td>' . date('d/m/Y', $date) . '</td>';
                 echo '<td>' . $resultat->duree . 'h</td>';
                 echo '<td>' . $resultat->contenu . '</td>';
                 echo '<td>' . $resultat->moyen . '</td>';
+                echo '<td>' . $resultat->objectif . '</td>';
                 echo '<td>' . $resultat->evaluation . '</td>';
                 echo '<td>';
                 if (!empty($resultat->distanciel)) {

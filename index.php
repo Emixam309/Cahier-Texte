@@ -1,4 +1,4 @@
-<?php include("session.php") ?>
+<?php include("session.php"); ?>
 <!doctype html>
 <html lang="fr">
 <head>
@@ -13,10 +13,8 @@
 <?php include("navbar.php"); ?>
 <div class="container">
     <h1>Bienvenue <?php echo $_SESSION['prenom']; ?> !</h1>
-    <p>C'est votre tableau de bord.</p>
-    <div>
-
-    </div>
+    <?php include("commentaires.php"); ?>
+</div>
 </div>
 </body>
 </html>

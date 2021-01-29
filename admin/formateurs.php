@@ -1,9 +1,9 @@
 <?php include("session.php");
 if (isset($_POST['formateur'])) {
-    $query = 'INSERT INTO users (username, password, nom, prenom, mail, telephone) VALUES (?, ?, ?, ?, ?, ?)
-    ON DUPLICATE KEY UPDATE password=?, nom=?, prenom=?, mail=?, telephone=?';
+    $query = 'INSERT INTO users (username, password, nom, prenom, specialite, mail, telephone) VALUES (?, ?, ?, ?, ?, ?, ?)
+    ON DUPLICATE KEY UPDATE password=?, nom=?, prenom=?, specialite=?, mail=?, telephone=?';
     $stmt = $bdd->prepare($query);
-    $stmt->bind_param("sssssssssss", $_POST['id'], $_POST['password'], $_POST['nom'], $_POST['prenom'], $_POST['email'], $_POST['telephone'], $_POST['password'], $_POST['nom'], $_POST['prenom'], $_POST['email'], $_POST['telephone']);
+    $stmt->bind_param("sssssssssssss", $_POST['id'], $_POST['password'], $_POST['nom'], $_POST['prenom'], $_POST['specialite'], $_POST['email'], $_POST['telephone'], $_POST['password'], $_POST['nom'], $_POST['prenom'], $_POST['specialite'], $_POST['email'], $_POST['telephone']);
     if (!$stmt->execute()) {
         printf("Erreur : %s\n", $stmt->error);
         $alertFail = "Le formateur n'a pas pu être ajouté ou modifié.";
@@ -13,7 +13,7 @@ if (isset($_POST['formateur'])) {
 }
 $title = "Ajout d'un formateur";
 if (isset($_POST['edit-username'])) {
-    $query = $bdd->query('SELECT * FROM users WHERE username = "' . $_POST['edit-username'] . '"');
+    $query = $bdd->query('SELECT nom, prenom, username, password, specialite, mail, telephone FROM users WHERE username = "' . $_POST['edit-username'] . '"');
     $resultEdit = $query->fetch_object();
     $query->close();
     $title = "Modifier : " . $resultEdit->nom . " " . $resultEdit->prenom;
@@ -48,31 +48,41 @@ if (isset($_POST['del-username'])) {
                     <div class="col-md">
                         <div class="form-floating">
                             <input class="form-control" name="nom" type="text"
-                                   placeholder="Nom" required <?php if (isset($_POST['edit-username'])) echo 'value="' . $resultEdit->nom . '"' ?>>
+                                   placeholder="Nom" maxlength="30"
+                                   required <?php if (isset($_POST['edit-username'])) echo 'value="' . $resultEdit->nom . '"' ?>>
                             <label for="nom">Nom *</label>
                         </div>
                     </div>
                     <div class="col-md">
                         <div class="form-floating">
                             <input class="form-control" name="prenom" type="text"
-                                   placeholder="Prenom" required <?php if (isset($_POST['edit-username'])) echo 'value="' . $resultEdit->prenom . '"' ?>>
+                                   placeholder="Prenom" maxlength="30"
+                                   required <?php if (isset($_POST['edit-username'])) echo 'value="' . $resultEdit->prenom . '"' ?>>
                             <label for="prenom">Prenom *</label>
                         </div>
                     </div>
                 </div>
                 <div class="form-floating mb-3">
                     <input class="form-control" name="id" type="text" placeholder="Identifiant"
-                           required <?php if (isset($_POST['edit-username'])) echo 'readonly value="' . $resultEdit->username . '"' ?>>
+                           required
+                           maxlength="30" <?php if (isset($_POST['edit-username'])) echo 'readonly value="' . $resultEdit->username . '"' ?>>
                     <label for="id">Identifiant *</label>
                 </div>
                 <div class="form-floating mb-3">
                     <input class="form-control" name="password" type="password" placeholder="Mot de passe"
-                           required <?php if (isset($_POST['edit-username'])) echo 'value="' . $resultEdit->password . '"' ?>>
+                           required
+                           maxlength="20" <?php if (isset($_POST['edit-username'])) echo 'value="' . $resultEdit->password . '"' ?>>
                     <label for="password">Mot de passe *</label>
                 </div>
                 <div class="form-floating mb-3">
+                    <input class="form-control" name="specialite" type="text" placeholder="Spécialité"
+                           maxlength="60" <?php if (isset($_POST['edit-username'])) echo 'value="' . $resultEdit->specialite . '"' ?>>
+                    <label for="specialite">Spécialité</label>
+                </div>
+                <div class="form-floating mb-3">
                     <input class="form-control" name="email" type="email"
-                           placeholder="exemple@exemple.com" <?php if (isset($_POST['edit-username'])) echo 'value="' . $resultEdit->mail . '"' ?>>
+                           placeholder="exemple@exemple.com"
+                           maxlength="30" <?php if (isset($_POST['edit-username'])) echo 'value="' . $resultEdit->mail . '"' ?>>
                     <label for="email">Mail</label>
                 </div>
                 <div class="form-floating mb-3">
@@ -113,6 +123,7 @@ if (isset($_POST['del-username'])) {
                     <th scope="col">Nom</th>
                     <th scope="col">Prenom</th>
                     <th scope="col">Identifiant</th>
+                    <th scope="col">Spécialité</th>
                     <th scope="col">Mail</th>
                     <th scope="col">Téléphone</th>
                     <th scope="col">Action</th>
@@ -120,12 +131,13 @@ if (isset($_POST['del-username'])) {
                 </thead>
                 <tbody>
                 <?php
-                $query = $bdd->query('SELECT * FROM users WHERE admin != 1 GROUP BY nom, prenom');
+                $query = $bdd->query('SELECT nom, prenom, username, specialite, mail, telephone FROM users WHERE admin != 1 GROUP BY nom, prenom');
                 while ($resultat = $query->fetch_object()) {
                     echo "<tr>";
                     echo "<td>" . $resultat->nom . "</td>";
                     echo "<td>" . $resultat->prenom . "</td>";
                     echo "<td>" . $resultat->username . "</td>";
+                    echo "<td>" . $resultat->specialite . "</td>";
                     echo '<td><a class="link-dark" href="mailto:' . $resultat->mail . '">' . $resultat->mail . '</a></td>';
                     echo "<td>" . $resultat->telephone . "</td>"; ?>
                     <td>

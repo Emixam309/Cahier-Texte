@@ -1,15 +1,19 @@
 <?php include("session.php");
 if (isset($_POST['promotion'])) {
-    $query = 'INSERT INTO promo (libelle, dateDebut, dateFin, idFormation) VALUES (?, ?, ?, ?)
+    $dateDebut = date("Y-m-d", strtotime($_POST['dateDebut']));
+    $dateFin = date("Y-m-d", strtotime($_POST['dateFin']));
+    if ($dateDebut <= $dateFin) {
+        $query = 'INSERT INTO promo (libelle, dateDebut, dateFin, idFormation) VALUES (?, ?, ?, ?)
     ON DUPLICATE KEY UPDATE dateDebut=?, dateFin=?';
-    $stmt = $bdd->prepare($query);
-    $stmt->bind_param("sssiss", $_POST['libelle'], $_POST['dateDebut'], $_POST['dateFin'], $_GET['formation'], $_POST['dateDebut'], $_POST['dateFin']);
-    if (!$stmt->execute()) {
-        printf("Erreur : %s\n", $stmt->error);
-        $alertFail = "La promotion n'a pas pu être ajoutée ou modifiée.";
-    } else {
-        $alertSuccess = "La promotion a bien été ajoutée ou modifiée.";
-    }
+        $stmt = $bdd->prepare($query);
+        $stmt->bind_param("sssiss", $_POST['libelle'], $_POST['dateDebut'], $_POST['dateFin'], $_GET['formation'], $_POST['dateDebut'], $_POST['dateFin']);
+        if (!$stmt->execute()) {
+            printf("Erreur : %s\n", $stmt->error);
+            $alertFail = "La promotion n'a pas pu être ajoutée ou modifiée.";
+        } else {
+            $alertSuccess = "La promotion a bien été ajoutée ou modifiée.";
+        }
+    } else $alertFail = "La date de début est supérieure a la date de fin";
 }
 $title = "Ajout de Promotions";
 if (isset($_POST['edit-libelle'])) {
@@ -27,7 +31,7 @@ if (isset($_POST['del-libelle'])) {
     }
 }
 if (isset($_POST['ver-libelle'])) {
-    if (!$bdd->query('UPDATE promo SET verrouillage = '.$_POST['verrouillage'].' WHERE libelle = "' . $_POST['ver-libelle'] . '"')) {
+    if (!$bdd->query('UPDATE promo SET verrouillage = ' . $_POST['verrouillage'] . ' WHERE libelle = "' . $_POST['ver-libelle'] . '"')) {
         $alertVerFail = "La promotion n'a pas pu être clôturée.";
     } else {
         if ($_POST['verrouillage'] == 1) {
@@ -83,21 +87,23 @@ if (isset($_POST['ver-libelle'])) {
                 <div class="form-floating mb-3">
                     <input class="form-control" name="libelle" type="text" placeholder="Référence de la promotion"
                         <?php if (isset($_POST['edit-libelle'])) echo 'readonly value="' . $resultEdit->libelle . '"';
-                        else echo 'value="' . $reference . ' "'; ?> required>
+                        else echo 'value="' . $reference . ' "'; ?> maxlength="30" required>
                     <label for="libelle">Référence</label>
                 </div>
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <div class="form-floating">
                             <input class="form-control" name="dateDebut"
-                                   type="date" required <?php if (isset($_POST['edit-libelle'])) echo 'value="' . $resultEdit->dateDebut . '"' ?>>
+                                   type="date"
+                                   required <?php if (isset($_POST['edit-libelle'])) echo 'value="' . $resultEdit->dateDebut . '"' ?>>
                             <label for="DateDebut">Date de début</label>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-floating">
                             <input class="form-control" name="dateFin"
-                                   type="date" required <?php if (isset($_POST['edit-libelle'])) echo 'value="' . $resultEdit->dateFin . '"' ?>>
+                                   type="date"
+                                   required <?php if (isset($_POST['edit-libelle'])) echo 'value="' . $resultEdit->dateFin . '"' ?>>
                             <label for="dateFin">Date de fin</label>
                         </div>
                     </div>
@@ -147,7 +153,7 @@ if (isset($_POST['ver-libelle'])) {
                 </thead>
                 <tbody>
                 <?php
-                $query = $bdd->query('SELECT libelle, dateDebut, dateFin, verrouillage FROM promo WHERE idFormation = ' . $_GET['formation'].' GROUP BY verrouillage, dateDebut, dateFin');
+                $query = $bdd->query('SELECT libelle, dateDebut, dateFin, verrouillage FROM promo WHERE idFormation = ' . $_GET['formation'] . ' GROUP BY verrouillage, dateDebut, dateFin');
                 while ($resultat = $query->fetch_object()) {
                     echo '<form action="" method="post" id="edit-promo-' . $resultat->libelle . '">';
                     echo '<input hidden value="' . $resultat->libelle . '" name="edit-libelle">';

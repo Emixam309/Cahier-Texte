@@ -30,8 +30,8 @@
                     $date = strtotime($_GET['date']);
                     echo '<h2 class="text-center mb-3">Événements du ' . date('d/m/Y', $date) . ' par ' . $_SESSION['prenom'] . ' ' . $_SESSION['nom'] . '</h2>'
                     ?>
-                    <table class="table table-striped border border-3">
-                        <thead class="text-center">
+                    <table class="table table-striped border border-3 text-center">
+                        <thead>
                         <th scope="col">Formation</th>
                         <th scope="col">Module</th>
                         <th scope="col">Durée</th>
@@ -45,19 +45,21 @@
                         $query = $bdd->query('SELECT formations.libelle as fLibelle, modules.libelle as mLibelle, compterendu.duree, contenu, moyen, evaluation, distanciel FROM (compterendu
                         INNER JOIN modules ON modules.idModule = compterendu.idModule)
                         INNER JOIN formations ON formations.idFormation = modules.idFormation
-                        WHERE date = "' . $_GET['date'] . '" AND idUser = ' . $_SESSION['idUser']);
+                        WHERE date = "' . $_GET['date'] . '" AND idUser = ' . $_SESSION['idUser'].' GROUP BY fLibelle, mLibelle, dateEntree');
                         while ($resultat = $query->fetch_object()) {
+                            echo '<tr>';
                             echo '<td>' . $resultat->fLibelle . '</td>';
                             echo '<td>' . $resultat->mLibelle . '</td>';
                             echo '<td>' . $resultat->duree . 'h</td>';
                             echo '<td>' . $resultat->contenu . '</td>';
                             echo '<td>' . $resultat->moyen . '</td>';
                             echo '<td>' . $resultat->evaluation . '</td>';
-                            echo '<td class="text-center">';
+                            echo '<td>';
                             if (!empty($resultat->distanciel)) {
                                 echo '✔';
                             }
                             echo '</td>';
+                            echo '</tr>';
                         }
                         ?>
                         </tbody>

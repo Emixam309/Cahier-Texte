@@ -1,22 +1,11 @@
-<!doctype html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Connexion</title>
-    <link rel="stylesheet" href="css/bootstrap.css">
-</head>
-<body style="background: #f5f5f5">
 <?php
 require('config.php');
 session_start();
 if (isset($_POST['username'])) {
     $username = stripslashes($_REQUEST['username']);
-    //$username = mysqli_real_escape_string($bdd, $username);
+    $username = mysqli_real_escape_string($bdd, $username);
     $password = stripslashes($_REQUEST['password']);
-    //$password = mysqli_real_escape_string($bdd, $password);
+    $password = mysqli_real_escape_string($bdd, $password);
     $query = "SELECT * FROM users WHERE username = '$username' and password = '$password'";
     $result = mysqli_query($bdd, $query) or die(mysqli_error($bdd));
     $rows = mysqli_num_rows($result);
@@ -37,21 +26,39 @@ if (isset($_POST['username'])) {
     }
 }
 ?>
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Connexion</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+</head>
+<style type="text/css">
+    body {
+        background-image: url("stjo.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+</style>
+<body>
 <form class="position-absolute top-50 start-50 translate-middle p-5 rounded shadow" style="background: white"
       action="login.php" method="post" name="login">
     <div class="row">
         <div class="col-md-auto mx-auto">
-            <img class="rounded" src="arep.png" width="200">
+            <img class="rounded" src="arep-full.png" width="250">
             <div class="row g-0">
                 <div class="col-md-auto">
-                    <img src="iso-9001-ukas.original.png" width="100px">
+                    <img src="iso-9001-ukas.original.png" width="125px">
                 </div>
                 <div class="col-md-auto">
-                    <img class="position-relative top-50 translate-middle-y" src="qualiopi.png" width="100px">
+                    <img class="position-relative top-50 translate-middle-y" src="qualiopi.png" width="125px">
                 </div>
                             </div>
         </div>
-        <div class="col-md-auto mx-auto">
+        <div class="col-md-auto mx-auto my-auto">
             <h1 class="mb-3 text-center">Connexion</h1>
             <div class="mb-3">
                 <div class="form-floating">

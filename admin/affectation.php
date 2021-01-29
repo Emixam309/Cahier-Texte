@@ -86,7 +86,10 @@ if (isset($_POST['del-user'])) {
                                         $heuresTotal = $resultat->nbHeures;
                                     }
                                 }
-                                echo '>' . $resultat->libelle . '</option>';
+                                if ($resultat->nbHeureBon == 1) {
+                                    echo '>' . '✔ ' . $resultat->libelle . '</option>';
+                                } else
+                                    echo '>' . $resultat->libelle . '</option>';
                             }
                             $query->close();
                             ?>
@@ -113,8 +116,8 @@ if (isset($_POST['del-user'])) {
                         $query = $bdd->query($sql);
                         while ($resultat = $query->fetch_object()) {
                             echo '<option value="' . $resultat->idUser . '"';
-                            if(isset($_POST['edit-user'])) if ($_POST['edit-user'] == $resultat->idUser) echo 'selected';
-                            echo '>'.$resultat->nom . ' ' . $resultat->prenom . '</option>';
+                            if (isset($_POST['edit-user'])) if ($_POST['edit-user'] == $resultat->idUser) echo 'selected';
+                            echo '>' . $resultat->nom . ' ' . $resultat->prenom . '</option>';
                         }
                         $query->close();
                         ?>
@@ -124,7 +127,8 @@ if (isset($_POST['del-user'])) {
                 <div class="mb-3">
                     <div class="mb-3 input-group">
                         <input class="form-control" name="nbHeures" type="number"
-                               placeholder="Nombre d'heures" required <?php if (isset($_POST['edit-user'])) echo 'value="' . $resultEdit->heuresPrevues . '"' ?>>
+                               placeholder="Nombre d'heures"
+                               required <?php if (isset($_POST['edit-user'])) echo 'value="' . $resultEdit->heuresPrevues . '"' ?>>
                         <span class="input-group-text">heures</span>
                     </div>
                 </div>
@@ -205,10 +209,12 @@ INNER JOIN users ON users.idUser = formateuraffecte.idUser WHERE idModule = ' . 
                     <th colspan="2">Nombre d'heures total du module</th>
                     <td><?php echo $heuresTotal ?></td>
                     <td><?php if ($calculHeure == $heuresTotal) {
-                        echo "✔" ;
-                        if (isset($_POST['affecter']))
-                        $bdd->query('UPDATE modules SET nbHeureBon = 1 WHERE idModule =  ' . $_GET['module']);
-                    } else?></td>
+                            echo "✔";
+                            if (isset($_POST['affecter']))
+                                $bdd->query('UPDATE modules SET nbHeureBon = 1 WHERE idModule =  ' . $_GET['module']);
+                        } elseif (isset($_POST['affecter']) or isset($_POST['edit-user']) or isset($_POST['del-user'])) {
+                            $bdd->query('UPDATE modules SET nbHeureBon = 0 WHERE idModule =  ' . $_GET['module']);
+                        } ?></td>
                 </tr>
                 </tfoot>
             </table>

@@ -14,8 +14,6 @@
 <?php include("navbar.php"); ?>
 <div class="container">
     <h1>Bienvenue <?php echo $_SESSION['prenom']; ?> !</h1>
-    <p>C'est votre tableau d'administration.</p>
-    <p>Vous pouvez accéder à differentes pages.</p>
     <a class="btn btn-primary" href="formateurs.php" title="Affiche la liste des formateurs et d'en ajouter de nouveau">Formateurs</a>
     <div class="btn-group">
         <a class="btn btn-primary" href="formations.php"
@@ -31,7 +29,8 @@
         <a class="btn btn-primary" href="affectation.php"
            title="Affiche la liste des formateurs affectés et permet d'en ajouter de nouveaux">Affectation</a>
     </div>
-    <a class="btn btn-primary" href="compte-rendu.php" title="Affiche le compte rendu par formation">Compte rendu</a>
+    <a class="btn btn-primary" href="cr-formation.php" title="Affiche le compte rendu par formation">Compte rendu</a>
+    <?php include ("../commentaires.php"); ?>
 </div>
 </body>
 </html>

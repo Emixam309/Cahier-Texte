@@ -100,14 +100,14 @@ if (isset($_POST['del-stagiaire'])) {
                     <div class="col-md">
                         <div class="form-floating">
                             <input class="form-control" name="nom" type="text"
-                                   placeholder="Nom" required <?php if (isset($_POST['edit-stagiaire'])) echo 'value="' . $resultEdit->nom . '"' ?>>
+                                   placeholder="Nom" maxlength="30" required <?php if (isset($_POST['edit-stagiaire'])) echo 'value="' . $resultEdit->nom . '"' ?>>
                             <label for="nom">Nom</label>
                         </div>
                     </div>
                     <div class="col-md">
                         <div class="form-floating">
                             <input class="form-control" name="prenom" type="text"
-                                   placeholder="Prenom" required <?php if (isset($_POST['edit-stagiaire'])) echo 'value="' . $resultEdit->prenom . '"' ?>>
+                                   placeholder="Prenom"maxlength="30" required <?php if (isset($_POST['edit-stagiaire'])) echo 'value="' . $resultEdit->prenom . '"' ?>>
                             <label for="prenom">Prenom</label>
                         </div>
                     </div>

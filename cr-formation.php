@@ -60,7 +60,7 @@
                         <?php
                         $query = $bdd->query('SELECT modules.libelle as mLibelle, compterendu.duree, date, contenu, moyen, evaluation, distanciel FROM compterendu
                         INNER JOIN modules ON modules.idModule = compterendu.idModule
-                        WHERE idFormation = "' . $_GET['formation'] . '" AND idUser = ' . $_SESSION['idUser'] . ' GROUP BY date');
+                        WHERE idFormation = "' . $_GET['formation'] . '" AND idUser = ' . $_SESSION['idUser'] . ' GROUP BY date, mLibelle, dateEntree');
                         while ($resultat = $query->fetch_object()) {
                             $date = strtotime($resultat->date);
                             echo '<tr>';
@@ -71,7 +71,7 @@
                             echo '<td>' . $resultat->contenu . '</td>';
                             echo '<td>' . $resultat->moyen . '</td>';
                             echo '<td>' . $resultat->evaluation . '</td>';
-                            echo '<td class="text-center">';
+                            echo '<td>';
                             if (!empty($resultat->distanciel)) {
                                 echo '✔';
                             }

@@ -13,7 +13,7 @@ if (isset($_POST['formation'])) {
 }
 $title = "Ajout de formation";
 if (isset($_POST['edit-reference'])) {
-    $query = $bdd->query('SELECT * FROM formations WHERE reference = "' . $_POST['edit-reference'] . '"');
+    $query = $bdd->query('SELECT reference, libelle, duree FROM formations WHERE reference = "' . $_POST['edit-reference'] . '"');
     $resultEdit = $query->fetch_object();
     $query->close();
     $title = "Modifier : " . $resultEdit->reference;
@@ -48,15 +48,15 @@ if (isset($_POST['del-reference'])) {
                     <div class="col-md-4">
                         <div class="form-floating">
                             <input class="form-control" name="reference" type="text" placeholder="Référence"
-                                   required <?php if (isset($_POST['edit-reference'])) echo 'readonly value="' . $resultEdit->reference . '"' ?>>
+                                   required maxlength="20" <?php if (isset($_POST['edit-reference'])) echo 'readonly value="' . $resultEdit->reference . '"' ?>>
                             <label for="reference">Référence *</label>
                         </div>
                     </div>
                     <div class="col-md-8">
                         <div class="form-floating">
                             <input class="form-control" name="libelle" type="text" placeholder="Nom de la formation"
-                                   required <?php if (isset($_POST['edit-reference'])) echo 'value="' . $resultEdit->libelle . '"' ?>>
-                            <label for="libelle">Nom de la formation</label>
+                                   required maxlength="100" <?php if (isset($_POST['edit-reference'])) echo 'value="' . $resultEdit->libelle . '"' ?>>
+                            <label for="libelle">Nom de la formation *</label>
                         </div>
                     </div>
                 </div>
@@ -80,7 +80,7 @@ if (isset($_POST['del-reference'])) {
             ?>
         </div>
         <div class="col-xl-auto mx-auto mb-3"> <!--Tableau de la liste des Formations-->
-            <h1 class="text-center mb-4">Liste des formations *</h1>
+            <h1 class="text-center mb-4">Liste des formations</h1>
             <?php if (!empty($alertDelFail)) {
                 echo '<div class="mt-3 alert alert-danger text-center">'
                     . $alertDelFail .
@@ -101,7 +101,7 @@ if (isset($_POST['del-reference'])) {
                 </thead>
                 <tbody>
                 <?php
-                $query = $bdd->query('SELECT * FROM formations');
+                $query = $bdd->query('SELECT reference, libelle, duree FROM formations');
                 while ($resultat = $query->fetch_object()) {
                     echo "<tr>";
                     echo "<td>" . $resultat->reference . "</td>";
