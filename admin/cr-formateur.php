@@ -13,9 +13,9 @@
 <?php include("navbar.php") ?>
 <div class="container">
     <h1 class="text-center mb-4">Compte Rendu par Formateurs</h1>
-    <form class="mb-3" action="" method="get" name="formations">
-        <div class="row">
-            <div class="col-xl-auto mx-auto mb-3">
+    <div class="row">
+        <div class="col-xl-auto mx-auto mb-3">
+            <form class="mb-3" action="" method="get" name="formations">
                 <div class="form-floating mb-3">
                     <select class="form-select" name="formateur" onchange="this.form.submit()">
                         <option selected hidden>Affecter un formateur</option>
@@ -38,13 +38,39 @@
                     </select>
                     <label class="form-label" for="formateur">Formateur</label>
                 </div>
-            </div>
-    </form>
-    <?php if (isset($_GET['formateur'])) { ?>
-    <div class="col-xl-auto mx-auto">
-        <div id="imprimer">
+            </form>
+            <form class="mb-3" action="" method="get" name="promotions">
+                <?php if (isset($_GET['formateur'])) {
+                echo '<input type="hidden" name="formateur" value="' . $_GET['formateur'] . '">'; ?>
+                <div class="form-floating mb-3">
+                    <select class="form-select" name="promotion" onchange="this.form.submit()">
+                        <option hidden selected>Sélectionner une promotion</option>
+                        <?php //Requete + verification formation sélectionnée
+                        $query = $bdd->query('SELECT promotions.idPromo, libelle FROM promotions INNER JOIN affectation on promotions.idPromo = affectation.idPromo
+                                                    WHERE idUser = ' . $_GET['formateur'] . ' ORDER BY verrouillage, dateDebut, dateFin');
+                        while ($resultat = $query->fetch_object()) {
+                            ;
+                            echo '<option value="' . $resultat->idPromo . '"';
+                            if (isset($_GET['promotion'])) {
+                                if ($_GET['promotion'] == $resultat->idPromo) {
+                                    $reference = $resultat->libelle;
+                                    echo 'selected';
+                                }
+                            }
+                            echo '>' . $resultat->libelle . '</option>';
+                        }
+                        $query->close();
+                        ?>
+                    </select>
+                    <label for="formation">Promotion</label>
+                </div>
+            </form>
+            <?php } ?>
+        </div>
+        <?php if (isset($_GET['formateur'])) { ?>
+        <div class="col-xl-auto mx-auto">
             <?php
-            echo '<h2 class="text-center mb-3">Évènements de ' . $nom . '</h2>'
+            echo '<h2 class="text-center mb-3">Comptes Rendus de ' . $nom . '</h2>'
             ?>
             <table class="table table-striped border border-3 text-center">
                 <thead>
@@ -64,15 +90,23 @@
                 </thead>
                 <tbody>
                 <?php
-                $query = $bdd->query('SELECT idCompteRendu, formations.idFormation, idPromo, modules.idModule, formations.libelle as fLibelle, modules.libelle as mLibelle, compterendu.duree, contenu, moyen, objectif, evaluation, distanciel, date FROM (compterendu
+                if (!isset($_GET['promotion'])) {
+                    $query = $bdd->query('SELECT idCompteRendu, formations.idFormation, promotions.idPromo, modules.idModule, formations.libelle as fLibelle, modules.libelle as mLibelle, compterendu.duree, contenu, moyen, objectif, evaluation, distanciel, date FROM ((compterendu
                         INNER JOIN modules ON modules.idModule = compterendu.idModule)
-                        INNER JOIN formations ON formations.idFormation = modules.idFormation
-                        WHERE idUser = "' . $_GET['formateur'] . '" ORDER BY date');
+                        INNER JOIN formations ON formations.idFormation = modules.idFormation)
+                        INNER JOIN promotions on compterendu.idPromo = promotions.idPromo
+                        WHERE compterendu.idUser = ' . $_GET['formateur'] . ' ORDER BY date, dateEntree');
+                } else {
+                    $query = $bdd->query('SELECT idCompteRendu, formations.idFormation, promotions.idPromo, modules.idModule, formations.libelle as fLibelle, modules.libelle as mLibelle, compterendu.duree, contenu, moyen, objectif, evaluation, distanciel, date FROM ((compterendu
+                        INNER JOIN modules ON modules.idModule = compterendu.idModule)
+                        INNER JOIN formations ON formations.idFormation = modules.idFormation)
+                        INNER JOIN promotions on compterendu.idPromo = promotions.idPromo
+                        WHERE compterendu.idUser = ' . $_GET['formateur'] . ' AND promotions.idPromo = ' . $_GET['promotion'] . ' ORDER BY date, dateEntree');
+                }
                 while ($resultat = $query->fetch_object()) {
                     $date = strtotime($resultat->date); ?>
                     <tr>
-
-                        <th scope="row"><?php date('W', $date) ?></th>
+                        <th scope="row"><?php echo date('W', $date) ?></th>
                         <td><?php echo $resultat->fLibelle ?></td>
                         <td><?php echo $resultat->mLibelle ?></td>
                         <td><?php echo date('d/m/Y', $date) ?></td>
@@ -96,14 +130,15 @@
                     </tr>
                     <form action="compte-rendu.php" method="get"
                           id="edit-cr-<?php echo $resultat->idCompteRendu ?>">
-                        <input hidden value="<?php echo $resultat->idCompteRendu ?>" name="idCR">
-                        <input hidden value="<?php echo $resultat->idFormation ?>" name="formation">
-                        <input hidden value="<?php echo $resultat->idPromo ?>" name="promotion">
-                        <input hidden value="<?php echo $resultat->idModule ?>" name="module">
+                        <input type="hidden" value="<?php echo $resultat->idCompteRendu ?>" name="idCR">
+                        <input type="hidden" value="<?php echo $resultat->idFormation ?>" name="formation">
+                        <input type="hidden" value="<?php echo $resultat->idPromo ?>" name="promotion">
+                        <input type="hidden" value="<?php echo $resultat->idModule ?>" name="module">
                     </form>
                     <form action="" method="post"
                           id="del-cr-<?php echo $resultat->idCompteRendu ?>">
-                        <input hidden value="<?php echo $resultat->idCompteRendu ?>" name="del-compte-rendu">
+                        <input type="hidden" value="<?php echo $resultat->idCompteRendu ?>"
+                               name="del-compte-rendu">
                     </form>
                 <?php }
                 $query->close();
@@ -112,11 +147,10 @@
             </table>
         </div>
     </div>
-</div>
     <form>
         <input class="btn btn-primary" type="button" value="Imprimer le tableau" onClick="imprimer()">
     </form>
-<?php } ?>
+    <?php } ?>
 </div>
 </body>
 </html>

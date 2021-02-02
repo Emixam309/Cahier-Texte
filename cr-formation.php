@@ -67,7 +67,7 @@
     <div class="col-xl-auto mx-auto">
         <div>
             <?php
-            echo '<h2 class="text-center mb-3">Évènements de ' . $reference . '</h2>';
+            echo '<h2 class="text-center mb-3">Comptes Rendus de ' . $reference . '</h2>';
             ob_start() ?>
             <table class="table table-striped border border-3 text-center">
                 <thead>
@@ -109,9 +109,6 @@
                                 echo '✔';
                             } ?>
                         </td>
-                        <?php
-                        $_SESSION['html'] = ob_get_contents();
-                        ob_end_flush(); ?>
                         <td>
                             <a href="#"
                                onclick="document.getElementById('edit-cr-<?php echo $resultat->idCompteRendu ?>').submit()">Modifier</a>
@@ -121,27 +118,29 @@
                     </tr>
                     <form action="compte-rendu.php" method="get"
                           id="edit-cr-<?php echo $resultat->idCompteRendu ?>">
-                        <input hidden value="<?php echo $resultat->idCompteRendu ?>" name="idCR">
-                        <input hidden value="<?php echo $resultat->idFormation ?>" name="formation">
-                        <input hidden value="<?php echo $resultat->idPromo ?>" name="promotion">
-                        <input hidden value="<?php echo $resultat->idModule ?>" name="module">
+                        <input type="hidden" value="<?php echo $resultat->idCompteRendu ?>" name="idCR">
+                        <input type="hidden" value="<?php echo $resultat->idFormation ?>" name="formation">
+                        <input type="hidden" value="<?php echo $resultat->idPromo ?>" name="promotion">
+                        <input type="hidden" value="<?php echo $resultat->idModule ?>" name="module">
                     </form>
                     <form action="" method="post"
                           id="del-cr-<?php echo $resultat->idCompteRendu ?>">
-                        <input hidden value="<?php echo $resultat->idCompteRendu ?>" name="del-compte-rendu">
+                        <input type="hidden" value="<?php echo $resultat->idCompteRendu ?>" name="del-compte-rendu">
                     </form>
                 <?php }
                 $query->close(); ?>
                 </tbody>
             </table>
+            <?php
+            $_SESSION['html'] = ob_get_contents();
+            ob_end_flush(); ?>
         </div>
     </div>
 </div>
     <form action="export-cr.php" method="post">
-        <input hidden value="<?php echo $reference ?>" name="libelle">
+        <input type="hidden" value="<?php echo $reference ?>" name="libelle">
         <input class="btn btn-primary" type="submit" value="Exporter">
     </form>
 <?php } ?>
-</div>
 </body>
 </html>

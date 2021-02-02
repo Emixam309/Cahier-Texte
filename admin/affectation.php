@@ -205,10 +205,10 @@ INNER JOIN users ON users.idUser = affectation.idUser WHERE idModule = ' . $_GET
                            onclick="document.getElementById('del-user-<?php echo $resultat->idUser; ?>').submit()">Supprimer</a>
                     </td>
                     <form action="" method="post" id="edit-user-<?php echo $resultat->idUser ?>">
-                        <input hidden value="<?php echo $resultat->idUser ?>" name="edit-user">
+                        <input type="hidden" value="<?php echo $resultat->idUser ?>" name="edit-user">
                     </form>
                     <form action="" method="post" id="del-user-<?php echo $resultat->idUser ?>">
-                        <input hidden value="<?php echo $resultat->idUser ?>" name="del-user">
+                        <input type="hidden" value="<?php echo $resultat->idUser ?>" name="del-user">
                     </form>
                     <?php
                     $calculHeure = $calculHeure + $resultat->heuresPrevues;

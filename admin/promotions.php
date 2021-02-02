@@ -157,15 +157,15 @@ if (isset($_POST['ver-libelle'])) {
                 while ($resultat = $query->fetch_object()) { ?>
                     <form action="" method="post"
                           id="edit-promo-<?php echo $resultat->libelle ?>">
-                        <input hidden value="<?php echo $resultat->libelle ?>" name="edit-libelle">
+                        <input type="hidden" value="<?php echo $resultat->libelle ?>" name="edit-libelle">
                     </form>
                     <form action="" method="post"
                           id="del-promo-<?php echo $resultat->libelle ?>">
-                        <input hidden value="<?php echo $resultat->libelle ?>" name="del-libelle">
+                        <input type="hidden" value="<?php echo $resultat->libelle ?>" name="del-libelle">
                     </form>
                     <form action="" method="post"
                           id="ver-promo-<?php echo $resultat->libelle ?>">
-                        <input hidden value="<?php echo $resultat->libelle ?>" name="ver-libelle">
+                        <input type="hidden" value="<?php echo $resultat->libelle ?>" name="ver-libelle">
                     <?php
                     if ($resultat->verrouillage == 0) {
                         $verouillage = "Clôturer";
@@ -174,7 +174,7 @@ if (isset($_POST['ver-libelle'])) {
                         $verouillage = "Déclôturer";
                         $valVerrouillage = 0;
                     }
-                    echo '<input hidden value="' . $valVerrouillage . '" name="verrouillage">';
+                    echo '<input type="hidden" value="' . $valVerrouillage . '" name="verrouillage">';
                     echo '</form>';
                     if ($resultat->verrouillage != 1) {
                         echo "<tr>";

@@ -119,10 +119,10 @@ if (isset($_POST['del-reference'])) {
                     </td>
                     </tr>
                     <form action="" method="post" id="edit-form-<?php echo $resultat->reference ?>">
-                        <input hidden value="<?php echo $resultat->reference ?>" name="edit-reference">
+                        <input type="hidden" value="<?php echo $resultat->reference ?>" name="edit-reference">
                     </form>
                     <form action="" method="post" id="del-form-<?php echo $resultat->reference ?>">
-                        <input hidden value="<?php echo $resultat->reference ?>" name="del-reference">
+                        <input type="hidden" value="<?php echo $resultat->reference ?>" name="del-reference">
                     </form>
                 <?php }
                 $query->close(); ?>

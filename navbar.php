@@ -1,6 +1,6 @@
 <?php $pageName = basename($_SERVER['PHP_SELF']); ?>
 <script type="text/javascript" src="js/bootstrap.js"></script>
-<nav class="navbar navbar-expand-lg navbar-dark mb-4 shadow" style="background-color: #0024c8;">
+<nav class="navbar navbar-expand-lg navbar-dark mb-4 shadow" style="background: linear-gradient(#0031ba, #004ca9);">
     <div class="container">
         <a class="navbar-brand" href="index.php">Cahier de texte</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"

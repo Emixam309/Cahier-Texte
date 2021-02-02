@@ -160,7 +160,7 @@ if (isset($_POST['del-stagiaire'])) {
                            onclick="document.getElementById('del-stagiaire-<?php echo $resultat->idStagiaire; ?>').submit()">Supprimer</a>
                     </td>
                     <form action="" method="post" id="del-mod-<?php echo $resultat->idStagiaire ?>">
-                        <input hidden value="<?php echo $resultat->idStagiaire ?>" name="del-stagiaire">
+                        <input type="hidden" value="<?php echo $resultat->idStagiaire ?>" name="del-stagiaire">
                     </form>
                 <?php }
                 $query->close(); ?>

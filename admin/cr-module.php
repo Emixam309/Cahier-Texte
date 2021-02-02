@@ -13,9 +13,9 @@
 <?php include("navbar.php") ?>
 <div class="container">
     <h1 class="text-center mb-4">Compte Rendu par Modules</h1>
-    <form class="mb-3" action="" method="get" name="formations">
-        <div class="row">
-            <div class="col-xl-auto mx-auto mb-3">
+    <div class="row">
+        <div class="col-xl-auto mx-auto mb-3">
+            <form class="mb-3" action="" method="get" name="formations">
                 <div class="form-floating mb-3">
                     <select class="form-select" name="formation" onchange="this.form.submit()">
                         <option hidden selected>Sélectionner une formation</option>
@@ -27,7 +27,6 @@
                             echo '<option value="' . $resultat->idFormation . '"';
                             if (isset($_GET['formation'])) {
                                 if ($_GET['formation'] == $resultat->idFormation) {
-                                    $reference = $resultat->reference;
                                     echo 'selected';
                                 }
                             }
@@ -38,118 +37,137 @@
                     </select>
                     <label for="formation">Formation</label>
                 </div>
-    </form>
-    <form class="mb-3" action="" method="get" name="promotions">
-        <?php if (isset($_GET['formation'])) {
-        echo '<input type="hidden" name="formation" value="' . $_GET['formation'] . '">'; ?>
-        <div class="form-floating mb-3">
-            <select class="form-select" name="module" onchange="this.form.submit()">
-                <option hidden selected>Sélectionner un module</option>
-                <?php //Requete + verification module sélectionné
-                $query = $bdd->query('SELECT * FROM modules WHERE idFormation = ' . $_GET['formation']);
-                while ($resultat = $query->fetch_object()) {
-                    ;
-                    echo '<option value="' . $resultat->idModule . '"';
-                    if (isset($_GET['module'])) {
-                        if ($_GET['module'] == $resultat->idModule) {
-                            echo 'selected';
+            </form>
+            <form class="mb-3" action="" method="get" name="promotions">
+                <?php if (isset($_GET['formation'])) {
+                echo '<input type="hidden" name="formation" value="' . $_GET['formation'] . '">'; ?>
+                <div class="form-floating mb-3">
+                    <select class="form-select" name="module" onchange="this.form.submit()">
+                        <option hidden selected value="">Sélectionner un module</option>
+                        <?php //Requete + verification module sélectionné
+                        $query = $bdd->query('SELECT * FROM modules WHERE idFormation = ' . $_GET['formation']);
+                        while ($resultat = $query->fetch_object()) {
+                            ;
+                            echo '<option value="' . $resultat->idModule . '"';
+                            if (isset($_GET['module'])) {
+                                if ($_GET['module'] == $resultat->idModule) {
+                                    $libelle = $resultat->libelle;
+                                    echo 'selected';
+                                }
+                            }
+                            echo '>' . $resultat->libelle . '</option>';
                         }
-                    }
-                    echo '>' . $resultat->libelle . '</option>';
-                }
-                $query->close();
-                ?>
-            </select>
-            <label for="module">Module</label>
-        </div>
-        <div class="form-floating mb-3">
-            <select class="form-select" name="promotion" onchange="this.form.submit()">
-                <option hidden selected value="">Sélectionner une promotion</option>
-                <?php //Requete + verification formation sélectionnée
-                $query = $bdd->query('SELECT idPromo, libelle FROM promotions WHERE idFormation = ' . $_GET['formation'] . ' GROUP BY verrouillage, dateDebut, dateFin');
-                while ($resultat = $query->fetch_object()) {
-                    ;
-                    echo '<option value="' . $resultat->idPromo . '"';
-                    if (isset($_GET['promotion'])) {
-                        if ($_GET['promotion'] == $resultat->idPromo) {
-                            echo 'selected';
-                            $idPromo = $resultat->idPromo;
+                        $query->close();
+                        ?>
+                    </select>
+                    <label for="module">Module</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <select class="form-select" name="promotion" onchange="this.form.submit()">
+                        <option hidden selected value="">Sélectionner une promotion</option>
+                        <?php //Requete + verification formation sélectionnée
+                        $query = $bdd->query('SELECT idPromo, libelle FROM promotions WHERE idFormation = ' . $_GET['formation'] . ' GROUP BY verrouillage, dateDebut, dateFin');
+                        while ($resultat = $query->fetch_object()) {
+                            echo '<option value="' . $resultat->idPromo . '"';
+                            if (isset($_GET['promotion'])) {
+                                if ($_GET['promotion'] == $resultat->idPromo) {
+                                    echo 'selected';
+                                }
+                            }
+                            echo '>' . $resultat->libelle . '</option>';
                         }
-                    }
-                    echo '>' . $resultat->libelle . '</option>';
-                }
-                $query->close();
-                ?>
-            </select>
-            <label for="formation">Promotion</label>
+                        $query->close();
+                        ?>
+                    </select>
+                    <label for="formation">Promotion</label>
+                </div>
+            </form>
         </div>
-</div>
-<?php } if (isset($_GET['module'])) { ?>
-<div class="col-xl-auto mx-auto">
-    <div id="imprimer">
-        <?php
-        echo '<h2 class="text-center mb-3">Évènements de ' . $reference . '</h2>'
-        ?>
-        <table class="table table-striped border border-3 text-center">
-            <thead>
-            <tr>
-            <th scope="col">Num. Sem.</th>
-            <th scope="col">Formateur</th>
-            <th scope="col">Date</th>
-            <th scope="col">Durée</th>
-            <th scope="col">Contenu</th>
-            <th scope="col">Moyen</th>
-            <th scope="col">Objectif</th>
-            <th scope="col">Evaluation</th>
-            <th scope="col">Distanciel</th>
-            <th scope="col">Actions</th>
-            </tr>
-            </thead>
-            <tbody>
+        <?php } if (!empty($_GET['module'])) { ?>
+        <div class="col-xl-auto mx-auto">
             <?php
-            if (!$_GET['promotion']) {
-                $sql = 'SELECT modules.libelle AS mLibelle, compterendu.duree, nom, prenom, date, contenu, moyen, objectif, evaluation, distanciel FROM (compterendu
+            echo '<h2 class="text-center mb-3">Comptes Rendus de ' . $libelle . '</h2>';
+            ob_start() ?>
+            <table class="table table-striped border border-3 text-center">
+                <thead>
+                <tr>
+                    <th scope="col">Num. Sem.</th>
+                    <th scope="col">Formateur</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Durée</th>
+                    <th scope="col">Contenu</th>
+                    <th scope="col">Moyen</th>
+                    <th scope="col">Objectif</th>
+                    <th scope="col">Evaluation</th>
+                    <th scope="col">Distanciel</th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php
+                if (!$_GET['promotion']) {
+                    $sql = 'SELECT idCompteRendu, idFormation, idPromo, modules.idModule, modules.libelle AS mLibelle, compterendu.duree, nom, prenom, date, contenu, moyen, objectif, evaluation, distanciel FROM (compterendu
+                        INNER JOIN modules ON modules.idModule = compterendu.idModule)
+                        INNER JOIN users ON users.idUser = compterendu.idUser)
+                        INNER JOIN promotions on compterendu.idPromo = promotions.idPromo
+                        WHERE modules.idModule = ' . $_GET['module'] . ' AND verrouillage != 1 ORDER BY date, dateEntree';
+                } else {
+                    $sql = 'SELECT idCompteRendu, idFormation, idPromo, modules.idModule, modules.libelle AS mLibelle, compterendu.duree, nom, prenom, date, contenu, moyen, objectif, evaluation, distanciel FROM (compterendu
                         INNER JOIN modules ON modules.idModule = compterendu.idModule)
                         INNER JOIN users ON users.idUser = compterendu.idUser
-                        WHERE modules.idModule = ' . $_GET['module'] . ' ORDER BY date';
-            } else {
-                $sql = 'SELECT modules.libelle AS mLibelle, compterendu.duree, nom, prenom, date, contenu, moyen, objectif, evaluation, distanciel FROM (compterendu
-                        INNER JOIN modules ON modules.idModule = compterendu.idModule)
-                        INNER JOIN users ON users.idUser = compterendu.idUser
-                        WHERE modules.idModule = ' . $_GET['module'] . ' AND idPromo = ' . $_GET['promotion'] . ' ORDER BY date';
-            }
-            $query = $bdd->query($sql);
-            while ($resultat = $query->fetch_object()) {
-                echo '<tr>';
-                $date = strtotime($resultat->date);
-                echo '<th scope="row">' . date('W', $date) . '</th>';
-                echo '<td>' . $resultat->nom . ' ' . $resultat->prenom . '</td>';
-                echo '<td>' . date('d/m/Y', $date) . '</td>';
-                echo '<td>' . $resultat->duree . 'h</td>';
-                echo '<td>' . $resultat->contenu . '</td>';
-                echo '<td>' . $resultat->moyen . '</td>';
-                echo '<td>' . $resultat->objectif . '</td>';
-                echo '<td>' . $resultat->evaluation . '</td>';
-                echo '<td>';
-                if (!empty($resultat->distanciel)) {
-                    echo '✔';
+                        WHERE modules.idModule = ' . $_GET['module'] . ' AND idPromo = ' . $_GET['promotion'] . ' ORDER BY date, dateEntree';
                 }
-                echo '</td>';
-                echo '</tr>';
-
-            }
-            $query->close();
-            ?>
-            </tbody>
-        </table>
+                $query = $bdd->query($sql);
+                echo $bdd->error;
+                while ($resultat = $query->fetch_object()) {
+                    $date = strtotime($resultat->date); ?>
+                    <tr>
+                        <th scope="row"><?php echo date('W', $date) ?></th>
+                        <td><?php echo $resultat->nom . ' ' . $resultat->prenom ?></td>
+                        <td><?php echo date('d/m/Y', $date) ?></td>
+                        <td><?php echo $resultat->duree ?>h</td>
+                        <td><?php echo $resultat->contenu ?></td>
+                        <td><?php echo $resultat->moyen ?></td>
+                        <td><?php echo $resultat->objectif ?></td>
+                        <td><?php echo $resultat->evaluation ?></td>
+                        <td> <?php
+                            if (!empty($resultat->distanciel)) {
+                                echo '✔';
+                            } ?>
+                        </td>
+                        <td id="a">
+                            <a href="#"
+                               onclick="document.getElementById('edit-cr-<?php echo $resultat->idCompteRendu ?>').submit()">Modifier</a>
+                            <a href="#"
+                               onclick="document.getElementById('del-cr-<?php echo $resultat->idCompteRendu ?>').submit()">Supprimer</a>
+                        </td>
+                    </tr>
+                    <form action="compte-rendu.php" method="get"
+                          id="edit-cr-<?php echo $resultat->idCompteRendu ?>">
+                        <input type="hidden" value="<?php echo $resultat->idCompteRendu ?>" name="idCR">
+                        <input type="hidden" value="<?php echo $resultat->idFormation ?>" name="formation">
+                        <input type="hidden" value="<?php echo $resultat->idPromo ?>" name="promotion">
+                        <input type="hidden" value="<?php echo $resultat->idModule ?>" name="module">
+                    </form>
+                    <form action="" method="post"
+                          id="del-cr-<?php echo $resultat->idCompteRendu ?>">
+                        <input type="hidden" value="<?php echo $resultat->idCompteRendu ?>"
+                               name="del-compte-rendu">
+                    </form>
+                <?php }
+                $query->close(); ?>
+                </tbody>
+            </table>
+            <?php
+            $_SESSION['html'] = ob_get_contents();
+            ob_end_flush(); ?>
+            <form action="../export-cr.php" method="post">
+                <input type="hidden" value="<?php echo $libelle ?>" name="libelle">
+                <input class="btn btn-primary" type="submit" value="Exporter">
+            </form>
+        </div>
     </div>
-</div>
-</div>
-</form>
-<form>
-    <input class="btn btn-primary" type="button" value="Imprimer le tableau" onClick="imprimer()">
-</form>
-<?php } ?>
+    <?php } ?>
 </div>
 </body>
 </html>

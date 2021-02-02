@@ -2,31 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d02bc6c1-c85d-40f1-a261-9dcf1277f905" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/admin/compte-rendu.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/affectation.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/affectation.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/cr-formateur.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/cr-formateur.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/cr-formation.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/cr-formation.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/cr-module.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/cr-module.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/formateurs.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/users.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/formations.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/formations.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/index.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/modules.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/modules.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/navbar.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/navbar.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/promotions.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/promotions.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/stagiaires.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/stagiaires.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arep.png" beforeDir="false" afterPath="$PROJECT_DIR$/img/arep.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/calendrier.php" beforeDir="false" afterPath="$PROJECT_DIR$/img/calendrier.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/users.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/users.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/commentaires.php" beforeDir="false" afterPath="$PROJECT_DIR$/commentaires.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compte-rendu.php" beforeDir="false" afterPath="$PROJECT_DIR$/compte-rendu.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cr-date.php" beforeDir="false" afterPath="$PROJECT_DIR$/cr-date.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cr-formation.php" beforeDir="false" afterPath="$PROJECT_DIR$/cr-formation.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/export.php" beforeDir="false" afterPath="$PROJECT_DIR$/export-cr.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iso-9001-ukas.original.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/login.php" beforeDir="false" afterPath="$PROJECT_DIR$/login.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/export-cr.php" beforeDir="false" afterPath="$PROJECT_DIR$/export-cr.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/date-picker.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/navbar.php" beforeDir="false" afterPath="$PROJECT_DIR$/navbar.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qualiopi.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/stjo.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/img/stjo.jpg" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,12 +70,13 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/admin" />
+    <property name="settings.editor.selected.configurable" value="discord-application" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\UwAmp\www\Cahier-Texte\admin" />
       <recent name="C:\Program Files (x86)\UwAmp\www\Cahier-Texte" />
       <recent name="C:\Program Files (x86)\UwAmp\www\Cahier-Texte\admin" />
       <recent name="C:\Program Files (x86)\UwAmp\www\Cahier-Texte\" />
@@ -148,7 +141,9 @@
       <workItem from="1612163187000" duration="10171000" />
       <workItem from="1612182981749" duration="7940000" />
       <workItem from="1612249869604" duration="12357000" />
-      <workItem from="1612270459546" duration="9934000" />
+      <workItem from="1612270459546" duration="10097000" />
+      <workItem from="1612288818371" duration="7299000" />
+      <workItem from="1612302140030" duration="5044000" />
     </task>
     <task id="LOCAL-00001" summary="04/01/2021">
       <created>1609790062638</created>
@@ -192,7 +187,14 @@
       <option name="project" value="LOCAL" />
       <updated>1611929953475</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="02/02/2021">
+      <created>1612280617141</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1612280617141</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -206,7 +208,8 @@
     <MESSAGE value="14/01/2021" />
     <MESSAGE value="26/01/2021" />
     <MESSAGE value="29/01/2021" />
-    <option name="LAST_COMMIT_MESSAGE" value="29/01/2021" />
+    <MESSAGE value="02/02/2021" />
+    <option name="LAST_COMMIT_MESSAGE" value="02/02/2021" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

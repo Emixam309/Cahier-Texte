@@ -53,11 +53,16 @@ if (isset($_POST['del-com'])) {
         </div>
         <div class="col-md-6 mx-auto" style="height: 50vh; width: 60%">
             <h3 class="mb-2 text-center">Commentaires de la semaine</h3>
-            <div class="overflow-auto border p-2 rounded h-100 d-inline-block"
-                 style="width: 100%; background-color: #4591ff">
+            <div class="overflow-auto border p-2 rounded h-100 d-inline-block shadow-lg"
+                 style="width: 100%; background: linear-gradient(#3094bf, #0035ca);">
                 <?php
-                $query = $bdd->query('SELECT idCommentaire, users.idUser, nom, prenom, commentaire, dateHeure FROM commentaires
-                INNER JOIN users ON commentaires.idUser = users.idUser WHERE dateHeure > DATE_SUB(CURDATE(), INTERVAL 7 DAY) ORDER BY dateHeure DESC');
+                if (isset($_GET['formation'])) {
+                    $query = $bdd->query('SELECT idCommentaire, users.idUser, nom, prenom, commentaire, dateHeure FROM commentaires
+                INNER JOIN users ON commentaires.idUser = users.idUser WHERE dateHeure > DATE_SUB(CURDATE(), INTERVAL 7 DAY) AND idFormation = '. $_GET['formation'].' ORDER BY dateHeure DESC');
+                } else {
+                    $query = $bdd->query('SELECT idCommentaire, users.idUser, nom, prenom, commentaire, dateHeure FROM commentaires
+                INNER JOIN users ON commentaires.idUser = users.idUser WHERE dateHeure > DATE_SUB(CURDATE(), INTERVAL 7 DAY) AND idFormation IS NULL ORDER BY dateHeure DESC');
+                }
                 while ($resultat = $query->fetch_object()) { ?>
                     <div class="border p-1 my-2 rounded" style="background-color: white">
                         <div class="mx-2">
@@ -74,7 +79,7 @@ if (isset($_POST['del-com'])) {
                                     <?php if (isset($_SESSION['admin']) or $_SESSION['idUser'] == $resultat->idUser) { ?>
                                         <form action="" method="post"
                                               id="del-com-<?php echo $resultat->idCommentaire ?>">
-                                            <input hidden value="<?php echo $resultat->idCommentaire ?>" name="del-com">
+                                            <input type="hidden" value="<?php echo $resultat->idCommentaire ?>" name="del-com">
                                         </form>
                                         <a href="#"
                                            onclick="document.getElementById('del-com-<?php echo $resultat->idCommentaire; ?>').submit()">Supprimer</a>

@@ -166,10 +166,10 @@ if (isset($_POST['del-username'])) {
                            onclick="document.getElementById('del-user-<?php echo $resultat->username; ?>').submit()">Supprimer</a>
                     </td> <?php
                     echo '<form action="" method="post" id="edit-user-' . $resultat->username . '">';
-                    echo '<input hidden value="' . $resultat->username . '" name="edit-username">';
+                    echo '<input type="hidden" value="' . $resultat->username . '" name="edit-username">';
                     echo '</form>';
                     echo '<form action="" method="post" id="del-user-' . $resultat->username . '">';
-                    echo '<input hidden value="' . $resultat->username . '" name="del-username">';
+                    echo '<input type="hidden" value="' . $resultat->username . '" name="del-username">';
                     echo '</form>';
                 } ?>
                 </tbody>
