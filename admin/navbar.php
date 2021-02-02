@@ -4,6 +4,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 shadow">
     <div class="container-xl">
         <a class="navbar-brand" href="index.php">
+            <img class="rounded d-inline-block align-top" src="../img/arep.png" width="32">
             Cahier de texte - Administration</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -25,11 +26,11 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle <?php
-                    if ($pageName == 'formateurs.php' OR $pageName == 'affectation.php') echo "active"; ?>" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    if ($pageName == 'users.php' OR $pageName == 'affectation.php') echo "active"; ?>" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Formateurs
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="formateurs.php">Créations</a></li>
+                        <li><a class="dropdown-item" href="users.php">Créations</a></li>
                         <li><a class="dropdown-item" href="affectation.php">Affectation</a></li>
                     </ul>
                 </li>

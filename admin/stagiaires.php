@@ -76,7 +76,7 @@ if (isset($_POST['del-stagiaire'])) {
                     <select class="form-select" name="promotion" onchange="this.form.submit()">
                         <option hidden selected>Sélectionner une promotion</option>
                         <?php //Requete + verification formation sélectionnée
-                        $query = $bdd->query('SELECT idPromo, libelle FROM promo WHERE idFormation = ' . $_GET['formation'] . ' AND verrouillage != 1');
+                        $query = $bdd->query('SELECT idPromo, libelle FROM promotions WHERE idFormation = ' . $_GET['formation'] . ' AND verrouillage != 1');
                         while ($resultat = $query->fetch_object()) {
                             ;
                             echo '<option value="' . $resultat->idPromo . '"';
@@ -96,18 +96,20 @@ if (isset($_POST['del-stagiaire'])) {
             </form>
             <?php } if (isset($_GET['promotion'])) { ?>
             <form class="mb-3" action="" method="post" name="stagiaire">
-                <div class="row mb-3">
-                    <div class="col-md">
+                <div class="row">
+                    <div class="col-sm mb-3">
                         <div class="form-floating">
                             <input class="form-control" name="nom" type="text"
-                                   placeholder="Nom" maxlength="30" required <?php if (isset($_POST['edit-stagiaire'])) echo 'value="' . $resultEdit->nom . '"' ?>>
+                                   placeholder="Nom" maxlength="30"
+                                   required <?php if (isset($_POST['edit-stagiaire'])) echo 'value="' . $resultEdit->nom . '"' ?>>
                             <label for="nom">Nom</label>
                         </div>
                     </div>
-                    <div class="col-md">
+                    <div class="col-sm mb-3">
                         <div class="form-floating">
                             <input class="form-control" name="prenom" type="text"
-                                   placeholder="Prenom"maxlength="30" required <?php if (isset($_POST['edit-stagiaire'])) echo 'value="' . $resultEdit->prenom . '"' ?>>
+                                   placeholder="Prenom" maxlength="30"
+                                   required <?php if (isset($_POST['edit-stagiaire'])) echo 'value="' . $resultEdit->prenom . '"' ?>>
                             <label for="prenom">Prenom</label>
                         </div>
                     </div>
@@ -143,7 +145,7 @@ if (isset($_POST['del-stagiaire'])) {
                 <tr>
                     <th scope="col">Nom</th>
                     <th scope="col">Prenom</th>
-                    <th scope="col">Action</th>
+                    <th scope="col">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -156,11 +158,11 @@ if (isset($_POST['del-stagiaire'])) {
                     <td>
                         <a href="#"
                            onclick="document.getElementById('del-stagiaire-<?php echo $resultat->idStagiaire; ?>').submit()">Supprimer</a>
-                    </td> <?php
-                    echo '<form action="" method="post" id="del-stagiaire-' . $resultat->idStagiaire . '">';
-                    echo '<input hidden value="' . $resultat->idStagiaire . '" name="del-stagiaire">';
-                    echo '</form>';
-                }
+                    </td>
+                    <form action="" method="post" id="del-mod-<?php echo $resultat->idStagiaire ?>">
+                        <input hidden value="<?php echo $resultat->idStagiaire ?>" name="del-stagiaire">
+                    </form>
+                <?php }
                 $query->close(); ?>
                 </tbody>
             </table>

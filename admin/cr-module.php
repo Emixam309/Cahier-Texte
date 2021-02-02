@@ -55,7 +55,7 @@
                             echo 'selected';
                         }
                     }
-                    echo '>'. $resultat->libelle . '</option>';
+                    echo '>' . $resultat->libelle . '</option>';
                 }
                 $query->close();
                 ?>
@@ -66,7 +66,7 @@
             <select class="form-select" name="promotion" onchange="this.form.submit()">
                 <option hidden selected value="">Sélectionner une promotion</option>
                 <?php //Requete + verification formation sélectionnée
-                $query = $bdd->query('SELECT idPromo, libelle FROM promo WHERE idFormation = ' . $_GET['formation'] .' GROUP BY verrouillage, dateDebut, dateFin');
+                $query = $bdd->query('SELECT idPromo, libelle FROM promotions WHERE idFormation = ' . $_GET['formation'] . ' GROUP BY verrouillage, dateDebut, dateFin');
                 while ($resultat = $query->fetch_object()) {
                     ;
                     echo '<option value="' . $resultat->idPromo . '"';
@@ -92,6 +92,7 @@
         ?>
         <table class="table table-striped border border-3 text-center">
             <thead>
+            <tr>
             <th scope="col">Num. Sem.</th>
             <th scope="col">Formateur</th>
             <th scope="col">Date</th>
@@ -101,10 +102,12 @@
             <th scope="col">Objectif</th>
             <th scope="col">Evaluation</th>
             <th scope="col">Distanciel</th>
+            <th scope="col">Actions</th>
+            </tr>
             </thead>
             <tbody>
             <?php
-            if (!$_GET['promotion'] ) {
+            if (!$_GET['promotion']) {
                 $sql = 'SELECT modules.libelle AS mLibelle, compterendu.duree, nom, prenom, date, contenu, moyen, objectif, evaluation, distanciel FROM (compterendu
                         INNER JOIN modules ON modules.idModule = compterendu.idModule)
                         INNER JOIN users ON users.idUser = compterendu.idUser
@@ -135,6 +138,7 @@
                 echo '</tr>';
 
             }
+            $query->close();
             ?>
             </tbody>
         </table>
@@ -146,23 +150,6 @@
     <input class="btn btn-primary" type="button" value="Imprimer le tableau" onClick="imprimer()">
 </form>
 <?php } ?>
-<script type="text/javascript">
-    function imprimer() {
-        var prtContent = document.getElementById("imprimer");
-        var WinPrint = window.open('', '', 'left=0,top=0,width=1100,height=600,toolbar=0,scrollbars=0,status=0');
-        WinPrint.document.write('<link href="../css/bootstrap.css" rel="stylesheet">');
-        WinPrint.document.write(prtContent.innerHTML);
-        WinPrint.document.close();
-        WinPrint.focus();
-        WinPrint.print();
-        WinPrint.close();
-    }
-</script>
 </div>
 </body>
 </html>
-
-
-<?php
-
-?>

@@ -14,22 +14,6 @@
 <?php include("navbar.php"); ?>
 <div class="container">
     <h1>Bienvenue <?php echo $_SESSION['prenom']; ?> !</h1>
-    <a class="btn btn-primary" href="formateurs.php" title="Affiche la liste des formateurs et d'en ajouter de nouveau">Formateurs</a>
-    <div class="btn-group">
-        <a class="btn btn-primary" href="formations.php"
-           title="Affiche la liste des formations et permet d'en ajouter de nouvelle">Formations</a>
-        <a class="btn btn-primary" href="promotions.php"
-           title="Affiche la liste des promotions et permet d'en ajouter de nouvelle">Promotions</a>
-        <a class="btn btn-primary" href="stagiaires.php"
-           title="Affiche la liste des stagiaires et permet d'en ajouter de nouveaux">Stagiaires</a>
-    </div>
-    <div class="btn-group">
-        <a class="btn btn-primary" href="modules.php"
-           title="Affiche la liste des formations et permet d'en ajouter de nouvelle">Modules</a>
-        <a class="btn btn-primary" href="affectation.php"
-           title="Affiche la liste des formateurs affectés et permet d'en ajouter de nouveaux">Affectation</a>
-    </div>
-    <a class="btn btn-primary" href="cr-formation.php" title="Affiche le compte rendu par formation">Compte rendu</a>
     <?php include ("../commentaires.php"); ?>
 </div>
 </body>

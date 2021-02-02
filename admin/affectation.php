@@ -1,9 +1,9 @@
 <?php include("session.php");
 if (isset($_POST['affecter'])) {
-    $query = 'INSERT INTO formateuraffecte (idModule, idUser, heuresPrevues) VALUES (?, ?, ?)
+    $query = 'INSERT INTO affectation (idModule, idUser, idPromo, heuresPrevues) VALUES (?, ?, ?, ?)
     ON DUPLICATE KEY UPDATE heuresPrevues=?';
     $stmt = $bdd->prepare($query);
-    $stmt->bind_param("iiii", $_GET['module'], $_POST['formateur'], $_POST['nbHeures'], $_POST['nbHeures']);
+    $stmt->bind_param("iiiii", $_GET['module'], $_POST['user'], $_GET['promotion'], $_POST['nbHeures'], $_POST['nbHeures']);
     if (!$stmt->execute()) {
         printf("Erreur : %s\n", $stmt->error);
         $alertFail = "L'affectation n'a pas pu être créée ou modifiée.";
@@ -11,16 +11,16 @@ if (isset($_POST['affecter'])) {
         $alertSuccess = "L'affectation a bien été créée ou modifiée.";
     }
 }
-$title = "Ajout d'un formateur";
+$title = "Affecter un formateur";
 if (isset($_POST['edit-user'])) {
-    $query = $bdd->query('SELECT idUser, heuresPrevues FROM formateuraffecte WHERE idUser = ' . $_POST['edit-user'] . ' AND idModule = ' . $_GET['module']);
+    $query = $bdd->query('SELECT idUser, heuresPrevues FROM affectation WHERE idUser = ' . $_POST['edit-user'] . ' AND idModule = ' . $_GET['module']);
     $resultEdit = $query->fetch_object();
     $query->close();
     $title = "Modifier : ";
     $button = "Modifier";
 }
 if (isset($_POST['del-user'])) {
-    if (!$bdd->query('DELETE FROM formateuraffecte WHERE IdUser = "' . $_POST['del-user'] . '"')) {
+    if (!$bdd->query('DELETE FROM affectation WHERE IdUser = "' . $_POST['del-user'] . '"')) {
         $alertDelFail = "L'affectation n'a pas pu être supprimée.";
     } else {
         $alertDelSuccess = "L'affectation a bien été supprimée.";
@@ -44,7 +44,7 @@ if (isset($_POST['del-user'])) {
     <div class="row">
         <div class="col-md-auto mx-auto text-center mb-4">
             <h1 class="mb-4"><?php echo $title ?></h1>
-            <form class="mb-3" action="" method="get" name="formations">
+            <form action="" method="get" name="formations">
                 <div class="form-floating mb-3">
                     <select class="form-select" name="formation" onchange="this.form.submit()">
                         <option hidden selected>Sélectionner une formation</option>
@@ -66,12 +66,12 @@ if (isset($_POST['del-user'])) {
                     <label for="formation">Formation</label>
                 </div>
             </form>
-            <form class="mb-3" action="" method="get" name="modules">
+            <form action="" method="get" name="modules">
                 <?php if (isset($_GET['formation'])) {
                     echo '<input type="hidden" name="formation" value="' . $_GET['formation'] . '">';
                     /* utilisé pour affecter la valeur de formation avec le nouveau form, et pouvoir reset la valeur de module
                     au changement de formation */ ?>
-                    <div class="form-floating">
+                    <div class="form-floating mb-3">
                         <select class="form-select" name="module" onchange="this.form.submit()">
                             <option hidden selected>Sélectionner un module</option>
                             <?php //Requete + verification module sélectionné
@@ -86,8 +86,8 @@ if (isset($_POST['del-user'])) {
                                         $heuresTotal = $resultat->nbHeures;
                                     }
                                 }
-                                if ($resultat->nbHeureBon == 1) {
-                                    echo '>' . '✔ ' . $resultat->libelle . '</option>';
+                                if ($resultat->nbHeuresBon == 1) {
+                                    echo '>' . '✔' . $resultat->libelle . '</option>';
                                 } else
                                     echo '>' . $resultat->libelle . '</option>';
                             }
@@ -96,21 +96,44 @@ if (isset($_POST['del-user'])) {
                         </select>
                         <label for="module">Module</label>
                     </div>
+                <?php }
+                if (isset($_GET['module'])) { ?>
+                    <div class="form-floating mb-3">
+                        <select class="form-select" name="promotion" onchange="this.form.submit()">
+                            <option hidden selected>Sélectionner une promotion</option>
+                            <?php //Requete + verification formation sélectionnée
+                            $query = $bdd->query('SELECT idPromo, libelle FROM promotions WHERE idFormation = ' . $_GET['formation'] . ' AND verrouillage != 1');
+                            while ($resultat = $query->fetch_object()) {
+                                ;
+                                echo '<option value="' . $resultat->idPromo . '"';
+                                if (isset($_GET['promotion'])) {
+                                    if ($_GET['promotion'] == $resultat->idPromo) {
+                                        echo 'selected';
+                                        $idPromo = $resultat->idPromo;
+                                    }
+                                }
+                                echo '>' . $resultat->libelle . '</option>';
+                            }
+                            $query->close();
+                            ?>
+                        </select>
+                        <label for="formation">Promotion</label>
+                    </div>
                 <?php } ?>
             </form>
+            <?php if (isset($_GET['promotion']) AND isset($_GET['module'])) { ?>
             <form action="" method="post" name="module">
-                <?php if (isset($_GET['module'])) { ?>
                 <div class="form-floating mb-3">
-                    <select class="form-select" name="formateur">
+                    <select class="form-select" name="user">
                         <option selected hidden>Affecter un formateur</option>
                         <?php
                         if (!isset($_POST['edit-user'])) {
                             $sql = 'SELECT idUser, nom, prenom FROM users
-                        WHERE admin !=1 AND idUser NOT IN (SELECT idUser FROM formateuraffecte WHERE idModule = ' . $_GET['module'] . ')
+                        WHERE admin !=1 AND idUser NOT IN (SELECT idUser FROM affectation WHERE idModule = ' . $_GET['module'] . ')
                         GROUP BY nom, prenom';
                         } else {
                             $sql = 'SELECT idUser, nom, prenom FROM users
-                        WHERE admin !=1 AND idUser NOT IN (SELECT idUser FROM formateuraffecte WHERE idModule = ' . $_GET['module'] . ')
+                        WHERE admin !=1 AND idUser NOT IN (SELECT idUser FROM affectation WHERE idModule = ' . $_GET['module'] . ')
                         OR idUser = ' . $resultEdit->idUser . ' GROUP BY nom, prenom';
                         }
                         $query = $bdd->query($sql);
@@ -122,7 +145,7 @@ if (isset($_POST['del-user'])) {
                         $query->close();
                         ?>
                     </select>
-                    <label class="form-label" for="formateur">Formateur *</label>
+                    <label class="form-label" for="user">Formateur *</label>
                 </div>
                 <div class="mb-3">
                     <div class="mb-3 input-group">
@@ -162,13 +185,13 @@ if (isset($_POST['del-user'])) {
                     <th scope="col">Nom</th>
                     <th scope="col">Prenom</th>
                     <th scope="col">Nombre d'heures</th>
-                    <th scope="col">Action</th>
+                    <th scope="col">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 <?php
-                $query = $bdd->query('SELECT * FROM formateuraffecte
-INNER JOIN users ON users.idUser = formateuraffecte.idUser WHERE idModule = ' . $_GET['module']);
+                $query = $bdd->query('SELECT * FROM affectation
+INNER JOIN users ON users.idUser = affectation.idUser WHERE idModule = ' . $_GET['module'] . ' AND idPromo = ' . $_GET['promotion']);
                 $calculHeure = 0;
                 while ($resultat = $query->fetch_object()) {
                     echo "<tr>";
@@ -180,13 +203,14 @@ INNER JOIN users ON users.idUser = formateuraffecte.idUser WHERE idModule = ' . 
                            onclick="document.getElementById('edit-user-<?php echo $resultat->idUser; ?>').submit()">Modifier</a>
                         <a href="#"
                            onclick="document.getElementById('del-user-<?php echo $resultat->idUser; ?>').submit()">Supprimer</a>
-                    </td> <?php
-                    echo '<form action="" method="post" id="edit-user-' . $resultat->idUser . '">';
-                    echo '<input hidden value="' . $resultat->idUser . '" name="edit-user">';
-                    echo '</form>';
-                    echo '<form action="" method="post" id="del-user-' . $resultat->idUser . '">';
-                    echo '<input hidden value="' . $resultat->idUser . '" name="del-user">';
-                    echo '</form>';
+                    </td>
+                    <form action="" method="post" id="edit-user-<?php echo $resultat->idUser ?>">
+                        <input hidden value="<?php echo $resultat->idUser ?>" name="edit-user">
+                    </form>
+                    <form action="" method="post" id="del-user-<?php echo $resultat->idUser ?>">
+                        <input hidden value="<?php echo $resultat->idUser ?>" name="del-user">
+                    </form>
+                    <?php
                     $calculHeure = $calculHeure + $resultat->heuresPrevues;
                 }
                 ?>
@@ -211,9 +235,9 @@ INNER JOIN users ON users.idUser = formateuraffecte.idUser WHERE idModule = ' . 
                     <td><?php if ($calculHeure == $heuresTotal) {
                             echo "✔";
                             if (isset($_POST['affecter']))
-                                $bdd->query('UPDATE modules SET nbHeureBon = 1 WHERE idModule =  ' . $_GET['module']);
+                                $bdd->query('UPDATE modules SET nbHeuresBon = 1 WHERE idModule =  ' . $_GET['module']);
                         } elseif (isset($_POST['affecter']) or isset($_POST['edit-user']) or isset($_POST['del-user'])) {
-                            $bdd->query('UPDATE modules SET nbHeureBon = 0 WHERE idModule =  ' . $_GET['module']);
+                            $bdd->query('UPDATE modules SET nbHeuresBon = 0 WHERE idModule =  ' . $_GET['module']);
                         } ?></td>
                 </tr>
                 </tfoot>

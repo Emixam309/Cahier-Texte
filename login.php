@@ -38,7 +38,7 @@ if (isset($_POST['username'])) {
 </head>
 <style type="text/css">
     body {
-        background-image: url("stjo.jpg");
+        background-image: url("img/stjo.jpg");
         background-repeat: no-repeat;
         background-size: cover;
     }
@@ -48,13 +48,13 @@ if (isset($_POST['username'])) {
       action="login.php" method="post" name="login">
     <div class="row">
         <div class="col-md-auto mx-auto">
-            <img class="rounded" src="arep-full.png" width="250">
+            <img class="rounded" src="img/arep-full.png" width="250">
             <div class="row g-0">
                 <div class="col-md-auto">
-                    <img src="iso-9001-ukas.original.png" width="125px">
+                    <img src="img/certfication-qualite-bureau-veritas.jpg" width="125px">
                 </div>
                 <div class="col-md-auto">
-                    <img class="position-relative top-50 translate-middle-y" src="qualiopi.png" width="125px">
+                    <img class="position-relative top-50 translate-middle-y" src="img/Logo-Qualiopi.png" width="125px">
                 </div>
                             </div>
         </div>

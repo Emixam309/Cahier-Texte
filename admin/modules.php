@@ -71,8 +71,8 @@ if (isset($_POST['del-reference'])) {
             </form>
             <?php if (isset($_GET['formation'])) { ?>
             <form action="" method="post" name="module">
-                <div class="row mb-3">
-                    <div class="col-md-5">
+                <div class="row">
+                    <div class="col-md-5 mb-3">
                         <div class="form-floating">
                             <input class="form-control" name="reference" type="text" placeholder="Reference"
                                    required
@@ -80,7 +80,7 @@ if (isset($_POST['del-reference'])) {
                             <label for="reference">Reference *</label>
                         </div>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-7 mb-3">
                         <div class="form-floating">
                             <input class="form-control" name="libelle" type="text" placeholder="Nom du module"
                                    required
@@ -125,7 +125,7 @@ if (isset($_POST['del-reference'])) {
                     . $alertDelSuccess .
                     '</div>';
             } ?>
-            <table class="table table-striped border border-3">
+            <table class="table table-striped table-hover border border-3">
                 <thead>
                 <tr>
                     <th scope="col">Reference</th>
@@ -133,7 +133,7 @@ if (isset($_POST['del-reference'])) {
                     <th scope="col">Nombre d'heures</th>
                     <th scope="col">Commentaire</th>
                     <th scope="col">Affectations</th>
-                    <th scope="col">Action</th>
+                    <th scope="col">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -141,13 +141,14 @@ if (isset($_POST['del-reference'])) {
                 $query = $bdd->query('SELECT * FROM modules WHERE idFormation = ' . $_GET['formation']);
                 while ($resultat = $query->fetch_object()) {
                     echo "<tr>";
-                    echo "<td>" . $resultat->reference . "</td>";
                     echo '<td><a class="link-dark" title="Accéder à l\'affectation de ce module"
-                    href="affectation.php?formation=' . $_GET['formation'] . '&module=' . $resultat->idModule . '">' . $resultat->libelle . '</td>';
+                    href="affectation.php?formation=' . $_GET['formation'] . '&module=' . $resultat->idModule . '">' . $resultat->reference . '</a></td>';
+                    echo '<td><a class="link-dark" title="Accéder à l\'affectation de ce module"
+                    href="affectation.php?formation=' . $_GET['formation'] . '&module=' . $resultat->idModule . '">' . $resultat->libelle . '</a></td>';
                     echo "<td>" . $resultat->nbHeures . "</td>";
                     echo "<td>" . $resultat->commentaire . "</td>";
-                    echo '<td>';
-                    if ($resultat->nbHeureBon == 1) {
+                    echo "<td>";
+                    if ($resultat->nbHeuresBon == 1) {
                         echo '✔';
                     } else {
                         echo '<a style="text-decoration: none;" title="Accéder à l\'affectation de ce module" href="affectation.php?formation=' . $_GET['formation'] . '&module=' . $resultat->idModule . '">❌</a>';
@@ -160,18 +161,18 @@ if (isset($_POST['del-reference'])) {
                            onclick="document.getElementById('del-mod-<?php echo $resultat->reference; ?>').submit()">Supprimer</a>
                     </td>
                     </tr>
-                    <?php
-                    echo '<form action="" method="post" id="edit-mod-' . $resultat->reference . '">';
-                    echo '<input hidden value="' . $resultat->reference . '" name="edit-reference">';
-                    echo '</form>';
-                    echo '<form action="" method="post" id="del-mod-' . $resultat->reference . '">';
-                    echo '<input hidden value="' . $resultat->reference . '" name="del-reference">';
-                    echo '</form>';
-                } ?>
+                    <form action="" method="post" id="edit-mod-<?php echo $resultat->reference ?>">
+                        <input hidden value="<?php echo $resultat->reference ?>" name="edit-reference">
+                    </form>
+                    <form action="" method="post" id="del-mod-<?php echo $resultat->reference ?>">
+                        <input hidden value="<?php echo $resultat->reference ?>" name="del-reference">
+                    </form>
+                <?php } ?>
                 </tbody>
             </table>
         </div>
         <?php } ?>
     </div>
+</div>
 </body>
 </html>

@@ -3,7 +3,7 @@ if (isset($_POST['promotion'])) {
     $dateDebut = date("Y-m-d", strtotime($_POST['dateDebut']));
     $dateFin = date("Y-m-d", strtotime($_POST['dateFin']));
     if ($dateDebut <= $dateFin) {
-        $query = 'INSERT INTO promo (libelle, dateDebut, dateFin, idFormation) VALUES (?, ?, ?, ?)
+        $query = 'INSERT INTO promotions (libelle, dateDebut, dateFin, idFormation) VALUES (?, ?, ?, ?)
     ON DUPLICATE KEY UPDATE dateDebut=?, dateFin=?';
         $stmt = $bdd->prepare($query);
         $stmt->bind_param("sssiss", $_POST['libelle'], $_POST['dateDebut'], $_POST['dateFin'], $_GET['formation'], $_POST['dateDebut'], $_POST['dateFin']);
@@ -17,21 +17,21 @@ if (isset($_POST['promotion'])) {
 }
 $title = "Ajout de Promotions";
 if (isset($_POST['edit-libelle'])) {
-    $query = $bdd->query('SELECT * FROM promo WHERE libelle = "' . $_POST['edit-libelle'] . '"');
+    $query = $bdd->query('SELECT * FROM promotions WHERE libelle = "' . $_POST['edit-libelle'] . '"');
     $resultEdit = $query->fetch_object();
     $query->close();
     $title = "Modifier : " . $resultEdit->libelle;
     $button = "Modifier";
 }
 if (isset($_POST['del-libelle'])) {
-    if (!$bdd->query('DELETE FROM promo WHERE libelle = "' . $_POST['del-libelle'] . '"')) {
+    if (!$bdd->query('DELETE FROM promotions WHERE libelle = "' . $_POST['del-libelle'] . '"')) {
         $alertDelFail = "La promotion n'a pas pu être supprimée.";
     } else {
         $alertDelSuccess = "La promotion a bien été supprimée.";
     }
 }
 if (isset($_POST['ver-libelle'])) {
-    if (!$bdd->query('UPDATE promo SET verrouillage = ' . $_POST['verrouillage'] . ' WHERE libelle = "' . $_POST['ver-libelle'] . '"')) {
+    if (!$bdd->query('UPDATE promotions SET verrouillage = ' . $_POST['verrouillage'] . ' WHERE libelle = "' . $_POST['ver-libelle'] . '"')) {
         $alertVerFail = "La promotion n'a pas pu être clôturée.";
     } else {
         if ($_POST['verrouillage'] == 1) {
@@ -90,8 +90,8 @@ if (isset($_POST['ver-libelle'])) {
                         else echo 'value="' . $reference . ' "'; ?> maxlength="30" required>
                     <label for="libelle">Référence</label>
                 </div>
-                <div class="row mb-3">
-                    <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
                         <div class="form-floating">
                             <input class="form-control" name="dateDebut"
                                    type="date"
@@ -99,7 +99,7 @@ if (isset($_POST['ver-libelle'])) {
                             <label for="DateDebut">Date de début</label>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 mb-3">
                         <div class="form-floating">
                             <input class="form-control" name="dateFin"
                                    type="date"
@@ -142,27 +142,31 @@ if (isset($_POST['ver-libelle'])) {
                     . $alertVerSuccess .
                     '</div>';
             } ?>
-            <table class="table table-striped border border-3 text-center">
+            <table class="table table-striped table-hover border border-3 text-center">
                 <thead>
                 <tr>
                     <th scope="col">Référence</th>
                     <th scope="col">Date de début</th>
                     <th scope="col">Date de fin</th>
-                    <th scope="col">Action</th>
+                    <th scope="col">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 <?php
-                $query = $bdd->query('SELECT libelle, dateDebut, dateFin, verrouillage FROM promo WHERE idFormation = ' . $_GET['formation'] . ' GROUP BY verrouillage, dateDebut, dateFin');
-                while ($resultat = $query->fetch_object()) {
-                    echo '<form action="" method="post" id="edit-promo-' . $resultat->libelle . '">';
-                    echo '<input hidden value="' . $resultat->libelle . '" name="edit-libelle">';
-                    echo '</form>';
-                    echo '<form action="" method="post" id="del-promo-' . $resultat->libelle . '">';
-                    echo '<input hidden value="' . $resultat->libelle . '" name="del-libelle">';
-                    echo '</form>';
-                    echo '<form action="" method="post" id="ver-promo-' . $resultat->libelle . '">';
-                    echo '<input hidden value="' . $resultat->libelle . '" name="ver-libelle">';
+                $query = $bdd->query('SELECT idPromo, libelle, DATE_FORMAT(dateDebut, "%d/%m/%Y") as dateD, DATE_FORMAT(dateFin, "%d/%m/%Y") as dateF, verrouillage FROM promotions WHERE idFormation = ' . $_GET['formation'] . ' GROUP BY verrouillage, dateDebut, dateFin');
+                while ($resultat = $query->fetch_object()) { ?>
+                    <form action="" method="post"
+                          id="edit-promo-<?php echo $resultat->libelle ?>">
+                        <input hidden value="<?php echo $resultat->libelle ?>" name="edit-libelle">
+                    </form>
+                    <form action="" method="post"
+                          id="del-promo-<?php echo $resultat->libelle ?>">
+                        <input hidden value="<?php echo $resultat->libelle ?>" name="del-libelle">
+                    </form>
+                    <form action="" method="post"
+                          id="ver-promo-<?php echo $resultat->libelle ?>">
+                        <input hidden value="<?php echo $resultat->libelle ?>" name="ver-libelle">
+                    <?php
                     if ($resultat->verrouillage == 0) {
                         $verouillage = "Clôturer";
                         $valVerrouillage = 1;
@@ -175,13 +179,12 @@ if (isset($_POST['ver-libelle'])) {
                     if ($resultat->verrouillage != 1) {
                         echo "<tr>";
                     } else {
-                        echo '<tr class="table-secondary">';
+                        echo '<tr class="table-active">';
                     }
-                    echo "<td>" . $resultat->libelle . "</td>";
-                    $date = strtotime($resultat->dateDebut);
-                    echo "<td>" . date('d/m/Y', $date) . "</td>";
-                    $date = strtotime($resultat->dateFin);
-                    echo "<td>" . date('d/m/Y', $date) . "</td>"; ?>
+                    echo '<td><a class="link-dark" title="Accéder à l\'affectation de ce module"
+                    href="stagiaires.php?formation=' . $_GET['formation'] . '&promotion=' . $resultat->idPromo . '">' . $resultat->libelle . '</a></td>';
+                    echo "<td>" . $resultat->dateD . "</td>";
+                    echo "<td>" . $resultat->dateF . "</td>"; ?>
                     <td>
                         <a href="#"
                            onclick="document.getElementById('ver-promo-<?php echo $resultat->libelle; ?>').submit()"><?php echo $verouillage ?></a>
@@ -191,7 +194,8 @@ if (isset($_POST['ver-libelle'])) {
                            onclick="document.getElementById('del-promo-<?php echo $resultat->libelle; ?>').submit()">Supprimer</a>
                     </td>
                     </tr>
-                <?php } ?>
+                <?php }
+                $query->close();?>
                 </tbody>
             </table>
         </div>

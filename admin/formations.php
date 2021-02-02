@@ -1,7 +1,7 @@
 <?php include("session.php");
 if (isset($_POST['formation'])) {
     $query = 'INSERT INTO formations (libelle, reference, duree) VALUES (?, ?, ?)
-    ON DUPLICATE KEY UPDATE reference=?, duree=?';
+    ON DUPLICATE KEY UPDATE libelle=?, duree=?';
     $stmt = $bdd->prepare($query);
     $stmt->bind_param("ssisi", $_POST['libelle'], $_POST['reference'], $_POST['duree'], $_POST['reference'], $_POST['duree']);
     if (!$stmt->execute()) {
@@ -44,18 +44,20 @@ if (isset($_POST['del-reference'])) {
         <div class="col-xl-auto mx-auto text-center"> <!--Formulaire de création d'une formation-->
             <h1 class="px-5"><?php echo $title ?></h1>
             <form action="" method="post" name="formation">
-                <div class="row mb-3">
-                    <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
                         <div class="form-floating">
                             <input class="form-control" name="reference" type="text" placeholder="Référence"
-                                   required maxlength="20" <?php if (isset($_POST['edit-reference'])) echo 'readonly value="' . $resultEdit->reference . '"' ?>>
+                                   required
+                                   maxlength="20" <?php if (isset($_POST['edit-reference'])) echo 'readonly value="' . $resultEdit->reference . '"' ?>>
                             <label for="reference">Référence *</label>
                         </div>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-8 mb-3">
                         <div class="form-floating">
                             <input class="form-control" name="libelle" type="text" placeholder="Nom de la formation"
-                                   required maxlength="100" <?php if (isset($_POST['edit-reference'])) echo 'value="' . $resultEdit->libelle . '"' ?>>
+                                   required
+                                   maxlength="100" <?php if (isset($_POST['edit-reference'])) echo 'value="' . $resultEdit->libelle . '"' ?>>
                             <label for="libelle">Nom de la formation *</label>
                         </div>
                     </div>
@@ -90,22 +92,24 @@ if (isset($_POST['del-reference'])) {
                     . $alertDelSuccess .
                     '</div>';
             } ?>
-            <table class="table table-striped border border-3 text-center">
+            <table class="table table-striped table-hover border border-3 text-center">
                 <thead>
                 <tr>
                     <th scope="col">Référence</th>
                     <th scope="col">Nom</th>
                     <th scope="col">Durée</th>
-                    <th scope="col">Action</th>
+                    <th scope="col">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 <?php
-                $query = $bdd->query('SELECT reference, libelle, duree FROM formations');
+                $query = $bdd->query('SELECT * FROM formations');
                 while ($resultat = $query->fetch_object()) {
                     echo "<tr>";
-                    echo "<td>" . $resultat->reference . "</td>";
-                    echo "<td>" . $resultat->libelle . "</td>";
+                    echo '<td><a class="link-dark" title="Accéder aux modules de cette formation"
+                    href="modules.php?formation=' . $resultat->idFormation . '">' . $resultat->reference . "</a></td>";
+                    echo '<td><a class="link-dark" title="Accéder aux modules de cette formation"
+                    href="modules.php?formation=' . $resultat->idFormation . '">' . $resultat->libelle . '</a></td>';
                     echo "<td>" . $resultat->duree . " mois</td>"; ?>
                     <td>
                         <a href="#"
@@ -114,14 +118,14 @@ if (isset($_POST['del-reference'])) {
                            onclick="document.getElementById('del-form-<?php echo $resultat->reference; ?>').submit()">Supprimer</a>
                     </td>
                     </tr>
-                    <?php
-                    echo '<form action="" method="post" id="edit-form-' . $resultat->reference . '">';
-                    echo '<input hidden value="' . $resultat->reference . '" name="edit-reference">';
-                    echo '</form>';
-                    echo '<form action="" method="post" id="del-form-' . $resultat->reference . '">';
-                    echo '<input hidden value="' . $resultat->reference . '" name="del-reference">';
-                    echo '</form>';
-                } ?>
+                    <form action="" method="post" id="edit-form-<?php echo $resultat->reference ?>">
+                        <input hidden value="<?php echo $resultat->reference ?>" name="edit-reference">
+                    </form>
+                    <form action="" method="post" id="del-form-<?php echo $resultat->reference ?>">
+                        <input hidden value="<?php echo $resultat->reference ?>" name="del-reference">
+                    </form>
+                <?php }
+                $query->close(); ?>
 
                 </tbody>
             </table>

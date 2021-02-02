@@ -1,17 +1,19 @@
 <?php include("session.php");
-if (isset($_POST['formateur'])) {
-    $query = 'INSERT INTO users (username, password, nom, prenom, specialite, mail, telephone) VALUES (?, ?, ?, ?, ?, ?, ?)
+if (isset($_POST['user'])) {
+    $query = 'INSERT INTO users (username, password, nom, prenom, specialite, mail, telephone, admin) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     ON DUPLICATE KEY UPDATE password=?, nom=?, prenom=?, specialite=?, mail=?, telephone=?';
     $stmt = $bdd->prepare($query);
-    $stmt->bind_param("sssssssssssss", $_POST['id'], $_POST['password'], $_POST['nom'], $_POST['prenom'], $_POST['specialite'], $_POST['email'], $_POST['telephone'], $_POST['password'], $_POST['nom'], $_POST['prenom'], $_POST['specialite'], $_POST['email'], $_POST['telephone']);
+    $stmt->bind_param("sssssssissssss", $_POST['id'], $_POST['password'], $_POST['nom'], $_POST['prenom'],
+        $_POST['specialite'], $_POST['email'], $_POST['telephone'], $_POST['admin'], $_POST['password'], $_POST['nom'],
+        $_POST['prenom'], $_POST['specialite'], $_POST['email'], $_POST['telephone']);
     if (!$stmt->execute()) {
         printf("Erreur : %s\n", $stmt->error);
-        $alertFail = "Le formateur n'a pas pu être ajouté ou modifié.";
+        $alertFail = "L'utilisateur n'a pas pu être ajouté ou modifié.";
     } else {
-        $alertSuccess = "Le formateur a bien été ajouté ou modifié.";
+        $alertSuccess = "L'utilisateur a bien été ajouté ou modifié.";
     }
 }
-$title = "Ajout d'un formateur";
+$title = "Ajout d'un utilisateur";
 if (isset($_POST['edit-username'])) {
     $query = $bdd->query('SELECT nom, prenom, username, password, specialite, mail, telephone FROM users WHERE username = "' . $_POST['edit-username'] . '"');
     $resultEdit = $query->fetch_object();
@@ -21,9 +23,9 @@ if (isset($_POST['edit-username'])) {
 }
 if (isset($_POST['del-username'])) {
     if (!$bdd->query('DELETE FROM users WHERE username = "' . $_POST['del-username'] . '"')) {
-        $alertDelFail = "Le formateur n'a pas pu être supprimé.";
+        $alertDelFail = "L'utilisateur n'a pas pu être supprimé.";
     } else {
-        $alertDelSuccess = "Le formateur a bien été supprimé.";
+        $alertDelSuccess = "L'utilisateur a bien été supprimé.";
     }
 }
 ?>
@@ -35,17 +37,17 @@ if (isset($_POST['del-username'])) {
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="../css/bootstrap.css" rel="stylesheet">
-    <title>Formateurs</title>
+    <title>Utilisateurs</title>
 </head>
 <body>
 <?php include("navbar.php"); ?>
 <div class="container">
     <div class="row">
-        <div class="col-xl-auto mx-auto text-center"> <!--Formulaire de création d'un formateur-->
+        <div class="col-xl-auto mx-auto text-center"> <!--Formulaire de création d'un utilisateur-->
             <h1 class="mb-4"><?php echo $title ?></h1>
-            <form class="mb-3" action="" method="post" name="formateur">
-                <div class="row mb-3">
-                    <div class="col-md">
+            <form class="mb-3" action="" method="post" name="user">
+                <div class="row">
+                    <div class="col-sm mb-3">
                         <div class="form-floating">
                             <input class="form-control" name="nom" type="text"
                                    placeholder="Nom" maxlength="30"
@@ -53,7 +55,7 @@ if (isset($_POST['del-username'])) {
                             <label for="nom">Nom *</label>
                         </div>
                     </div>
-                    <div class="col-md">
+                    <div class="col-sm mb-3">
                         <div class="form-floating">
                             <input class="form-control" name="prenom" type="text"
                                    placeholder="Prenom" maxlength="30"
@@ -79,20 +81,33 @@ if (isset($_POST['del-username'])) {
                            maxlength="60" <?php if (isset($_POST['edit-username'])) echo 'value="' . $resultEdit->specialite . '"' ?>>
                     <label for="specialite">Spécialité</label>
                 </div>
-                <div class="form-floating mb-3">
-                    <input class="form-control" name="email" type="email"
-                           placeholder="exemple@exemple.com"
-                           maxlength="30" <?php if (isset($_POST['edit-username'])) echo 'value="' . $resultEdit->mail . '"' ?>>
-                    <label for="email">Mail</label>
+                <div class="row">
+                    <div class="col-sm-7">
+                        <div class="form-floating mb-3">
+                            <input class="form-control" name="email" type="email"
+                                   placeholder="exemple@exemple.com"
+                                   maxlength="30" <?php if (isset($_POST['edit-username'])) echo 'value="' . $resultEdit->mail . '"' ?>>
+                            <label for="email">Mail</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="form-floating mb-3">
+                            <input class="form-control" name="telephone" type="tel" placeholder="Numéro de téléphone"
+                                   pattern="[0-9]{10}"
+                                   maxlength="10" <?php if (isset($_POST['edit-username'])) echo 'value="' . $resultEdit->telephone . '"' ?>>
+                            <label for="email">Téléphone</label>
+                        </div>
+                    </div>
                 </div>
                 <div class="form-floating mb-3">
-                    <input class="form-control" name="telephone" type="tel" placeholder="Numéro de téléphone"
-                           pattern="[0-9]{10}"
-                           maxlength="10" <?php if (isset($_POST['edit-username'])) echo 'value="' . $resultEdit->telephone . '"' ?>>
-                    <label for="email">Téléphone</label>
+                    <select class="form-select" name="admin">
+                        <option value="1">Administrateur</option>
+                        <option value="0" selected>Formateur</option>
+                    </select>
+                    <label for="admin">Niveau</label>
                 </div>
                 <p>Les champs indiqués par une * sont obligatoires</p>
-                <input class="btn btn-primary" type="submit" value="<?php echo $button ?>" name="formateur">
+                <input class="btn btn-primary" type="submit" value="<?php echo $button ?>" name="user">
             </form>
             <?php if (!empty($alertSuccess)) {
                 echo '<div class="mt-3 alert alert-success text-center">'
@@ -106,7 +121,7 @@ if (isset($_POST['del-username'])) {
             ?>
         </div>
         <div class="col-xl-auto mx-auto">
-            <h1 class="text-center mb-4">Liste des formateurs</h1>
+            <h1 class="text-center mb-4">Liste des utilisateurs</h1>
             <?php if (!empty($alertDelFail)) {
                 echo '<div class="mt-3 alert alert-danger text-center">'
                     . $alertDelFail .
@@ -116,7 +131,7 @@ if (isset($_POST['del-username'])) {
                     . $alertDelSuccess .
                     '</div>';
             } ?>
-            <!--Tableau de la liste des Formateurs-->
+            <!--Tableau de la liste des Utilisateurs-->
             <table class="table table-striped border border-3 text-center">
                 <thead>
                 <tr>
@@ -126,14 +141,18 @@ if (isset($_POST['del-username'])) {
                     <th scope="col">Spécialité</th>
                     <th scope="col">Mail</th>
                     <th scope="col">Téléphone</th>
-                    <th scope="col">Action</th>
+                    <th scope="col">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 <?php
-                $query = $bdd->query('SELECT nom, prenom, username, specialite, mail, telephone FROM users WHERE admin != 1 GROUP BY nom, prenom');
+                $query = $bdd->query('SELECT nom, prenom, username, specialite, mail, telephone, admin FROM users ORDER BY admin DESC, nom, prenom');
                 while ($resultat = $query->fetch_object()) {
-                    echo "<tr>";
+                    if ($resultat->admin == 1) {
+                        echo '<tr class="table-primary">';
+                    } else {
+                        echo '<tr>';
+                    }
                     echo "<td>" . $resultat->nom . "</td>";
                     echo "<td>" . $resultat->prenom . "</td>";
                     echo "<td>" . $resultat->username . "</td>";
@@ -155,6 +174,7 @@ if (isset($_POST['del-username'])) {
                 } ?>
                 </tbody>
             </table>
+            <p class="text-center">Les utilisateurs surlignés en bleu sont Administrateurs.</p>
         </div>
     </div>
 </div>
