@@ -2,11 +2,12 @@
 if (isset($_POST['promotion'])) {
     $dateDebut = date("Y-m-d", strtotime($_POST['dateDebut']));
     $dateFin = date("Y-m-d", strtotime($_POST['dateFin']));
+    $libelle = $_POST['reference'] . ' ' . $_POST['libelle'];
     if ($dateDebut <= $dateFin) {
         $query = 'INSERT INTO promotions (libelle, dateDebut, dateFin, idFormation) VALUES (?, ?, ?, ?)
     ON DUPLICATE KEY UPDATE dateDebut=?, dateFin=?';
         $stmt = $bdd->prepare($query);
-        $stmt->bind_param("sssiss", $_POST['libelle'], $_POST['dateDebut'], $_POST['dateFin'], $_GET['formation'], $_POST['dateDebut'], $_POST['dateFin']);
+        $stmt->bind_param("sssiss", $libelle, $_POST['dateDebut'], $_POST['dateFin'], $_GET['formation'], $_POST['dateDebut'], $_POST['dateFin']);
         if (!$stmt->execute()) {
             printf("Erreur : %s\n", $stmt->error);
             $alertFail = "La promotion n'a pas pu être ajoutée ou modifiée.";
@@ -84,11 +85,13 @@ if (isset($_POST['ver-libelle'])) {
             </form>
             <?php if (isset($_GET['formation'])) { ?>
             <form action="" method="post" name="promotion">
-                <div class="form-floating mb-3">
-                    <input class="form-control" name="libelle" type="text" placeholder="Référence de la promotion"
-                        <?php if (isset($_POST['edit-libelle'])) echo 'readonly value="' . $resultEdit->libelle . '"';
-                        else echo 'value="' . $reference . ' "'; ?> maxlength="30" required>
-                    <label for="libelle">Référence</label>
+                <div class="text-start">
+                    <label for="libelle">Dénomination de la promotion</label>
+                    <div class="input-group mb-3">
+                        <input type="hidden" name="reference" value="<?php echo $reference ?>">
+                        <span class="input-group-text"><?php echo $reference ?></span>
+                        <input type="text" class="form-control" name="libelle" placeholder="Personnalisation">
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6 mb-3">
@@ -142,49 +145,47 @@ if (isset($_POST['ver-libelle'])) {
                     . $alertVerSuccess .
                     '</div>';
             } ?>
-            <table class="table table-striped table-hover border border-3 text-center">
+            <table class="table table-hover border border-3 text-center">
                 <thead>
                 <tr>
                     <th scope="col">Référence</th>
                     <th scope="col">Date de début</th>
                     <th scope="col">Date de fin</th>
-                    <th scope="col">Actions</th>
+                    <th scope="col">Action</th>
                 </tr>
                 </thead>
                 <tbody>
                 <?php
                 $query = $bdd->query('SELECT idPromo, libelle, DATE_FORMAT(dateDebut, "%d/%m/%Y") as dateD, DATE_FORMAT(dateFin, "%d/%m/%Y") as dateF, verrouillage FROM promotions WHERE idFormation = ' . $_GET['formation'] . ' GROUP BY verrouillage, dateDebut, dateFin');
                 while ($resultat = $query->fetch_object()) { ?>
-                    <form action="" method="post"
-                          id="edit-promo-<?php echo $resultat->libelle ?>">
+                    <form action="" method="post" id="edit-promo-<?php echo $resultat->libelle ?>">
                         <input type="hidden" value="<?php echo $resultat->libelle ?>" name="edit-libelle">
                     </form>
-                    <form action="" method="post"
-                          id="del-promo-<?php echo $resultat->libelle ?>">
+                    <form action="" method="post" id="del-promo-<?php echo $resultat->libelle ?>">
                         <input type="hidden" value="<?php echo $resultat->libelle ?>" name="del-libelle">
                     </form>
-                    <form action="" method="post"
-                          id="ver-promo-<?php echo $resultat->libelle ?>">
+                    <form action="" method="post" id="ver-promo-<?php echo $resultat->libelle ?>">
                         <input type="hidden" value="<?php echo $resultat->libelle ?>" name="ver-libelle">
-                    <?php
-                    if ($resultat->verrouillage == 0) {
-                        $verouillage = "Clôturer";
-                        $valVerrouillage = 1;
-                    } else {
-                        $verouillage = "Déclôturer";
-                        $valVerrouillage = 0;
-                    }
-                    echo '<input type="hidden" value="' . $valVerrouillage . '" name="verrouillage">';
-                    echo '</form>';
+                        <?php
+                        if ($resultat->verrouillage == 0) {
+                            $verouillage = "Clôturer";
+                            $valVerrouillage = 1;
+                        } else {
+                            $verouillage = "Déclôturer";
+                            $valVerrouillage = 0;
+                        } ?>
+                        <input type="hidden" value="<?php echo $valVerrouillage ?>" name="verrouillage">
+                    </form> <?php
                     if ($resultat->verrouillage != 1) {
                         echo "<tr>";
                     } else {
                         echo '<tr class="table-active">';
-                    }
-                    echo '<td><a class="link-dark" title="Accéder à l\'affectation de ce module"
-                    href="stagiaires.php?formation=' . $_GET['formation'] . '&promotion=' . $resultat->idPromo . '">' . $resultat->libelle . '</a></td>';
-                    echo "<td>" . $resultat->dateD . "</td>";
-                    echo "<td>" . $resultat->dateF . "</td>"; ?>
+                    } ?>
+                    <td><a class="link-dark" title="Accéder à l'affectation de ce module"
+                           href="stagiaires.php?formation=<?php echo $_GET['formation'] . '&promotion=' . $resultat->idPromo ?>"><?php echo $resultat->libelle ?></a>
+                    </td>
+                    <td><?php echo $resultat->dateD ?></td>
+                    <td><?php echo $resultat->dateF ?></td>
                     <td>
                         <a href="#"
                            onclick="document.getElementById('ver-promo-<?php echo $resultat->libelle; ?>').submit()"><?php echo $verouillage ?></a>
@@ -195,7 +196,7 @@ if (isset($_POST['ver-libelle'])) {
                     </td>
                     </tr>
                 <?php }
-                $query->close();?>
+                $query->close(); ?>
                 </tbody>
             </table>
         </div>

@@ -1,4 +1,12 @@
-<?php include("session.php"); ?>
+<?php include("session.php");
+if (isset($_POST['del-compte-rendu'])) {
+    if (!$bdd->query('DELETE FROM compterendu WHERE idCompteRendu = "' . $_POST['del-compte-rendu'] . '"')) {
+        printf("Erreur : %s\n", $bdd->error);
+        $alertDelFail = "Le compte rendu n'a pas pu être supprimé.";
+    } else {
+        $alertDelSuccess = "Le compte rendu a bien été supprimé.";
+    }
+} ?>
 <!doctype html>
 <html lang="fr">
 <head>
@@ -7,12 +15,12 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="../css/bootstrap.css" rel="stylesheet">
-    <title>Compte Rendu</title>
+    <titleCahier de Texte/title>
 </head>
 <body>
 <?php include("navbar.php") ?>
 <div class="container">
-    <h1 class="text-center mb-4">Compte Rendu par Modules</h1>
+    <h1 class="text-center mb-4">Cahier de Texte par Modules</h1>
     <div class="row">
         <div class="col-xl-auto mx-auto mb-3">
             <form class="mb-3" action="" method="get" name="formations">
@@ -51,7 +59,7 @@
                             echo '<option value="' . $resultat->idModule . '"';
                             if (isset($_GET['module'])) {
                                 if ($_GET['module'] == $resultat->idModule) {
-                                    $libelle = $resultat->libelle;
+                                    $reference = $resultat->reference;
                                     echo 'selected';
                                 }
                             }
@@ -64,13 +72,14 @@
                 </div>
                 <div class="form-floating mb-3">
                     <select class="form-select" name="promotion" onchange="this.form.submit()">
-                        <option hidden selected value="">Sélectionner une promotion</option>
+                        <option selected value="">Promotions non clôturées</option>
                         <?php //Requete + verification formation sélectionnée
                         $query = $bdd->query('SELECT idPromo, libelle FROM promotions WHERE idFormation = ' . $_GET['formation'] . ' GROUP BY verrouillage, dateDebut, dateFin');
                         while ($resultat = $query->fetch_object()) {
                             echo '<option value="' . $resultat->idPromo . '"';
                             if (isset($_GET['promotion'])) {
                                 if ($_GET['promotion'] == $resultat->idPromo) {
+                                    $libelle = $resultat->libelle;
                                     echo 'selected';
                                 }
                             }
@@ -86,7 +95,7 @@
         <?php } if (!empty($_GET['module'])) { ?>
         <div class="col-xl-auto mx-auto">
             <?php
-            echo '<h2 class="text-center mb-3">Comptes Rendus de ' . $libelle . '</h2>';
+            echo '<h2 class="text-center mb-3">Cahier de Texte de ' . $reference . '</h2>';
             ob_start() ?>
             <table class="table table-striped border border-3 text-center">
                 <thead>
@@ -100,13 +109,13 @@
                     <th scope="col">Objectif</th>
                     <th scope="col">Evaluation</th>
                     <th scope="col">Distanciel</th>
-                    <th scope="col">Actions</th>
+                    <th scope="col">Action</th>
                 </tr>
                 </thead>
                 <tbody>
                 <?php
-                if (!$_GET['promotion']) {
-                    $sql = 'SELECT idCompteRendu, idFormation, idPromo, modules.idModule, modules.libelle AS mLibelle, compterendu.duree, nom, prenom, date, contenu, moyen, objectif, evaluation, distanciel FROM (compterendu
+                if (empty($_GET['promotion'])) {
+                    $sql = 'SELECT idCompteRendu, promotions.idFormation, promotions.idPromo, modules.idModule, modules.libelle AS mLibelle, compterendu.duree, nom, prenom, date, contenu, moyen, objectif, evaluation, distanciel FROM ((compterendu
                         INNER JOIN modules ON modules.idModule = compterendu.idModule)
                         INNER JOIN users ON users.idUser = compterendu.idUser)
                         INNER JOIN promotions on compterendu.idPromo = promotions.idPromo
@@ -142,7 +151,7 @@
                                onclick="document.getElementById('del-cr-<?php echo $resultat->idCompteRendu ?>').submit()">Supprimer</a>
                         </td>
                     </tr>
-                    <form action="compte-rendu.php" method="get"
+                    <form action="compte-rendu.php" method="post"
                           id="edit-cr-<?php echo $resultat->idCompteRendu ?>">
                         <input type="hidden" value="<?php echo $resultat->idCompteRendu ?>" name="idCR">
                         <input type="hidden" value="<?php echo $resultat->idFormation ?>" name="formation">
@@ -162,8 +171,12 @@
             $_SESSION['html'] = ob_get_contents();
             ob_end_flush(); ?>
             <form action="../export-cr.php" method="post">
-                <input type="hidden" value="<?php echo $libelle ?>" name="libelle">
-                <input class="btn btn-primary" type="submit" value="Exporter">
+                <?php if (empty($_GET['promotion'])) { ?>
+                    <input type="hidden" value="<?php echo 'de ' . $reference ?>" name="libelle">
+                <?php } else { ?>
+                    <input type="hidden" value="<?php echo 'de ' . $reference . ' pour ' . $libelle ?>" name="libelle">
+                <?php } ?>
+                <input class="btn btn-primary" type="submit" value="Exporter en PDF">
             </form>
         </div>
     </div>

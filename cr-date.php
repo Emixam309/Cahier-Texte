@@ -1,4 +1,12 @@
-<?php include("session.php"); ?>
+<?php include("session.php");
+if (isset($_POST['del-compte-rendu'])) {
+    if (!$bdd->query('DELETE FROM compterendu WHERE idCompteRendu = "' . $_POST['del-compte-rendu'] . '"')) {
+        printf("Erreur : %s\n", $bdd->error);
+        $alertDelFail = "Le compte rendu n'a pas pu être supprimé.";
+    } else {
+        $alertDelSuccess = "Le compte rendu a bien été supprimé.";
+    }
+} ?>
 <!doctype html>
 <html lang="fr">
 <head>
@@ -7,15 +15,15 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="css/bootstrap.css" rel="stylesheet">
-    <title>Compte Rendu</title>
+    <titleCahier de Texte/title>
 </head>
 <body>
 <?php include("navbar.php") ?>
 <div class="container">
-    <h1 class="text-center mb-4">Compte Rendu par Dates</h1>
-    <form class="" action="" method="get">
-        <div class="row">
-            <div class="col-sm-auto mx-auto mb-3">
+    <h1 class="text-center mb-4">Cahier de Texte par Dates</h1>
+    <div class="row">
+        <div class="col-sm-auto mx-auto mb-3">
+            <form class="" action="" method="get">
                 <div class="form-floating mb-3">
                     <input class="form-control" name="date" type="date">
                     <label for="date">Date</label>
@@ -23,73 +31,88 @@
                 <div class="text-center">
                     <input class="btn btn-primary" type="submit">
                 </div>
-            </div>
-    </form>
-    <?php if (isset($_GET['date'])) { ?>
-        <div class="col-xl-auto mx-auto">
-            <?php
-            $date = strtotime($_GET['date']);
-            echo '<h2 class="text-center mb-3">Événements du ' . date('d/m/Y', $date) . ' par ' . $_SESSION['prenom'] . ' ' . $_SESSION['nom'] . '</h2>'
-            ?>
-            <table class="table table-striped border border-3 text-center">
-                <thead>
-                <tr>
-                    <th scope="col">Promotion</th>
-                    <th scope="col">Module</th>
-                    <th scope="col">Durée</th>
-                    <th scope="col">Contenu</th>
-                    <th scope="col">Moyen</th>
-                    <th scope="col">Evaluation</th>
-                    <th scope="col">Distanciel</th>
-                    <th scope="col">Actions</th>
-                </tr>
-                </thead>
-                <tbody>
+            </form>
+        </div>
+        <?php if (isset($_GET['date'])) { ?>
+            <div class="col-xl-auto mx-auto">
                 <?php
-                $query = $bdd->query('SELECT idCompteRendu, promotions.idPromo, formations.idFormation, modules.idModule, formations.libelle as fLibelle, modules.libelle as mLibelle, promotions.libelle as pLibelle,
-                        compterendu.duree, contenu, moyen, evaluation, distanciel FROM ((compterendu
+                $date = date('d/m/Y', strtotime($_GET['date']));
+
+                echo '<h2 class="text-center mb-3">Cahier de Texte du ' . $date . ' par ' . $_SESSION['prenom'] . ' ' . $_SESSION['nom'] . '</h2>';
+                ob_start(); ?>
+                <table class="table table-striped border border-3 text-center">
+                    <thead>
+                    <tr>
+                        <th scope="col">Promotion</th>
+                        <th scope="col">Module</th>
+                        <th scope="col">Durée</th>
+                        <th scope="col">Contenu</th>
+                        <th scope="col">Moyen</th>
+                        <th scope="col">Objectif</th>
+                        <th scope="col">Evaluation</th>
+                        <th scope="col">Distanciel</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                    $query = $bdd->query('SELECT idUser, idCompteRendu, promotions.idPromo, formations.idFormation, modules.idModule, formations.libelle as fLibelle, modules.libelle as mLibelle, promotions.libelle as pLibelle,
+                        compterendu.duree, contenu, moyen, objectif, evaluation, distanciel FROM ((compterendu
                         INNER JOIN modules ON modules.idModule = compterendu.idModule)
                         INNER JOIN formations ON formations.idFormation = modules.idFormation)
                         INNER JOIN promotions ON promotions.idPromo = compterendu.idPromo
                         WHERE date = "' . $_GET['date'] . '" AND idUser = ' . $_SESSION['idUser'] . ' GROUP BY fLibelle, mLibelle, dateEntree');
-                while ($resultat = $query->fetch_object()) { ?>
-                    <tr>
+                    while ($resultat = $query->fetch_object()) { ?>
+                        <tr>
                         <td><?php echo $resultat->pLibelle ?></td>
                         <td><?php echo $resultat->mLibelle ?></td>
                         <td><?php echo $resultat->duree ?>h</td>
                         <td><?php echo $resultat->contenu ?></td>
                         <td><?php echo $resultat->moyen ?></td>
+                        <td><?php echo $resultat->objectif ?></td>
                         <td><?php echo $resultat->evaluation ?></td>
                         <td> <?php
                             if (!empty($resultat->distanciel)) {
                                 echo '✔';
                             } ?>
                         </td>
-                        <td>
-                            <a href="#"
-                               onclick="document.getElementById('edit-cr-<?php echo $resultat->idCompteRendu ?>').submit()">Modifier</a>
-                            <a href="#"
-                               onclick="document.getElementById('del-cr-<?php echo $resultat->idCompteRendu ?>').submit()">Supprimer</a>
-                        </td>
-                    </tr>
-                    <form action="compte-rendu.php" method="get"
-                          id="edit-cr-<?php echo $resultat->idCompteRendu ?>">
-                        <input type="hidden" value="<?php echo $resultat->idCompteRendu ?>" name="idCR">
-                        <input type="hidden" value="<?php echo $resultat->idFormation ?>" name="formation">
-                        <input type="hidden" value="<?php echo $resultat->idPromo ?>" name="promotion">
-                        <input type="hidden" value="<?php echo $resultat->idModule ?>" name="module">
-                    </form>
-                    <form action="" method="post"
-                          id="del-cr-<?php echo $resultat->idCompteRendu ?>">
-                        <input type="hidden" value="<?php echo $resultat->idCompteRendu ?>" name="del-compte-rendu">
-                    </form>
-                <?php }
-                $query->close(); ?>
-                </tbody>
-            </table>
-        </div>
-    <?php } ?>
-</div>
+                        <?php if ($resultat->idUser == $_SESSION['idUser']) { ?>
+                            <td id="a"> <!-- id="a" pour supprimer ce <td> lors de l'exportation pdf -->
+                                <a href="#"
+                                   onclick="document.getElementById('edit-cr-<?php echo $resultat->idCompteRendu ?>').submit()">Modifier</a>
+                                <a href="#"
+                                   onclick="document.getElementById('del-cr-<?php echo $resultat->idCompteRendu ?>').submit()">Supprimer</a>
+                            </td>
+                            </tr>
+                            <form action="compte-rendu-edit.php" method="post"
+                                  id="edit-cr-<?php echo $resultat->idCompteRendu ?>">
+                                <input type="hidden" value="<?php echo $resultat->idCompteRendu ?>" name="idCR">
+                                <input type="hidden" value="<?php echo $resultat->idFormation ?>" name="formation">
+                                <input type="hidden" value="<?php echo $resultat->idPromo ?>" name="promotion">
+                                <input type="hidden" value="<?php echo $resultat->idModule ?>" name="module">
+                            </form>
+                            <form action="" method="post"
+                                  id="del-cr-<?php echo $resultat->idCompteRendu ?>">
+                                <input type="hidden" value="<?php echo $resultat->idCompteRendu ?>"
+                                       name="del-compte-rendu">
+                            </form>
+                        <?php }
+                    }
+                    $query->close(); ?>
+                    </tbody>
+                </table>
+                <?php
+                $_SESSION['html'] = ob_get_contents();
+                ob_end_flush(); ?>
+                <form action="export-cr.php" method="post">
+                    <input type="hidden"
+                           value="<?php echo 'du ' . $date . ' par ' . $_SESSION['nom'] . ' ' . $_SESSION['prenom'] ?>"
+                           name="libelle">
+                    <input class="btn btn-primary" type="submit" value="Exporter en PDF">
+                </form>
+            </div>
+        <?php } ?>
+    </div>
 </div>
 </body>
 </html>

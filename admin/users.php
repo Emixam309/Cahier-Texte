@@ -28,6 +28,17 @@ if (isset($_POST['del-username'])) {
         $alertDelSuccess = "L'utilisateur a bien été supprimé.";
     }
 }
+if (isset($_POST['actif-username'])) {
+    if (!$bdd->query('UPDATE users SET actif = ' . $_POST['verrouillage'] . ' WHERE username = "' . $_POST['actif-username'] . '"')) {
+        $alertVerFail = "L'utilisateur n'a pas pu être vérouillé.";
+    } else {
+        if ($_POST['verrouillage'] == 1) {
+            $alertVerSuccess = "L'utilisateur a bien été vérouillé.";
+        } else {
+            $alertVerSuccess = "L'utilisateur a bien été vérouillé.";
+        }
+    }
+}
 ?>
 <!doctype html>
 <html lang="fr">
@@ -79,7 +90,7 @@ if (isset($_POST['del-username'])) {
                 <div class="form-floating mb-3">
                     <input class="form-control" name="specialite" type="text" placeholder="Spécialité"
                            maxlength="60" <?php if (isset($_POST['edit-username'])) echo 'value="' . $resultEdit->specialite . '"' ?>>
-                    <label for="specialite">Spécialité</label>
+                    <label for="specialite">Domaine(s) de compétence(s)</label>
                 </div>
                 <div class="row">
                     <div class="col-sm-7">
@@ -104,7 +115,7 @@ if (isset($_POST['del-username'])) {
                         <option value="1">Administrateur</option>
                         <option value="0" selected>Formateur</option>
                     </select>
-                    <label for="admin">Niveau</label>
+                    <label for="admin">Profil</label>
                 </div>
                 <p>Les champs indiqués par une * sont obligatoires</p>
                 <input class="btn btn-primary" type="submit" value="<?php echo $button ?>" name="user">
@@ -132,23 +143,45 @@ if (isset($_POST['del-username'])) {
                     '</div>';
             } ?>
             <!--Tableau de la liste des Utilisateurs-->
-            <table class="table table-striped border border-3 text-center">
+            <table class="table border border-3 text-center">
                 <thead>
                 <tr>
                     <th scope="col">Nom</th>
                     <th scope="col">Prenom</th>
                     <th scope="col">Identifiant</th>
-                    <th scope="col">Spécialité</th>
+                    <th scope="col">Domaine(s) de compétence(s)</th>
                     <th scope="col">Mail</th>
                     <th scope="col">Téléphone</th>
-                    <th scope="col">Actions</th>
+                    <th scope="col">Action</th>
                 </tr>
                 </thead>
                 <tbody>
                 <?php
-                $query = $bdd->query('SELECT nom, prenom, username, specialite, mail, telephone, admin FROM users ORDER BY admin DESC, nom, prenom');
-                while ($resultat = $query->fetch_object()) {
-                    if ($resultat->admin == 1) {
+                $query = $bdd->query('SELECT nom, prenom, username, specialite, mail, telephone, admin, actif FROM users ORDER BY actif DESC, admin DESC, nom, prenom');
+                while ($resultat = $query->fetch_object()) { ?>
+                    <form action="" method="post" id="edit-user-<?php echo $resultat->username; ?>">
+                        <input type="hidden" value="<?php echo $resultat->username; ?>" name="edit-username">
+                    </form>
+                    <form action="" method="post" id="del-user-<?php echo $resultat->username; ?>">
+                        <input type="hidden" value="<?php echo $resultat->username; ?>" name="del-username">
+                    </form>
+                    <form action="" method="post" id="actif-user-<?php echo $resultat->username ?>">
+                        <input type="hidden" value="<?php echo $resultat->username ?>" name="actif-username">
+                        <?php
+                        if ($resultat->actif == 1) {
+                            $active = "Désactiver";
+                            $actif = 0;
+                        } else {
+                            $active = "Réactiver";
+                            $actif = 1;
+                        }
+                        ?>
+                        <input type="hidden" value="<?php echo $actif ?>" name="verrouillage">
+                    </form>
+                    <?php
+                    if ($resultat->actif != 1) {
+                        echo '<tr class="table-active">';
+                    } elseif ($resultat->admin == 1) {
                         echo '<tr class="table-primary">';
                     } else {
                         echo '<tr>';
@@ -161,20 +194,17 @@ if (isset($_POST['del-username'])) {
                     echo "<td>" . $resultat->telephone . "</td>"; ?>
                     <td>
                         <a href="#"
+                           onclick="document.getElementById('actif-user-<?php echo $resultat->username; ?>').submit()"><?php echo $active ?></a>
+                        <a href="#"
                            onclick="document.getElementById('edit-user-<?php echo $resultat->username; ?>').submit()">Modifier</a>
                         <a href="#"
                            onclick="document.getElementById('del-user-<?php echo $resultat->username; ?>').submit()">Supprimer</a>
-                    </td> <?php
-                    echo '<form action="" method="post" id="edit-user-' . $resultat->username . '">';
-                    echo '<input type="hidden" value="' . $resultat->username . '" name="edit-username">';
-                    echo '</form>';
-                    echo '<form action="" method="post" id="del-user-' . $resultat->username . '">';
-                    echo '<input type="hidden" value="' . $resultat->username . '" name="del-username">';
-                    echo '</form>';
-                } ?>
+                    </td>
+                    <?php } ?>
                 </tbody>
             </table>
-            <p class="text-center">Les utilisateurs surlignés en bleu sont Administrateurs.</p>
+            <p class="text-center">Les utilisateurs surlignés en bleu sont Administrateurs.<br>
+                Les utilisateurs grisés sont désactivés.</p>
         </div>
     </div>
 </div>

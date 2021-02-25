@@ -1,5 +1,4 @@
-<?php $pageName = basename($_SERVER['PHP_SELF']);
-?>
+<?php $pageName = basename($_SERVER['PHP_SELF']); ?>
 <script type="text/javascript" src="../js/bootstrap.js"></script>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 shadow">
     <div class="container-xl">
@@ -14,36 +13,46 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle <?php
                     if ($pageName == 'formations.php' OR $pageName == 'modules.php' OR $pageName == 'promotions.php' OR $pageName == 'stagiaires.php') echo "active"; ?>" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Formations
+                        Dispositifs
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="formations.php">Créations</a></li>
-                        <li><a class="dropdown-item" href="modules.php">Modules</a></li>
+                        <li><a class="dropdown-item" href="formations.php">Formations</a></li>
+                        <li><a class="dropdown-item" href="modules.php">Modules de formations</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="promotions.php">Promotions</a></li>
-                        <li><a class="dropdown-item" href="stagiaires.php">Stagiaires</a></li>
+                        <li><a class="dropdown-item" href="promotions.php">Création de promotions</a></li>
+                        <li><a class="dropdown-item" href="stagiaires.php">Saisie des stagiaires</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle <?php
                     if ($pageName == 'users.php' OR $pageName == 'affectation.php') echo "active"; ?>" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Formateurs
+                        Utilisateurs
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="users.php">Créations</a></li>
+                        <li><a class="dropdown-item" href="users.php">Création</a></li>
                         <li><a class="dropdown-item" href="affectation.php">Affectation</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle <?php
                     if ($pageName == 'cr-formations.php' OR $pageName == 'cr-module.php' OR $pageName == 'cr-formateur.php') echo "active"; ?>" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Compte Rendu
+                        Cahier de Texte
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="cr-formation.php">Formation</a></li>
                         <li><a class="dropdown-item" href="cr-module.php">Module</a></li>
                         <li><a class="dropdown-item" href="cr-formateur.php">Formateur</a></li>
                     </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle <?php
+                    if ($pageName == 'cr-formations.php' OR $pageName == 'cr-module.php' OR $pageName == 'cr-formateur.php') echo "active"; ?>" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Divers
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="equipe.php">Équipe</a></li>
+                    </ul>
+
                 </li>
             </ul>
             <span class="navbar-text">Bonjour, <?php echo $_SESSION['prenom'] . " " . $_SESSION['nom']; ?></span>

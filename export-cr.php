@@ -5,14 +5,21 @@ include("session.php");
 require_once __DIR__ . '/vendor/autoload.php';
 $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => 'A4-L']);
 
-$mpdf->SetHTMLHeader('<h3>Comptes Rendus de  ' . $_POST['libelle'] . '</h3>');
-$mpdf->setFooter('{PAGENO}');
-$mpdf->SetTitle('Comptes Rendus de ' . $_POST['libelle']);
+$mpdf->SetHTMLHeader('<h3>Cahier de Texte ' . $_POST['libelle'] . '</h3>');
+$mpdf->SetHTMLFooter('
+<table width="100%">
+    <tr>
+        <td width="90%" align="left">Document généré le : {DATE j/m/Y}</td>
+        <td width="10%" align="right">{PAGENO}/{nbpg}</td>
+    </tr>
+</table>');
+$mpdf->SetTitle('Cahier de Texte ' . $_POST['libelle']);
 $mpdf->SetAuthor($_SESSION['nom'] . ' ' . $_SESSION['prenom']);
 
 $mpdf->WriteHTML("
 <style type='text/css'>
 h2, table {
+
   text-align: center;
 }
 table, th, td {
@@ -23,17 +30,17 @@ table, th, td {
 </style>");
 $html = $_SESSION['html'];
 // Buffer the following html with PHP so we can store it to a variable later
-$html = strip_tags_content($_SESSION['html'], '<a><form>', TRUE); //suprime le contenu de la colonne actions.
+$html = strip_tags_content($_SESSION['html'], '<a><form><select>', TRUE); //suprime le contenu de la colonne actions.
+$html = strip_tags($html, '<table><thead><tbody><tr><th><td>');
 $html = str_replace('<td id="a">', null, $html);
 $html = str_replace(' </td>', null, $html); // 4 tabulation pour faire comme l'html.
-$html = str_replace('<th scope="col">Actions</th>', '', $html); //Supprime le head de la colon ne actions.
+$html = str_replace('<th scope="col">Action</th>', '', $html); //Supprime le head de la colon ne actions.
 $html = str_replace("✔", "X", $html);
 $mpdf->WriteHTML($html);
 unset($_SESSION["html"]);
 $mpdf->Output();
-//$mpdf->Output($_POST['libelle'] . ' - ' . date('d-m-Y') . '.pdf', 'D');
-
-
+//$mpdf->Output($_POST['libelle'] . ' - ' . date('d-m-Y') . '.pdf', \Evaluation::FILE);
+$mpdf->Output('filename.pdf', \Mpdf\Output\Evaluation\Destination::FILE);
 function strip_tags_content($text, $tags = '', $invert = FALSE)
 {
     preg_match_all('/<(.+?)[\s]*\/?[\s]*>/si', trim($tags), $tags);

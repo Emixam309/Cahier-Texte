@@ -1,25 +1,4 @@
-<?php include("session.php");
-if (isset($_POST['compte-rendu'])) {
-    $query = 'INSERT INTO compterendu (idModule, idPromo, idUser, date, duree, distanciel, contenu, moyen, objectif, evaluation)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-    $stmt = $bdd->prepare($query);
-    $stmt->bind_param("iiisiissss", $_GET['module'], $_GET['promotion'], $_SESSION['idUser'], $_POST['date'], $_POST['duree'],
-        $_POST['distanciel'], $_POST['contenu'], $_POST['moyen'], $_POST['objectif'], $_POST['evaluation']);
-    if (!$stmt->execute()) {
-        printf("Erreur : %s\n", $stmt->error);
-        $alertFail = "Le compte rendu n'a pas pu être créé.";
-    } else {
-        $alertSuccess = "Le compte rendu a bien été créé.";
-    }
-}
-$button = "Créer";
-if (isset($_GET['idCR'])) {
-    $query = $bdd->query('SELECT * FROM compterendu WHERE idCompteRendu = "' . $_GET['idCR'] . '"');
-    $resultEdit = $query->fetch_object();
-    $query->close();
-    $button = "Modifier";
-}
-?>
+<?php include("session.php"); ?>
 <!doctype html>
 <html lang="fr">
 <head>
@@ -28,14 +7,14 @@ if (isset($_GET['idCR'])) {
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="css/bootstrap.css" rel="stylesheet">
-    <titleCahier de Texte/title>
+    <title>Évaluation</title>
 </head>
 <body>
-<?php include("navbar.php") ?>
+<?php include("navbar.php"); ?>
 <div class="container">
-    <h1 class="text-center mb-3">Création d'un Compte Rendu de la séance</h1>
+    <h1 class="mb-4 text-center">Évaluation</h1>
     <div class="row">
-        <div class="col-lg-auto ms-auto <?php if (!isset($_GET['module'])) echo 'me-auto' ?>">
+        <div class="col-md-auto mx-auto text-center"> <!--Formulaire de création d'un stagiaire-->
             <form class="mb-3" action="" method="get" name="formations">
                 <div class="form-floating mb-3">
                     <select class="form-select" name="formation" onchange="this.form.submit()">
@@ -67,7 +46,7 @@ if (isset($_GET['idCR'])) {
                     <select class="form-select" name="promotion" onchange="this.form.submit()">
                         <option hidden selected>Sélectionner une promotion</option>
                         <?php //Requete + verification formation sélectionnée
-                        $query = $bdd->query('SELECT idPromo, libelle FROM promotions WHERE idFormation = ' . $_GET['formation'] . ' AND verrouillage != 1 GROUP BY idPromo');
+                        $query = $bdd->query('SELECT idPromo, libelle FROM promotions WHERE idFormation = ' . $_GET['formation'] . ' AND verrouillage != 1');
                         while ($resultat = $query->fetch_object()) {
                             echo '<option value="' . $resultat->idPromo . '"';
                             if (isset($_GET['promotion'])) {
@@ -85,23 +64,23 @@ if (isset($_GET['idCR'])) {
                 </div>
             </form>
             <form class="mb-3" action="" method="get" name="modules">
-                <?php }
-                if (isset($_GET['promotion'])) {
+                <?php if (isset($_GET['promotion'])) {
                 echo '<input type="hidden" name="formation" value="' . $_GET['formation'] . '">';
                 echo '<input type="hidden" name="promotion" value="' . $_GET['promotion'] . '">';
                 /* utilisé pour affecter la valeur de formation avec le nouveau form, et pouvoir reset la valeur de module
                 au changement de formation */ ?>
-                <div class="form-floating">
+                <div class="form-floating mb-3">
                     <select class="form-select" name="module" onchange="this.form.submit()">
                         <option hidden selected>Sélectionner un module</option>
                         <?php //Requete + verification module sélectionné
                         $query = $bdd->query('SELECT modules.idModule, libelle FROM affectation
                             INNER JOIN modules ON modules.idModule = affectation.idModule
-                            WHERE idFormation = ' . $_GET['formation'] . ' AND idUser = ' . $_SESSION['idUser'] . ' GROUP BY idModule');
+                            WHERE idFormation = ' . $_GET['formation'] . ' AND idUser = ' . $_SESSION['idUser'] . ' GROUP BY modules.idModule');
                         while ($resultat = $query->fetch_object()) {
                             echo '<option value="' . $resultat->idModule . '"';
                             if (isset($_GET['module'])) {
                                 if ($_GET['module'] == $resultat->idModule) {
+                                    $libelle = $resultat->libelle;
                                     echo 'selected';
                                 }
                             }
@@ -113,64 +92,62 @@ if (isset($_GET['idCR'])) {
                     <label for="module">Module</label>
                 </div>
             </form>
-            <?php } ?>
-            <form class="" action="" method="post" name="compte-rendu">
-                <?php if (isset($_GET['module'])) { ?>
+            <?php } if (isset($_GET['module'])) { ?>
+            <form action="export-eval.php" method="post">
+                <div class="form-floating mb-3">
+                    <input class="form-control" name="nomEval"
+                           type="text" placeholder="Nom de l'évaluation" required>
+                    <label for="nomEval">Nom de l'évaluation</label>
+                </div>
                 <div class="form-floating mb-3">
                     <input class="form-control" name="date"
-                           type="date" <?php if (isset($_GET['idCR'])) echo 'value="' . $resultEdit->date . '"' ?>
-                           required>
+                           type="date" required>
                     <label for="date">Date</label>
                 </div>
-                <div class="mb-3 input-group">
-                    <input class="form-control" name="duree" type="number"
-                           placeholder="Durée de la séance" <?php if (isset($_POST['idCr'])) echo 'value="' . $resultEdit->duree . '"' ?>>
-                    <span class="input-group-text">heures</span>
-                </div>
-                <div class="form-check mb-3">
-                    <input class="form-check-input" type="checkbox" id="distanciel" name="distanciel"
-                           value="1" <?php if (isset($_GET['idCR'])) if (isset($resultEdit->distanciel)) echo "checked" ?>>
-                    <label class="form-check-label" for="distanciel">Distanciel</label>
-                </div>
         </div>
-        <div class="col-lg-5 me-auto">
-            <div class="form-floating mb-3">
-                        <textarea class="form-control" placeholder="Contenu de la séance" name="contenu"
-                                  style="height: 100px"
-                                  maxlength="255"><?php if (isset($_GET['idCR'])) echo $resultEdit->contenu ?></textarea>
-                <label for="contenu">Contenu de la séance</label>
-            </div>
-            <div class="form-floating mb-3">
-                        <textarea class="form-control" placeholder="Moyens techniques et pédagogiques" name="moyen"
-                                  style="height: 100px"
-                                  maxlength="255"><?php if (isset($_GET['idCR'])) echo $resultEdit->moyen ?></textarea>
-                <label for="moyen">Moyens techniques et pédagogiques</label>
-            </div>
-            <div class="form-floating mb-3">
-                <textarea class="form-control" placeholder="Objectif(s) Ciblé(s)" name="objectif"
-                          maxlength="255"><?php if (isset($_GET['idCR'])) echo $resultEdit->objectif ?></textarea>
-                <label for="objectif">Objectif(s) ciblé(s) (référentiel)</label>
-            </div>
-            <div class="form-floating mb-3">
-                <textarea class="form-control" placeholder="Evaluation" name="evaluation"
-                          maxlength="250"><?php if (isset($_GET['idCR'])) echo $resultEdit->evaluation ?></textarea>
-                <label for="evaluation">Evaluation (si il y a, indiquer le libellé)</label>
-            </div>
+        <div class="col-md-auto mx-auto text-center">
+            <!--Tableau de la liste des Stagiaires-->
+            <?php ob_start() ?>
+            <table class="table table-striped border border-3">
+                <thead>
+                <tr>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Prenom</th>
+                    <th scope="col">Note</th>
+                    <th scope="col">Commentaire</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php
+                $query = $bdd->query('SELECT stagiaires.idStagiaire, nom, prenom FROM stagiaires
+                    INNER JOIN affectation on affectation.idPromo = stagiaires.idPromo
+                    WHERE stagiaires.idPromo = ' . $idPromo . ' GROUP BY nom, prenom, idStagiaire');
+                while ($resultat = $query->fetch_object()) {
+                    echo "<tr>";
+                    echo "<td>" . $resultat->nom . "</td>";
+                    echo "<td>" . $resultat->prenom . "</td>"; ?>
+                    <td>
+                        <select name="note-<?php echo $resultat->idStagiaire ?>">
+                            <option>Non Évalué</option>
+                            <option>Non Acquis</option>
+                            <option>En Cours</option>
+                            <option>Acquis</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="255" name="commentaire-<?php echo $resultat->idStagiaire ?>">
+                    </td>
+                <?php }
+                $query->close(); ?>
+                </tbody>
+            </table>
+            <input type="hidden" value="<?php echo $libelle ?>" name="libelle">
+            <input type="hidden" value="<?php echo $idPromo ?>" name="promotion">
+            <input class="btn btn-primary" type="submit" value="Exporter en PDF">
+            </form>
+            <?php } ?>
         </div>
-        <div class="text-center">
-            <input class="btn btn-primary" type="submit" value="<?php echo $button ?>" name="compte-rendu">
-        </div>
-        <?php
-        if (!empty($alertSuccess)) {
-            echo '<div class="mt-3 alert alert-success text-center">'
-                . $alertSuccess .
-                '</div>';
-        } elseif (!empty($alertFail)) {
-            echo '<div class="mt-3 alert alert-danger text-center">'
-                . $alertFail .
-                '</div>';
-        }
-        } ?>
+        <?php } ?>
     </div>
 </div>
 </body>

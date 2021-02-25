@@ -1,5 +1,5 @@
 <?php include("session.php");
-if (isset($_POST['compte-rendu'])) { //update du compte rendu sélectionné
+if (isset($_POST['compte-rendu'])) {
     $query = 'UPDATE compterendu SET idModule=?, idPromo=?, idUser=?, date=?, duree=?, distanciel=?, contenu=?, moyen=?, objectif=?, evaluation=?
               WHERE idCompteRendu =' . $_POST['idCR'];
     $stmt = $bdd->prepare($query);
@@ -8,7 +8,7 @@ if (isset($_POST['compte-rendu'])) { //update du compte rendu sélectionné
 $stmt->execute();
 header("Location: index.php");
 }
-if (isset($_POST['idCR'])) { //requete pour afficher le contenu a modifier
+if (isset($_POST['idCR'])) {
     $query = $bdd->query('SELECT * FROM compterendu WHERE idCompteRendu = "' . $_POST['idCR'] . '"');
     $resultEdit = $query->fetch_object();
     $query->close();
@@ -21,7 +21,7 @@ if (isset($_POST['idCR'])) { //requete pour afficher le contenu a modifier
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap.css" rel="stylesheet">
     <titleCahier de Texte/title>
 </head>
 <body>

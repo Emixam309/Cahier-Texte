@@ -65,7 +65,7 @@ if (isset($_POST['del-reference'])) {
 
                             ?>
                         </select>
-                        <label for="formation">Formation du module</label>
+                        <label for="formation">Choix de la Formation</label>
                     </div>
                 </div>
             </form>
@@ -82,16 +82,16 @@ if (isset($_POST['del-reference'])) {
                     </div>
                     <div class="col-md-7 mb-3">
                         <div class="form-floating">
-                            <input class="form-control" name="libelle" type="text" placeholder="Nom du module"
+                            <input class="form-control" name="libelle" type="text" placeholder="Intitulé du module"
                                    required
-                                   maxlength="100" <?php if (isset($_POST['edit-reference'])) echo 'value="' . $resultEdit->libelle . '"' ?>>
-                            <label for="libelle">Nom du module *</label>
+                                   maxlength="80" <?php if (isset($_POST['edit-reference'])) echo 'value="' . $resultEdit->libelle . '"' ?>>
+                            <label for="libelle">Intitulé du module *</label>
                         </div>
                     </div>
                 </div>
                 <div class="mb-3 input-group">
                     <input class="form-control" name="nbHeures" type="number"
-                           placeholder="Nombre d'heures *" <?php if (isset($_POST['edit-reference'])) echo 'value="' . $resultEdit->nbHeures . '"' ?>>
+                           placeholder="Volume horaire *" <?php if (isset($_POST['edit-reference'])) echo 'value="' . $resultEdit->nbHeures . '"' ?>>
                     <span class="input-group-text">heures</span>
                 </div>
                 <div class="form-floating mb-3">
@@ -132,8 +132,8 @@ if (isset($_POST['del-reference'])) {
                     <th scope="col">Nom</th>
                     <th scope="col">Nombre d'heures</th>
                     <th scope="col">Commentaire</th>
-                    <th scope="col">Affectations</th>
-                    <th scope="col">Actions</th>
+                    <th scope="col">Affectation</th>
+                    <th scope="col">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -148,11 +148,15 @@ if (isset($_POST['del-reference'])) {
                     echo "<td>" . $resultat->nbHeures . "</td>";
                     echo "<td>" . $resultat->commentaire . "</td>";
                     echo "<td>";
-                    if ($resultat->nbHeuresBon == 1) {
-                        echo '✔';
-                    } else {
+                    $count = $bdd->query('SELECT idPromo, SUM(heuresPrevues) as totalHeures FROM affectation WHERE idModule = ' . $resultat->idModule . ' GROUP BY idPromo');
+                    $resultcount = $count->fetch_object();
+                    if (!empty($resultcount->totalHeures)) {
+                        if ($resultcount->totalHeures == $resultat->nbHeures) {
+                            echo '✔';
+                        } else
+                            echo '<a style="text-decoration: none;" title="Accéder à l\'affectation de ce module" href="affectation.php?formation=' . $_GET['formation'] . '&module=' . $resultat->idModule . '">❌</a>';
+                    } else
                         echo '<a style="text-decoration: none;" title="Accéder à l\'affectation de ce module" href="affectation.php?formation=' . $_GET['formation'] . '&module=' . $resultat->idModule . '">❌</a>';
-                    }
                     echo '</td>'; ?>
                     <td>
                         <a href="#"

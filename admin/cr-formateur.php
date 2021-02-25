@@ -1,4 +1,12 @@
-<?php include("session.php"); ?>
+<?php include("session.php");
+if (isset($_POST['del-compte-rendu'])) { //requete de suppression
+    if (!$bdd->query('DELETE FROM compterendu WHERE idCompteRendu = "' . $_POST['del-compte-rendu'] . '"')) {
+        printf("Erreur : %s\n", $bdd->error);
+        $alertDelFail = "Le compte rendu n'a pas pu être supprimé.";
+    } else {
+        $alertDelSuccess = "Le compte rendu a bien été supprimé.";
+    }
+} ?>
 <!doctype html>
 <html lang="fr">
 <head>
@@ -7,21 +15,21 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="../css/bootstrap.css" rel="stylesheet">
-    <title>Compte Rendu</title>
+    <titleCahier de Texte/title>
 </head>
 <body>
 <?php include("navbar.php") ?>
 <div class="container">
-    <h1 class="text-center mb-4">Compte Rendu par Formateurs</h1>
+    <h1 class="text-center mb-4">Cahier de Texte par Formateurs</h1>
     <div class="row">
         <div class="col-xl-auto mx-auto mb-3">
             <form class="mb-3" action="" method="get" name="formations">
                 <div class="form-floating mb-3">
                     <select class="form-select" name="formateur" onchange="this.form.submit()">
-                        <option selected hidden>Affecter un formateur</option>
+                        <option selected hidden>Selectionner un formateur</option>
                         <?php
                         $sql = 'SELECT idUser, nom, prenom FROM users WHERE admin !=1 AND idUser
-                        GROUP BY nom, prenom';
+                        GROUP BY actif DESC, nom, prenom';
                         $query = $bdd->query($sql);
                         while ($resultat = $query->fetch_object()) {
                             echo '<option value="' . $resultat->idUser . '"';
@@ -44,8 +52,8 @@
                 echo '<input type="hidden" name="formateur" value="' . $_GET['formateur'] . '">'; ?>
                 <div class="form-floating mb-3">
                     <select class="form-select" name="promotion" onchange="this.form.submit()">
-                        <option hidden selected>Sélectionner une promotion</option>
-                        <?php //Requete + verification formation sélectionnée
+                        <option selected value="">Promotions non clôturées</option>
+                        <?php //Requete + verification promotion sélectionnée
                         $query = $bdd->query('SELECT promotions.idPromo, libelle FROM promotions INNER JOIN affectation on promotions.idPromo = affectation.idPromo
                                                     WHERE idUser = ' . $_GET['formateur'] . ' ORDER BY verrouillage, dateDebut, dateFin');
                         while ($resultat = $query->fetch_object()) {
@@ -53,7 +61,7 @@
                             echo '<option value="' . $resultat->idPromo . '"';
                             if (isset($_GET['promotion'])) {
                                 if ($_GET['promotion'] == $resultat->idPromo) {
-                                    $reference = $resultat->libelle;
+                                    $libelle = $resultat->libelle;
                                     echo 'selected';
                                 }
                             }
@@ -70,8 +78,8 @@
         <?php if (isset($_GET['formateur'])) { ?>
         <div class="col-xl-auto mx-auto">
             <?php
-            echo '<h2 class="text-center mb-3">Comptes Rendus de ' . $nom . '</h2>'
-            ?>
+            echo '<h2 class="text-center mb-3">Cahier de Texte de ' . $nom . '</h2>';
+            ob_start(); ?>
             <table class="table table-striped border border-3 text-center">
                 <thead>
                 <tr>
@@ -85,12 +93,12 @@
                     <th scope="col">Objectif</th>
                     <th scope="col">Evaluation</th>
                     <th scope="col">Distanciel</th>
-                    <th scope="col">Actions</th>
+                    <th scope="col">Action</th>
                 </tr>
                 </thead>
                 <tbody>
                 <?php
-                if (!isset($_GET['promotion'])) {
+                if (empty($_GET['promotion'])) { //si pas de promo sélectionné, afficher promos non clôturées
                     $query = $bdd->query('SELECT idCompteRendu, formations.idFormation, promotions.idPromo, modules.idModule, formations.libelle as fLibelle, modules.libelle as mLibelle, compterendu.duree, contenu, moyen, objectif, evaluation, distanciel, date FROM ((compterendu
                         INNER JOIN modules ON modules.idModule = compterendu.idModule)
                         INNER JOIN formations ON formations.idFormation = modules.idFormation)
@@ -121,14 +129,15 @@
                                 echo '✔';
                             }
                             echo '</td>'; ?>
-                        <td>
+                        <td id="a">
                             <a href="#"
                                onclick="document.getElementById('edit-cr-<?php echo $resultat->idCompteRendu ?>').submit()">Modifier</a>
                             <a href="#"
                                onclick="document.getElementById('del-cr-<?php echo $resultat->idCompteRendu ?>').submit()">Supprimer</a>
                         </td>
                     </tr>
-                    <form action="compte-rendu.php" method="get"
+
+                    <form action="compte-rendu.php" method="post"
                           id="edit-cr-<?php echo $resultat->idCompteRendu ?>">
                         <input type="hidden" value="<?php echo $resultat->idCompteRendu ?>" name="idCR">
                         <input type="hidden" value="<?php echo $resultat->idFormation ?>" name="formation">
@@ -145,11 +154,19 @@
                 ?>
                 </tbody>
             </table>
+            <?php
+            $_SESSION['html'] = ob_get_contents();
+            ob_end_flush(); ?>
+            <form action="../export-cr.php" method="post">
+                <?php if (empty($_GET['promotion'])) { ?>
+                    <input type="hidden" value="<?php echo 'de ' . $nom ?>" name="libelle">
+                <?php } else { ?>
+                    <input type="hidden" value="<?php echo 'de ' . $nom . ' pour ' . $libelle ?>" name="libelle">
+                <?php } ?>
+                <input class="btn btn-primary" type="submit" value="Exporter en PDF">
+            </form>
         </div>
     </div>
-    <form>
-        <input class="btn btn-primary" type="button" value="Imprimer le tableau" onClick="imprimer()">
-    </form>
     <?php } ?>
 </div>
 </body>

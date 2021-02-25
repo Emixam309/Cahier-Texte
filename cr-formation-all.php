@@ -55,7 +55,6 @@ if (isset($_POST['del-compte-rendu'])) {
                         <?php //Requete + verification formation sélectionnée
                         $query = $bdd->query('SELECT idPromo, libelle FROM promotions WHERE idFormation = ' . $_GET['formation'] . ' GROUP BY verrouillage, dateDebut, dateFin');
                         while ($resultat = $query->fetch_object()) {
-                            ;
                             echo '<option value="' . $resultat->idPromo . '"';
                             if (isset($_GET['promotion'])) {
                                 if ($_GET['promotion'] == $resultat->idPromo) {
@@ -99,7 +98,7 @@ if (isset($_POST['del-compte-rendu'])) {
                     $query = $bdd->query('SELECT idCompteRendu, users.idUser, idFormation, idPromo, modules.idModule, modules.libelle as mLibelle, compterendu.duree, nom, prenom, date, contenu, moyen, objectif, evaluation, distanciel FROM (compterendu
                         INNER JOIN modules ON modules.idModule = compterendu.idModule)
                         INNER JOIN users on users.idUser = compterendu.idUser
-                        WHERE idPromo = ' . $_GET['promotion'] . ' AND users.idUser = ' . $_SESSION['idUser'] . ' ORDER BY date, dateEntree');
+                        WHERE idPromo = ' . $_GET['promotion'] . ' ORDER BY date, dateEntree');
                     while ($resultat = $query->fetch_object()) {
                         $date = strtotime($resultat->date); ?>
                         <tr>

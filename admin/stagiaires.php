@@ -56,7 +56,6 @@ if (isset($_POST['del-stagiaire'])) {
                                 if (isset($_GET['formation'])) {
                                     if ($_GET['formation'] == $resultat->idFormation) {
                                         echo 'selected';
-                                        $reference = $resultat->reference;
                                     }
                                 }
                                 echo '>' . $resultat->libelle . '</option>';
@@ -84,6 +83,7 @@ if (isset($_POST['del-stagiaire'])) {
                                 if ($_GET['promotion'] == $resultat->idPromo) {
                                     echo 'selected';
                                     $idPromo = $resultat->idPromo;
+                                    $reference = $resultat->libelle;
                                 }
                             }
                             echo '>' . $resultat->libelle . '</option>';
@@ -129,7 +129,7 @@ if (isset($_POST['del-stagiaire'])) {
             ?>
         </div>
         <div class="col-xl-auto mx-auto">
-            <h1 class="text-center mb-4">Liste des stagiaires</h1>
+            <h1 class="text-center mb-4">Liste des stagiaires de <?php echo $reference ?></h1>
             <?php if (!empty($alertDelFail)) {
                 echo '<div class="mt-3 alert alert-danger text-center">'
                     . $alertDelFail .
@@ -140,12 +140,13 @@ if (isset($_POST['del-stagiaire'])) {
                     '</div>';
             } ?>
             <!--Tableau de la liste des Stagiaires-->
+            <?php ob_start() ?>
             <table class="table table-striped border border-3 text-center">
                 <thead>
                 <tr>
                     <th scope="col">Nom</th>
                     <th scope="col">Prenom</th>
-                    <th scope="col">Actions</th>
+                    <th scope="col">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -155,18 +156,24 @@ if (isset($_POST['del-stagiaire'])) {
                     echo "<tr>";
                     echo "<td>" . $resultat->nom . "</td>";
                     echo "<td>" . $resultat->prenom . "</td>"; ?>
-                    <td>
+                    <td id="a">
                         <a href="#"
                            onclick="document.getElementById('del-stagiaire-<?php echo $resultat->idStagiaire; ?>').submit()">Supprimer</a>
                     </td>
-                    <form action="" method="post" id="del-mod-<?php echo $resultat->idStagiaire ?>">
+                    <form action="" method="post" id="del-stagiaire-<?php echo $resultat->idStagiaire ?>">
                         <input type="hidden" value="<?php echo $resultat->idStagiaire ?>" name="del-stagiaire">
                     </form>
                 <?php }
                 $query->close(); ?>
                 </tbody>
             </table>
-            <?php } ?>
+            <?php
+            $_SESSION['html'] = ob_get_contents();
+            ob_end_flush(); } ?>
+            <form action="../export-cr.php" method="post">
+                    <input type="hidden" value="rdfds?>" name="libelle">
+                <input class="btn btn-primary" type="submit" value="Exporter en PDF">
+            </form>
         </div>
     </div>
 </div>

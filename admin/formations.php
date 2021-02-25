@@ -1,9 +1,9 @@
 <?php include("session.php");
 if (isset($_POST['formation'])) {
-    $query = 'INSERT INTO formations (libelle, reference, duree) VALUES (?, ?, ?)
-    ON DUPLICATE KEY UPDATE libelle=?, duree=?';
+    $query = 'INSERT INTO formations (libelle, reference, duree, volumeHoraire) VALUES (?, ?, ?, ?)
+    ON DUPLICATE KEY UPDATE libelle=?, duree=?, volumeHoraire=?';
     $stmt = $bdd->prepare($query);
-    $stmt->bind_param("ssisi", $_POST['libelle'], $_POST['reference'], $_POST['duree'], $_POST['reference'], $_POST['duree']);
+    $stmt->bind_param("ssiisii", $_POST['libelle'], $_POST['reference'], $_POST['duree'], $_POST['volumeHoraire'], $_POST['reference'], $_POST['duree'], $_POST['volumeHoraire']);
     if (!$stmt->execute()) {
         printf("Erreur : %s\n", $stmt->error);
         $alertFail = "La formation n'a pas pu être ajoutée ou modifée.";
@@ -13,7 +13,7 @@ if (isset($_POST['formation'])) {
 }
 $title = "Ajout de formation";
 if (isset($_POST['edit-reference'])) {
-    $query = $bdd->query('SELECT reference, libelle, duree FROM formations WHERE reference = "' . $_POST['edit-reference'] . '"');
+    $query = $bdd->query('SELECT reference, libelle, duree, volumeHoraire FROM formations WHERE reference = "' . $_POST['edit-reference'] . '"');
     $resultEdit = $query->fetch_object();
     $query->close();
     $title = "Modifier : " . $resultEdit->reference;
@@ -64,8 +64,13 @@ if (isset($_POST['del-reference'])) {
                 </div>
                 <div class="mb-3 input-group">
                     <input class="form-control" name="duree" type="number"
-                           placeholder="Durée de la formation en mois" <?php if (isset($_POST['edit-reference'])) echo 'value="' . $resultEdit->duree . '"' ?>>
+                           placeholder="Durée de la formation" <?php if (isset($_POST['edit-reference'])) echo 'value="' . $resultEdit->duree . '"' ?>>
                     <span class="input-group-text">mois</span>
+                </div>
+                <div class="mb-3 input-group">
+                    <input class="form-control" name="volumeHoraire" type="number"
+                           placeholder="Volume Horaire" <?php if (isset($_POST['edit-reference'])) echo 'value="' . $resultEdit->volumeHoraire . '"' ?>>
+                    <span class="input-group-text">heures</span>
                 </div>
                 <p>Les champs indiqués par une * sont obligatoires</p>
                 <input class="btn btn-primary" type="submit" value="<?php echo $button ?>" name="formation">
@@ -98,7 +103,8 @@ if (isset($_POST['del-reference'])) {
                     <th scope="col">Référence</th>
                     <th scope="col">Nom</th>
                     <th scope="col">Durée</th>
-                    <th scope="col">Actions</th>
+                    <th scope="col">Volume Horaire</th>
+                    <th scope="col">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -110,7 +116,8 @@ if (isset($_POST['del-reference'])) {
                     href="modules.php?formation=' . $resultat->idFormation . '">' . $resultat->reference . "</a></td>";
                     echo '<td><a class="link-dark" title="Accéder aux modules de cette formation"
                     href="modules.php?formation=' . $resultat->idFormation . '">' . $resultat->libelle . '</a></td>';
-                    echo "<td>" . $resultat->duree . " mois</td>"; ?>
+                    echo "<td>" . $resultat->duree . " mois</td>";
+                    echo "<td>" . $resultat->volumeHoraire . " h</td>"; ?>
                     <td>
                         <a href="#"
                            onclick="document.getElementById('edit-form-<?php echo $resultat->reference; ?>').submit()">Modifier</a>
