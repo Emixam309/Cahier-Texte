@@ -7,6 +7,13 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/setasign/fpdi" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/psr/log" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/paragonie/random_compat" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/mpdf/utils" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/mpdf/src" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/mpdf/tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/mpdf/tests" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/mpdf/data" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/mpdf/.github" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/mpdf/ttfonts" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
