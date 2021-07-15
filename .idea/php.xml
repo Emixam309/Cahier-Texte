@@ -1,4 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="PhpIncludePathManager">
+    <include_path>
+      <path value="$PROJECT_DIR$/vendor/mpdf/data" />
+      <path value="$PROJECT_DIR$/vendor/mpdf/src" />
+      <path value="$PROJECT_DIR$/vendor/mpdf/tests" />
+      <path value="$PROJECT_DIR$/vendor/mpdf/tmp" />
+      <path value="$PROJECT_DIR$/vendor/mpdf/ttfonts" />
+      <path value="$PROJECT_DIR$/vendor/mpdf/utils" />
+      <path value="$PROJECT_DIR$/vendor/myclabs/deep-copy" />
+      <path value="$PROJECT_DIR$/vendor/composer" />
+      <path value="$PROJECT_DIR$/vendor/setasign/fpdi" />
+      <path value="$PROJECT_DIR$/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/vendor/paragonie/random_compat" />
+      <path value="$PROJECT_DIR$/vendor/mpdf/.github" />
+    </include_path>
+  </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.4" />
 </project>

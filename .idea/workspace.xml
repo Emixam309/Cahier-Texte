@@ -5,103 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d02bc6c1-c85d-40f1-a261-9dcf1277f905" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitmodules" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources/e55091aa-acfd-49b4-a19d-104ae8ab013c.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources/e55091aa-acfd-49b4-a19d-104ae8ab013c/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/discord.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_02_02_2021_18_53_[Default_Changelist]/shelved.patch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_02_02_2021_18_53__Default_Changelist_.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin/export-cr.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin/formateurs.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin/niveau.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/calendrier.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/css/bootstrap-grid.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/css/bootstrap-grid.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/css/bootstrap-grid.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/css/bootstrap-grid.min.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/css/bootstrap-grid.rtl.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/css/bootstrap-grid.rtl.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/css/bootstrap-grid.rtl.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/css/bootstrap-grid.rtl.min.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/css/bootstrap-reboot.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/css/bootstrap-reboot.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/css/bootstrap-reboot.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/css/bootstrap-reboot.min.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/css/bootstrap-reboot.rtl.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/css/bootstrap-reboot.rtl.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/css/bootstrap-reboot.rtl.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/css/bootstrap-reboot.rtl.min.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/css/bootstrap-utilities.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/css/bootstrap-utilities.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/css/bootstrap-utilities.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/css/bootstrap-utilities.min.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/css/bootstrap-utilities.rtl.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/css/bootstrap-utilities.rtl.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/css/bootstrap-utilities.rtl.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/css/bootstrap-utilities.rtl.min.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/css/bootstrap.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/css/bootstrap.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/css/bootstrap.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/css/bootstrap.min.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/css/bootstrap.rtl.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/css/bootstrap.rtl.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/css/bootstrap.rtl.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/css/bootstrap.rtl.min.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/export.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/img/Logo-Qualiopi.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/img/arep-full.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/img/certfication-qualite-bureau-veritas.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/js/bootstrap.bundle.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/js/bootstrap.bundle.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/js/bootstrap.bundle.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/js/bootstrap.bundle.min.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/js/bootstrap.esm.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/js/bootstrap.esm.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/js/bootstrap.esm.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/js/bootstrap.esm.min.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/js/bootstrap.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/js/bootstrap.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/js/bootstrap.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/js/bootstrap.min.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/js/date-picker.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mpdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pdf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/Cahier-Texte.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Cahier-Texte.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/affectation.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/affectation.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/compte-rendu.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/compte-rendu.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/cr-formateur.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/cr-formateur.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/cr-formation.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/cr-formation.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/cr-module.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/cr-module.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/equipe.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/equipe.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/formations.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/formations.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/modules.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/modules.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/navbar.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/navbar.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/promotions.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/promotions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/session.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/session.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/stagiaires.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/stagiaires.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/users.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/users.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cahier-texte.sql" beforeDir="false" afterPath="$PROJECT_DIR$/cahier-texte.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/commentaires.php" beforeDir="false" afterPath="$PROJECT_DIR$/commentaires.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compte-rendu-edit.php" beforeDir="false" afterPath="$PROJECT_DIR$/compte-rendu-edit.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compte-rendu.php" beforeDir="false" afterPath="$PROJECT_DIR$/compte-rendu.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/config.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cr-date.php" beforeDir="false" afterPath="$PROJECT_DIR$/cr-date.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cr-formation-all.php" beforeDir="false" afterPath="$PROJECT_DIR$/cr-formation-all.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cr-formation.php" beforeDir="false" afterPath="$PROJECT_DIR$/cr-formation.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/evaluation.php" beforeDir="false" afterPath="$PROJECT_DIR$/evaluation.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/export-eval.php" beforeDir="false" afterPath="$PROJECT_DIR$/export-eval.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/login.php" beforeDir="false" afterPath="$PROJECT_DIR$/login.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logout.php" beforeDir="false" afterPath="$PROJECT_DIR$/logout.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/navbar.php" beforeDir="false" afterPath="$PROJECT_DIR$/navbar.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/session.php" beforeDir="false" afterPath="$PROJECT_DIR$/session.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mpdf" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -135,7 +45,22 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
-  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP" />
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP">
+    <include_path>
+      <path value="$PROJECT_DIR$/vendor/mpdf/data" />
+      <path value="$PROJECT_DIR$/vendor/mpdf/src" />
+      <path value="$PROJECT_DIR$/vendor/mpdf/tests" />
+      <path value="$PROJECT_DIR$/vendor/mpdf/tmp" />
+      <path value="$PROJECT_DIR$/vendor/mpdf/ttfonts" />
+      <path value="$PROJECT_DIR$/vendor/mpdf/utils" />
+      <path value="$PROJECT_DIR$/vendor/myclabs/deep-copy" />
+      <path value="$PROJECT_DIR$/vendor/composer" />
+      <path value="$PROJECT_DIR$/vendor/setasign/fpdi" />
+      <path value="$PROJECT_DIR$/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/vendor/paragonie/random_compat" />
+      <path value="$PROJECT_DIR$/vendor/mpdf/.github" />
+    </include_path>
+  </component>
   <component name="ProjectId" id="1mbcAgRk2ap4xXCV6GluxRALWgr" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -148,7 +73,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../Bibliothèque/Documents/Code Screenshots" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.PHP" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -244,7 +169,7 @@
       <workItem from="1620158257654" duration="724000" />
       <workItem from="1620159053216" duration="101000" />
       <workItem from="1620159612814" duration="5863000" />
-      <workItem from="1626367726260" duration="1318000" />
+      <workItem from="1626367726260" duration="2053000" />
     </task>
     <task id="LOCAL-00001" summary="04/01/2021">
       <created>1609790062638</created>
@@ -295,7 +220,14 @@
       <option name="project" value="LOCAL" />
       <updated>1612280617141</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="final commit">
+      <created>1626369049215</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1626369049215</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
