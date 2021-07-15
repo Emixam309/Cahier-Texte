@@ -1,0 +1,10 @@
+{
+  "name": "cahiertexte/cahiertexte",
+  "description": "cahiertexte",
+  "type": "project",
+  "require": {
+    "mpdf/mpdf": "^8.0",
+    "ext-dom": "*",
+    "ext-mysqli": "*"
+  }
+}
