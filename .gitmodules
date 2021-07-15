@@ -1,0 +1,6 @@
+[submodule "pdf"]
+	path = pdf
+	url = git://github.com/Setasign/FPDF
+[submodule "mpdf"]
+	path = mpdf
+	url = git://github.com/mpdf/mpdf

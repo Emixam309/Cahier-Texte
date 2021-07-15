@@ -1,17 +1,17 @@
-<?php
-// Initialise la session
-session_start();
-// Vérifie si l'utilisateur est connecté et administrateur, sinon le redirige vers la page de connexion
-if (!isset($_SESSION["username"]) or !isset($_SESSION['admin'])) {
-    header("Location: ../index.php");
-    exit();
-}
-if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 1800)) {
-    // last request was more than 30 minutes ago
-    session_unset();     // unset $_SESSION variable for the run-time
-    session_destroy();   // destroy session data in storage
-    header("Location: ../login.php?timeout=1");
-}
-$_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
-$button = "Ajouter";
+<?php
+// Initialise la session
+session_start();
+// Vérifie si l'utilisateur est connecté et administrateur, sinon le redirige vers la page de connexion
+if (!isset($_SESSION["username"]) or !isset($_SESSION['admin'])) {
+    header("Location: ../index.php");
+    exit();
+}
+if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 1800)) {
+    // last request was more than 30 minutes ago
+    session_unset();     // unset $_SESSION variable for the run-time
+    session_destroy();   // destroy session data in storage
+    header("Location: ../login.php?timeout=1");
+}
+$_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
+$button = "Ajouter";
 require('../config.php');

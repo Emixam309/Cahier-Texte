@@ -1,32 +1,107 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="d02bc6c1-c85d-40f1-a261-9dcf1277f905" name="Default Changelist" comment="02/02/2021">
-      <change afterPath="$PROJECT_DIR$/admin/equipe.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/compte-rendu-edit.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cr-formation-all.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/evaluation.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/export-eval.php" afterDir="false" />
+    <list default="true" id="d02bc6c1-c85d-40f1-a261-9dcf1277f905" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitmodules" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/e55091aa-acfd-49b4-a19d-104ae8ab013c.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/e55091aa-acfd-49b4-a19d-104ae8ab013c/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/discord.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_02_02_2021_18_53_[Default_Changelist]/shelved.patch" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_02_02_2021_18_53__Default_Changelist_.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin/export-cr.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin/formateurs.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin/niveau.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/calendrier.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/css/bootstrap-grid.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/css/bootstrap-grid.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/css/bootstrap-grid.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/css/bootstrap-grid.min.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/css/bootstrap-grid.rtl.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/css/bootstrap-grid.rtl.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/css/bootstrap-grid.rtl.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/css/bootstrap-grid.rtl.min.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/css/bootstrap-reboot.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/css/bootstrap-reboot.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/css/bootstrap-reboot.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/css/bootstrap-reboot.min.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/css/bootstrap-reboot.rtl.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/css/bootstrap-reboot.rtl.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/css/bootstrap-reboot.rtl.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/css/bootstrap-reboot.rtl.min.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/css/bootstrap-utilities.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/css/bootstrap-utilities.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/css/bootstrap-utilities.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/css/bootstrap-utilities.min.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/css/bootstrap-utilities.rtl.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/css/bootstrap-utilities.rtl.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/css/bootstrap-utilities.rtl.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/css/bootstrap-utilities.rtl.min.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/css/bootstrap.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/css/bootstrap.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/css/bootstrap.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/css/bootstrap.min.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/css/bootstrap.rtl.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/css/bootstrap.rtl.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/css/bootstrap.rtl.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/css/bootstrap.rtl.min.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/export.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/Logo-Qualiopi.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/arep-full.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/certfication-qualite-bureau-veritas.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/bootstrap.bundle.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/bootstrap.bundle.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/bootstrap.bundle.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/bootstrap.bundle.min.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/bootstrap.esm.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/bootstrap.esm.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/bootstrap.esm.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/bootstrap.esm.min.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/bootstrap.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/bootstrap.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/bootstrap.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/bootstrap.min.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/date-picker.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mpdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Cahier-Texte.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Cahier-Texte.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/affectation.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/affectation.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/compte-rendu.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/compte-rendu.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/cr-formateur.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/cr-formateur.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/cr-formation.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/cr-formation.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/cr-module.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/cr-module.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/equipe.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/equipe.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/formations.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/formations.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/index.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/modules.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/modules.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/navbar.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/navbar.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/promotions.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/promotions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/session.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/session.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/stagiaires.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/stagiaires.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/users.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/users.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cahier-texte.sql" beforeDir="false" afterPath="$PROJECT_DIR$/cahier-texte.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/commentaires.php" beforeDir="false" afterPath="$PROJECT_DIR$/commentaires.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/compte-rendu-edit.php" beforeDir="false" afterPath="$PROJECT_DIR$/compte-rendu-edit.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/compte-rendu.php" beforeDir="false" afterPath="$PROJECT_DIR$/compte-rendu.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/config.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cr-date.php" beforeDir="false" afterPath="$PROJECT_DIR$/cr-date.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cr-formation-all.php" beforeDir="false" afterPath="$PROJECT_DIR$/cr-formation-all.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cr-formation.php" beforeDir="false" afterPath="$PROJECT_DIR$/cr-formation.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/export-cr.php" beforeDir="false" afterPath="$PROJECT_DIR$/export-cr.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/calendrier.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/evaluation.php" beforeDir="false" afterPath="$PROJECT_DIR$/evaluation.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/export-eval.php" beforeDir="false" afterPath="$PROJECT_DIR$/export-eval.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/login.php" beforeDir="false" afterPath="$PROJECT_DIR$/login.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logout.php" beforeDir="false" afterPath="$PROJECT_DIR$/logout.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/navbar.php" beforeDir="false" afterPath="$PROJECT_DIR$/navbar.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/session.php" beforeDir="false" afterPath="$PROJECT_DIR$/session.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,6 +111,10 @@
   <component name="ComposerSettings" doNotAsk="true" synchronizationState="DONT_SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution />
+  </component>
+  <component name="CopyImageOptionsProvider">
+    <option name="myDirectoryToSave" value="D:\Bibliothèque\Documents\Code Screenshots\" />
+    <option name="myPadding" value="20" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -56,19 +135,7 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/compte-rendu.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
-  </component>
-  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP">
-    <include_path>
-      <path value="$PROJECT_DIR$/vendor/mpdf/mpdf" />
-      <path value="$PROJECT_DIR$/vendor/psr/log" />
-      <path value="$PROJECT_DIR$/vendor/paragonie/random_compat" />
-      <path value="$PROJECT_DIR$/vendor/setasign/fpdi" />
-      <path value="$PROJECT_DIR$/vendor/composer" />
-      <path value="$PROJECT_DIR$/vendor/myclabs/deep-copy" />
-    </include_path>
-  </component>
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP" />
   <component name="ProjectId" id="1mbcAgRk2ap4xXCV6GluxRALWgr" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -76,11 +143,12 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="mysql" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../Bibliothèque/Documents/Code Screenshots" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -90,11 +158,11 @@
       <recent name="C:\Program Files (x86)\UwAmp\www\Cahier-Texte\" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\UwAmp\www\Cahier-Texte\admin" />
       <recent name="C:\Program Files (x86)\UwAmp\www\Cahier-Texte\img" />
       <recent name="C:\Program Files (x86)\UwAmp\www\Cahier-Texte" />
       <recent name="C:\Program Files (x86)\UwAmp\www\Cahier-Texte\js" />
       <recent name="C:\Program Files (x86)\UwAmp\www\Cahier-Texte\admin" />
-      <recent name="C:\Program Files (x86)\UwAmp\www\Cahier-Texte\admin\formations" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -159,6 +227,24 @@
       <workItem from="1612528790667" duration="11927000" />
       <workItem from="1612711376201" duration="7705000" />
       <workItem from="1612884770817" duration="245000" />
+      <workItem from="1614347587361" duration="1986000" />
+      <workItem from="1616935206774" duration="1557000" />
+      <workItem from="1616951510941" duration="2218000" />
+      <workItem from="1617054880924" duration="617000" />
+      <workItem from="1617135179768" duration="3022000" />
+      <workItem from="1617747698124" duration="1708000" />
+      <workItem from="1617796504275" duration="7150000" />
+      <workItem from="1619047668447" duration="12000" />
+      <workItem from="1619050452066" duration="1442000" />
+      <workItem from="1619226769785" duration="601000" />
+      <workItem from="1619228442983" duration="2198000" />
+      <workItem from="1619313108197" duration="21000" />
+      <workItem from="1619313410060" duration="5461000" />
+      <workItem from="1620157737288" duration="27000" />
+      <workItem from="1620158257654" duration="724000" />
+      <workItem from="1620159053216" duration="101000" />
+      <workItem from="1620159612814" duration="5863000" />
+      <workItem from="1626367726260" duration="1318000" />
     </task>
     <task id="LOCAL-00001" summary="04/01/2021">
       <created>1609790062638</created>
@@ -224,7 +310,10 @@
     <MESSAGE value="26/01/2021" />
     <MESSAGE value="29/01/2021" />
     <MESSAGE value="02/02/2021" />
-    <option name="LAST_COMMIT_MESSAGE" value="02/02/2021" />
+    <MESSAGE value="final commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="final commit" />
+    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

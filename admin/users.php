@@ -1,212 +1,1 @@
-<?php include("session.php");
-if (isset($_POST['user'])) {
-    $query = 'INSERT INTO users (username, password, nom, prenom, specialite, mail, telephone, admin) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-    ON DUPLICATE KEY UPDATE password=?, nom=?, prenom=?, specialite=?, mail=?, telephone=?';
-    $stmt = $bdd->prepare($query);
-    $stmt->bind_param("sssssssissssss", $_POST['id'], $_POST['password'], $_POST['nom'], $_POST['prenom'],
-        $_POST['specialite'], $_POST['email'], $_POST['telephone'], $_POST['admin'], $_POST['password'], $_POST['nom'],
-        $_POST['prenom'], $_POST['specialite'], $_POST['email'], $_POST['telephone']);
-    if (!$stmt->execute()) {
-        printf("Erreur : %s\n", $stmt->error);
-        $alertFail = "L'utilisateur n'a pas pu être ajouté ou modifié.";
-    } else {
-        $alertSuccess = "L'utilisateur a bien été ajouté ou modifié.";
-    }
-}
-$title = "Ajout d'un utilisateur";
-if (isset($_POST['edit-username'])) {
-    $query = $bdd->query('SELECT nom, prenom, username, password, specialite, mail, telephone FROM users WHERE username = "' . $_POST['edit-username'] . '"');
-    $resultEdit = $query->fetch_object();
-    $query->close();
-    $title = "Modifier : " . $resultEdit->nom . " " . $resultEdit->prenom;
-    $button = "Modifier";
-}
-if (isset($_POST['del-username'])) {
-    if (!$bdd->query('DELETE FROM users WHERE username = "' . $_POST['del-username'] . '"')) {
-        $alertDelFail = "L'utilisateur n'a pas pu être supprimé.";
-    } else {
-        $alertDelSuccess = "L'utilisateur a bien été supprimé.";
-    }
-}
-if (isset($_POST['actif-username'])) {
-    if (!$bdd->query('UPDATE users SET actif = ' . $_POST['verrouillage'] . ' WHERE username = "' . $_POST['actif-username'] . '"')) {
-        $alertVerFail = "L'utilisateur n'a pas pu être vérouillé.";
-    } else {
-        if ($_POST['verrouillage'] == 1) {
-            $alertVerSuccess = "L'utilisateur a bien été vérouillé.";
-        } else {
-            $alertVerSuccess = "L'utilisateur a bien été vérouillé.";
-        }
-    }
-}
-?>
-<!doctype html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="../css/bootstrap.css" rel="stylesheet">
-    <title>Utilisateurs</title>
-</head>
-<body>
-<?php include("navbar.php"); ?>
-<div class="container">
-    <div class="row">
-        <div class="col-xl-auto mx-auto text-center"> <!--Formulaire de création d'un utilisateur-->
-            <h1 class="mb-4"><?php echo $title ?></h1>
-            <form class="mb-3" action="" method="post" name="user">
-                <div class="row">
-                    <div class="col-sm mb-3">
-                        <div class="form-floating">
-                            <input class="form-control" name="nom" type="text"
-                                   placeholder="Nom" maxlength="30"
-                                   required <?php if (isset($_POST['edit-username'])) echo 'value="' . $resultEdit->nom . '"' ?>>
-                            <label for="nom">Nom *</label>
-                        </div>
-                    </div>
-                    <div class="col-sm mb-3">
-                        <div class="form-floating">
-                            <input class="form-control" name="prenom" type="text"
-                                   placeholder="Prenom" maxlength="30"
-                                   required <?php if (isset($_POST['edit-username'])) echo 'value="' . $resultEdit->prenom . '"' ?>>
-                            <label for="prenom">Prenom *</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-floating mb-3">
-                    <input class="form-control" name="id" type="text" placeholder="Identifiant"
-                           required
-                           maxlength="30" <?php if (isset($_POST['edit-username'])) echo 'readonly value="' . $resultEdit->username . '"' ?>>
-                    <label for="id">Identifiant *</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <input class="form-control" name="password" type="password" placeholder="Mot de passe"
-                           required
-                           maxlength="20" <?php if (isset($_POST['edit-username'])) echo 'value="' . $resultEdit->password . '"' ?>>
-                    <label for="password">Mot de passe *</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <input class="form-control" name="specialite" type="text" placeholder="Spécialité"
-                           maxlength="60" <?php if (isset($_POST['edit-username'])) echo 'value="' . $resultEdit->specialite . '"' ?>>
-                    <label for="specialite">Domaine(s) de compétence(s)</label>
-                </div>
-                <div class="row">
-                    <div class="col-sm-7">
-                        <div class="form-floating mb-3">
-                            <input class="form-control" name="email" type="email"
-                                   placeholder="exemple@exemple.com"
-                                   maxlength="30" <?php if (isset($_POST['edit-username'])) echo 'value="' . $resultEdit->mail . '"' ?>>
-                            <label for="email">Mail</label>
-                        </div>
-                    </div>
-                    <div class="col-sm-5">
-                        <div class="form-floating mb-3">
-                            <input class="form-control" name="telephone" type="tel" placeholder="Numéro de téléphone"
-                                   pattern="[0-9]{10}"
-                                   maxlength="10" <?php if (isset($_POST['edit-username'])) echo 'value="' . $resultEdit->telephone . '"' ?>>
-                            <label for="email">Téléphone</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-floating mb-3">
-                    <select class="form-select" name="admin">
-                        <option value="1">Administrateur</option>
-                        <option value="0" selected>Formateur</option>
-                    </select>
-                    <label for="admin">Profil</label>
-                </div>
-                <p>Les champs indiqués par une * sont obligatoires</p>
-                <input class="btn btn-primary" type="submit" value="<?php echo $button ?>" name="user">
-            </form>
-            <?php if (!empty($alertSuccess)) {
-                echo '<div class="mt-3 alert alert-success text-center">'
-                    . $alertSuccess .
-                    '</div>';
-            } elseif (!empty($alertFail)) {
-                echo '<div class="mt-3 alert alert-danger text-center">'
-                    . $alertFail .
-                    '</div>';
-            }
-            ?>
-        </div>
-        <div class="col-xl-auto mx-auto">
-            <h1 class="text-center mb-4">Liste des utilisateurs</h1>
-            <?php if (!empty($alertDelFail)) {
-                echo '<div class="mt-3 alert alert-danger text-center">'
-                    . $alertDelFail .
-                    '</div>';
-            } elseif (!empty($alertDelSuccess)) {
-                echo '<div class="mt-3 alert alert-success text-center">'
-                    . $alertDelSuccess .
-                    '</div>';
-            } ?>
-            <!--Tableau de la liste des Utilisateurs-->
-            <table class="table border border-3 text-center">
-                <thead>
-                <tr>
-                    <th scope="col">Nom</th>
-                    <th scope="col">Prenom</th>
-                    <th scope="col">Identifiant</th>
-                    <th scope="col">Domaine(s) de compétence(s)</th>
-                    <th scope="col">Mail</th>
-                    <th scope="col">Téléphone</th>
-                    <th scope="col">Action</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php
-                $query = $bdd->query('SELECT nom, prenom, username, specialite, mail, telephone, admin, actif FROM users ORDER BY actif DESC, admin DESC, nom, prenom');
-                while ($resultat = $query->fetch_object()) { ?>
-                    <form action="" method="post" id="edit-user-<?php echo $resultat->username; ?>">
-                        <input type="hidden" value="<?php echo $resultat->username; ?>" name="edit-username">
-                    </form>
-                    <form action="" method="post" id="del-user-<?php echo $resultat->username; ?>">
-                        <input type="hidden" value="<?php echo $resultat->username; ?>" name="del-username">
-                    </form>
-                    <form action="" method="post" id="actif-user-<?php echo $resultat->username ?>">
-                        <input type="hidden" value="<?php echo $resultat->username ?>" name="actif-username">
-                        <?php
-                        if ($resultat->actif == 1) {
-                            $active = "Désactiver";
-                            $actif = 0;
-                        } else {
-                            $active = "Réactiver";
-                            $actif = 1;
-                        }
-                        ?>
-                        <input type="hidden" value="<?php echo $actif ?>" name="verrouillage">
-                    </form>
-                    <?php
-                    if ($resultat->actif != 1) {
-                        echo '<tr class="table-active">';
-                    } elseif ($resultat->admin == 1) {
-                        echo '<tr class="table-primary">';
-                    } else {
-                        echo '<tr>';
-                    }
-                    echo "<td>" . $resultat->nom . "</td>";
-                    echo "<td>" . $resultat->prenom . "</td>";
-                    echo "<td>" . $resultat->username . "</td>";
-                    echo "<td>" . $resultat->specialite . "</td>";
-                    echo '<td><a class="link-dark" href="mailto:' . $resultat->mail . '">' . $resultat->mail . '</a></td>';
-                    echo "<td>" . $resultat->telephone . "</td>"; ?>
-                    <td>
-                        <a href="#"
-                           onclick="document.getElementById('actif-user-<?php echo $resultat->username; ?>').submit()"><?php echo $active ?></a>
-                        <a href="#"
-                           onclick="document.getElementById('edit-user-<?php echo $resultat->username; ?>').submit()">Modifier</a>
-                        <a href="#"
-                           onclick="document.getElementById('del-user-<?php echo $resultat->username; ?>').submit()">Supprimer</a>
-                    </td>
-                    <?php } ?>
-                </tbody>
-            </table>
-            <p class="text-center">Les utilisateurs surlignés en bleu sont Administrateurs.<br>
-                Les utilisateurs grisés sont désactivés.</p>
-        </div>
-    </div>
-</div>
-</body>
-</html>
+<?php include("session.php");if (isset($_POST['user'])) {    $query = 'INSERT INTO users (username, password, nom, prenom, specialite, mail, telephone, admin) VALUES (?, ?, ?, ?, ?, ?, ?, ?)    ON DUPLICATE KEY UPDATE password=?, nom=?, prenom=?, specialite=?, mail=?, telephone=?';    $stmt = $bdd->prepare($query);    $stmt->bind_param("sssssssissssss", $_POST['id'], $_POST['password'], $_POST['nom'], $_POST['prenom'],        $_POST['specialite'], $_POST['email'], $_POST['telephone'], $_POST['admin'], $_POST['password'], $_POST['nom'],        $_POST['prenom'], $_POST['specialite'], $_POST['email'], $_POST['telephone']);    if (!$stmt->execute()) {        printf("Erreur : %s\n", $stmt->error);        $alertFail = "L'utilisateur n'a pas pu être ajouté ou modifié.";    } else {        $alertSuccess = "L'utilisateur a bien été ajouté ou modifié.";    }}$title = "Ajout d'un utilisateur";if (isset($_POST['edit-username'])) {    $query = $bdd->query('SELECT nom, prenom, username, password, specialite, mail, telephone FROM users WHERE username = "' . $_POST['edit-username'] . '"');    $resultEdit = $query->fetch_object();    $query->close();    $title = "Modifier : " . $resultEdit->nom . " " . $resultEdit->prenom;    $button = "Modifier";}if (isset($_POST['del-username'])) {    if (!$bdd->query('DELETE FROM users WHERE username = "' . $_POST['del-username'] . '"')) {        $alertDelFail = "L'utilisateur n'a pas pu être supprimé.";    } else {        $alertDelSuccess = "L'utilisateur a bien été supprimé.";    }}if (isset($_POST['actif-username'])) {    if (!$bdd->query('UPDATE users SET actif = ' . $_POST['verrouillage'] . ' WHERE username = "' . $_POST['actif-username'] . '"')) {        $alertVerFail = "L'utilisateur n'a pas pu être vérouillé.";    } else {        if ($_POST['verrouillage'] == 1) {            $alertVerSuccess = "L'utilisateur a bien été vérouillé.";        } else {            $alertVerSuccess = "L'utilisateur a bien été vérouillé.";        }    }}?><!doctype html><html lang="fr"><head>    <meta charset="UTF-8">    <meta name="viewport"          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">    <meta http-equiv="X-UA-Compatible" content="ie=edge">    <link href="../css/bootstrap.css" rel="stylesheet">    <title>Utilisateurs</title></head><body><?php include("navbar.php"); ?><div class="container">    <div class="row">        <div class="col-xl-auto mx-auto text-center"> <!--Formulaire de création d'un utilisateur-->            <h1 class="mb-4"><?php echo $title ?></h1>            <form class="mb-3" action="" method="post" name="user">                <div class="row">                    <div class="col-sm mb-3">                        <div class="form-floating">                            <input class="form-control" name="nom" type="text"                                   placeholder="Nom" maxlength="30"                                   required <?php if (isset($_POST['edit-username'])) echo 'value="' . $resultEdit->nom . '"' ?>>                            <label for="nom">Nom *</label>                        </div>                    </div>                    <div class="col-sm mb-3">                        <div class="form-floating">                            <input class="form-control" name="prenom" type="text"                                   placeholder="Prenom" maxlength="30"                                   required <?php if (isset($_POST['edit-username'])) echo 'value="' . $resultEdit->prenom . '"' ?>>                            <label for="prenom">Prenom *</label>                        </div>                    </div>                </div>                <div class="form-floating mb-3">                    <input class="form-control" name="id" type="text" placeholder="Identifiant"                           required                           maxlength="30" <?php if (isset($_POST['edit-username'])) echo 'readonly value="' . $resultEdit->username . '"' ?>>                    <label for="id">Identifiant *</label>                </div>                <div class="form-floating mb-3">                    <input class="form-control" name="password" type="password" placeholder="Mot de passe"                           required                           maxlength="20" <?php if (isset($_POST['edit-username'])) echo 'value="' . $resultEdit->password . '"' ?>>                    <label for="password">Mot de passe *</label>                </div>                <div class="form-floating mb-3">                    <input class="form-control" name="specialite" type="text" placeholder="Spécialité"                           maxlength="60" <?php if (isset($_POST['edit-username'])) echo 'value="' . $resultEdit->specialite . '"' ?>>                    <label for="specialite">Domaine(s) de compétence(s)</label>                </div>                <div class="row">                    <div class="col-sm-7">                        <div class="form-floating mb-3">                            <input class="form-control" name="email" type="email"                                   placeholder="exemple@exemple.com"                                   maxlength="30" <?php if (isset($_POST['edit-username'])) echo 'value="' . $resultEdit->mail . '"' ?>>                            <label for="email">Mail</label>                        </div>                    </div>                    <div class="col-sm-5">                        <div class="form-floating mb-3">                            <input class="form-control" name="telephone" type="tel" placeholder="Numéro de téléphone"                                   pattern="[0-9]{10}"                                   maxlength="10" <?php if (isset($_POST['edit-username'])) echo 'value="' . $resultEdit->telephone . '"' ?>>                            <label for="email">Téléphone</label>                        </div>                    </div>                </div>                <div class="form-floating mb-3">                    <select class="form-select" name="admin">                        <option value="1">Administrateur</option>                        <option value="0" selected>Formateur</option>                    </select>                    <label for="admin">Profil</label>                </div>                <p>Les champs indiqués par une * sont obligatoires</p>                <input class="btn btn-primary" type="submit" value="<?php echo $button ?>" name="user">            </form>            <?php if (!empty($alertSuccess)) {                echo '<div class="mt-3 alert alert-success text-center">'                    . $alertSuccess .                    '</div>';            } elseif (!empty($alertFail)) {                echo '<div class="mt-3 alert alert-danger text-center">'                    . $alertFail .                    '</div>';            }            ?>        </div>        <div class="col-xl-auto mx-auto">            <h1 class="text-center mb-4">Liste des utilisateurs</h1>            <?php if (!empty($alertDelFail)) {                echo '<div class="mt-3 alert alert-danger text-center">'                    . $alertDelFail .                    '</div>';            } elseif (!empty($alertDelSuccess)) {                echo '<div class="mt-3 alert alert-success text-center">'                    . $alertDelSuccess .                    '</div>';            } ?>            <!--Tableau de la liste des Utilisateurs-->            <table class="table border border-3 text-center">                <thead>                <tr>                    <th scope="col">Nom</th>                    <th scope="col">Prenom</th>                    <th scope="col">Identifiant</th>                    <th scope="col">Domaine(s) de compétence(s)</th>                    <th scope="col">Mail</th>                    <th scope="col">Téléphone</th>                    <th scope="col">Action</th>                </tr>                </thead>                <tbody>                <?php                $query = $bdd->query('SELECT nom, prenom, username, specialite, mail, telephone, admin, actif FROM users ORDER BY actif DESC, admin DESC, nom, prenom');                while ($resultat = $query->fetch_object()) { ?>                    <form action="" method="post" id="edit-user-<?php echo $resultat->username; ?>">                    <input type="hidden" value="<?php echo $resultat->username; ?>" name="edit-username">                    </form>                    <form action="" method="post" id="del-user-<?php echo $resultat->username; ?>">                    <input type="hidden" value="<?php echo $resultat->username; ?>" name="del-username">                    </form>                    <form action="" method="post" id="actif-user-<?php echo $resultat->username ?>">                        <input type="hidden" value="<?php echo $resultat->username ?>" name="actif-username">                        <?php                        if ($resultat->actif == 1) {                            $active = "Désactiver";                            $actif = 0;                        } else {                            $active = "Réactiver";                            $actif = 1;                        }                        ?>                        <input type="hidden" value="<?php echo $actif ?>" name="verrouillage">                    </form>                    <?php                    if ($resultat->actif != 1) {                        echo '<tr class="table-active">';                    } elseif ($resultat->admin == 1) {                        echo '<tr class="table-primary">';                    } else {                        echo '<tr>';                    }                    echo "<td>" . $resultat->nom . "</td>";                    echo "<td>" . $resultat->prenom . "</td>";                    echo "<td>" . $resultat->username . "</td>";                    echo "<td>" . $resultat->specialite . "</td>";                    echo '<td><a class="link-dark" href="mailto:' . $resultat->mail . '">' . $resultat->mail . '</a></td>';                    echo "<td>" . $resultat->telephone . "</td>"; ?>                    <td>                        <a href="#"                           onclick="document.getElementById('actif-user-<?php echo $resultat->username; ?>').submit()"><?php echo $active ?></a>                        <a href="#"                           onclick="document.getElementById('edit-user-<?php echo $resultat->username; ?>').submit()">Modifier</a>                        <a href="#"                           onclick="document.getElementById('del-user-<?php echo $resultat->username; ?>').submit()">Supprimer</a>                    </td>                <?php } ?>                </tbody>            </table>            <p class="text-center">Les utilisateurs surlignés en bleu sont Administrateurs.<br>                Les utilisateurs grisés sont désactivés.</p>        </div>    </div></div></body></html>
