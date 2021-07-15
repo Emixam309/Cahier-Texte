@@ -4,3 +4,6 @@
 [submodule "mpdf"]
 	path = mpdf
 	url = git://github.com/mpdf/mpdf
+[submodule "vendor/mpdf"]
+	path = vendor/mpdf
+	url = git://github.com/mpdf/mpdf
